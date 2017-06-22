@@ -1,0 +1,44 @@
+<script type="text/html" id="item-template">
+
+    <div id="form-step-__prefix__" style="border-bottom: 1px dotted #ddd; padding-bottom: 10px; margin-bottom: 15px;">
+        {{ linking_step_form.empty_form.id }}
+        {{ linking_step_form.empty_form.linking_project }}
+        {{ linking_step_form.empty_form.blocking_schema }}
+        {{ linking_step_form.empty_form.linking_schema }}
+        {{ linking_step_form.empty_form.seq }}
+        {% if linking_step_form.can_delete %}
+            {{ linking_step_form.empty_form.DELETE }}
+        {% endif %}
+         <ul class="nav nav-tabs">
+          <li role="presentation" class="active"><a href="#blocking-vars-__prefix__" data-toggle="tab">Blocking Variables</a></li>
+          <li role="presentation"><a href="#linking-vars-__prefix__" data-toggle="tab">Linking Variables</a></li>
+        </ul>
+        <div class="tab-content blocking-vars" id="step-__prefix__-tabs">
+            <div class="tab-pane active" id="blocking-vars-__prefix__" style="padding-top: 10px; padding-bottom: 5px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; border-top:none">
+                <table class="table table-striped" style="margin-bottom: 0;">
+                    <thead>
+                    <tr>
+                        <th>Left Variable</th>
+                        <th>Right Variable</th>
+                        <th>Transformation</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <a href="" class="block-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New variable</a>
+                </div>
+            </div>
+            <div class="tab-pane linking-vars" id="linking-vars-__prefix__" style="padding-top: 10px; padding-bottom: 5px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; border-top:none">
+                <div class="link-vars-container">
+                </div>
+                <div class="text-center">
+                    <a href="" class="link-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New variable</a>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+   </div>
+</script>

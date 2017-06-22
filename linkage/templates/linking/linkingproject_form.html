@@ -1,0 +1,46 @@
+{% extends "./project_form.html" %}
+{% load jsonify %}
+{% load static %}
+
+{% block header %}
+    <legend><h2>Linking Project</h2></legend>
+{%  endblock %}
+
+{%  block main_fields %}
+    {{ block.super }}
+    <div class="row">
+        <label for="{{ form.relationship_type.id_for_label }}" class="control-label col-sm-3">{{ form.relationship_type.label }}</label>
+        <div class="preview col-sm-9">
+            {{ form.relationship_type }}
+        </div>
+    </div>
+{% endblock %}
+
+{%  block datasets %}
+    <fieldset>
+        <legend class="text-left">Linking Datasets</legend>
+        <div class="row">
+            <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-3">{{ form.left_data.label }}</label>
+            <div class="preview col-sm-4">
+                {{ form.left_data }}
+            </div>
+            <label for="{{ form.right_data.id_for_label }}" class="control-label col-sm-1">{{ form.right_data.label }}</label>
+            <div class="preview col-sm-4">
+                {{ form.right_data }}
+            </div>
+        </div>
+    </fieldset>
+{%  endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript">
+       var right_data_id = "{{ form.right_data.id_for_label }}";
+       var DATASET_COLUMNS_URL = "{% url 'datasets:header' %}";
+       var COMPARISON_ARGS = JSON.parse('{{ comparison_args | jsonify }}');
+       var rightColumns = JSON.parse('{{ form.right_columns.value | jsonify }}') || [];
+       header_options[right_data_id] = '';
+       var required_right = JSON.parse('{{ required_right  | jsonify }}') || [];
+    </script>
+    <script src="{% static 'js/linking/link_form.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,73 @@
+version: "2"
+services:
+   redis:
+      image: redis:latest
+   web:
+     #restart: always
+     build:
+       context: .
+       dockerfile: ./web/linkage/compose/django/Dockerfile-dev
+
+     ports:
+          - "8002:8000"
+     env_file: ./web/linkage/config/settings/.env
+
+     depends_on:
+                 - postgres2
+     #environment:
+     #        IN_DOCKER: 1
+     #user: django
+     #use of this volume mount depends on how do we want to manage uploading/copying files
+     #to be de-duplicated and linked
+     #if we use it then we have to uncomment the "files" line in the bottom most volumes specific#in this file
+     #need to check that it is not buggy
+     volumes:
+               - ./files/:/user_data
+     container_name: data_linking_web
+
+     command:
+         #for testing
+         #sh -c 'echo \"hello\" > /linkage/media/sk_test.csv' &&
+         #python manage.py runserver  0.0.0.0:8000
+         /bin/bash start-dev.sh
+         #for testing
+         #  #bash -c "while ! /usr/local/bin/nc -w 1 -z postgres 5452; do sleep 0.1; done; ./manage.py migrate; while :; do ./manage.py runserver_plus 0.0.0.0:8000; sleep 1; done"
+
+   postgres2:
+      #restart: always
+      image: postgres:9.6
+      ##if we do not want to lose data when the database container is gone
+      #volumes:
+      #    - db_linking:/var/lib/postgresql/data
+      #env_file: env
+      #exposing host post 5432 (LHS) to postgres container called "postgres2"'s
+      #port 5432 (RHS)
+      ports:
+        - "5432:5432"
+      container_name: data_linking_postgres
+
+   celeryworker:
+        build:
+          context: .
+          dockerfile: ./web/linkage/compose/django/Dockerfile-dev
+        #user: django
+        env_file: ./web/linkage/config/settings/.env
+        depends_on:
+         - postgres2
+         - redis
+        volumes:
+           - ./files/:/user_data
+        container_name: celeryworker
+        #- web
+        # #comment out or one or the other depending on what we want to list
+        # #debug level message or info level message
+        #   #ldeally info > debug
+        #   #if we want to capture a msg at level y and any level higher than that
+        #   #then we have to set the level
+        #   #to the lower one (y) after the -l flag
+        #   #command: celery -A linkage.taskapp worker -l INFO
+        #   command: celery -A linkage.taskapp worker -l DEBUG
+        command: celery -A linkage.taskapp worker -l DEBUG &
+volumes:
+    files:
+#    db_linking:

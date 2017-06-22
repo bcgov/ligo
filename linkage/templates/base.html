@@ -1,0 +1,118 @@
+{% load staticfiles i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}CDI Linking{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+    {% block css %}
+        <!-- Latest compiled and minified Bootstrap 4 Alpha 4 CSS -->
+        <!--
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" integrity="sha384-2hfp1SzUoho7/TsGGGDaFdsuuDL0LX2hnUp6VkX3CUQ2K4K+xjboZdsXyp4oUHZj" crossorigin="anonymous">
+        -->
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+        <!-- Your stuff: Third-party CSS libraries go here -->
+        <link rel="stylesheet" href="{% static 'css/select2/select2.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/select2/select2-bootstrap.min.css' %}">
+
+        <!-- This file stores project-specific CSS -->
+        <link href="{% static 'css/project.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/datasets.css' %}">
+        <link href="{% static 'css/toggle_switch.css' %}" rel="stylesheet">
+    {% endblock %}
+    {{ form.media.css }}
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse" style="background-color: #0D3A4F">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#cdi-linking-navbar-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">CDI Linking</a>
+        </div>
+        <div class="collapse navbar-collapse" id="cdi-linking-navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'datasets:list' %}">Datasets</a></li>
+                    <li><a href="{% url 'linking:list' %}">Linking</a></li>
+                {% endif %}
+                <li><a href="{% url 'about' %}">About</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                {% if request.user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'users:detail' request.user.username %}">{% trans "My Profile" %}</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a id="log-in-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    {% block messages %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {%  endblock %}
+    {% block content %}
+    {% endblock content %}
+
+</div> <!-- /container -->
+
+{% block modal %}{% endblock modal %}
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+{% block javascript %}
+    <script type='text/javascript' src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+    <script type='text/javascript' src="{% static 'js/js-cookie.js' %}"></script>
+
+    <!--
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/js/bootstrap.min.js" integrity="sha384-VjEeINv9OSwtWFLAtmc4JCtEJXXBub00gtSnszmspDLCtC0I4z4nqz7rEFbIZLLU" crossorigin="anonymous"></script>
+    -->
+    <script src="{% static 'js/bootstrap/bootstrap.min.js' %}"></script>
+
+    <!-- Your stuff: Third-party javascript libraries go here -->
+    <script src="{% static 'js/select2/select2.min.js' %}"></script>
+
+    <!-- place project specific Javascript in this file -->
+
+    <script src="{% static 'js/project.js' %}"></script>
+
+
+{% endblock javascript %}
+{{ form.media.js }}
+</body>
+</html>
+

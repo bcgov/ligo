@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Available Datasets{% endblock %}
+
+{% block content %}
+    <h2>Datasets</h2>
+    <table class="table list-table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Title</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for dataset in dataset_list %}
+            <tr>
+                <td>{{ dataset.name }}</td>
+                <td>{{ dataset.title }}</td>
+                <td>
+                    <a href="{% url 'datasets:edit' dataset.name %}" data-toggle="tooltip" title="Edit Dataset">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+                    <a href="{% url 'datasets:detail' dataset.name %}" data-toggle="tooltip" title="Preview Dataset">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                    </a>
+                    <a class="text-danger" href="{% url 'datasets:delete' dataset.name %}" data-toggle="tooltip" title="Delete Dataset">
+                        <i class="glyphicon glyphicon-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        <tbody>
+    </table>
+
+    <div>
+        <a href="{% url 'datasets:add' %}" class="btn btn-primary">Create a new Dataset</a>
+    </div>
+
+{% endblock content %}

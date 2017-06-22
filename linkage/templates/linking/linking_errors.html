@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Linking Errors{% endblock %}
+
+{% block content %}
+
+    {% block error_title %}
+        <legend><h2 class="text-danger">Something went wrong!</h2></legend> {% endblock %}
+    {% block error_body %}
+        <p>{{ message }}</p>
+    {% endblock %}
+    <div style="margin-top: 25px;">
+        <button class="btn btn-default" onclick="window.history.go(-1);">Back</button>
+    </div>
+
+{% endblock content %}

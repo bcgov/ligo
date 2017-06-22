@@ -1,0 +1,60 @@
+<table class="table list-table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th colspan="2"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for project in linkingproject_list %}
+        <tr>
+            <td style="border-right:solid #ddd 1px; vertical-align: middle !important;" class="name-cell" {% if project.status == 'FAILED' %}rowspan="2"{% endif %}>{{ project.name }}</td>
+            <td class="description-cell">{{ project.description }}</td>
+            <td class="type-cell">{{ project.type }}</td>
+            <td class="status-cell">{{ project.status }}</td>
+            <td class="exec-cell">
+                {% if project.status != 'RUNNING' and project.status != 'DRAFT' %}
+                    <a class="project-exec" href="{% url 'linking:exec'  project.name %}" data-toggle="tooltip" title="Run Project">
+                        <i class="glyphicon glyphicon-play-circle"></i>
+                    </a>
+                {% endif %}
+                {% if project.status == 'COMPLETED' %}
+                    <a class="results-view" href="{% url 'linking:view_results' project.name %}" data-toggle="tooltip" title="View Results">
+                        <i class="glyphicon glyphicon-equalizer"></i>
+                    </a>
+                {% endif %}
+                {% if project.status != 'DRAFT' %}
+                    <a href="{% url 'linking:export'  project.name %}" data-toggle="tooltip" title="Export to JSON">
+                        <i class="glyphicon glyphicon-export"></i>
+                    </a>
+                {% endif %}
+                {% if project.status == 'RUNNING' %}
+                    <a class="project-exec" href="{% url 'linking:stop_project' project.name %}" data-toggle="tooltip" title="Stop Project">
+                        <i class="glyphicon glyphicon-stop"></i>
+                    </a>
+                {% endif %}
+            </td>
+            <td class="action-cell">
+                <a href="{% url 'linking:edit'  project.type project.name %}" data-toggle="tooltip" title="Edit Project">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </a>
+                <a class="text-danger" href="{% url 'linking:delete' project.name %}" data-toggle="tooltip" title="Delete Project">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </a>
+            </td>
+        </tr>
+        {% if project.status == 'FAILED' %}
+            <tr class="danger">
+                <td style="border-top:none;" colspan="6"><span style="display:block;width:250px;word-wrap:break-word; color: #800000;"><Strong>Error: </Strong>{{ project.comments }}</span></td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+    <tbody>
+</table>
+
+<script type="text/javascript">
+    total_running = parseInt("{{ total_running }}");
+</script>

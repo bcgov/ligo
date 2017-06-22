@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-sm-12">
+
+            <h2>{{ object.title }}</h2>
+            {% if object.description %}
+                <p>{{ object.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <h2 class="form-signin-heading">Data Preview</h2>
+    <form class="form-horizontal" id="preview-form">{{ csrf_input }}
+        <div class="form-group">
+            <label for="row-count" class="control-label col-sm-2">Total Records:</label>
+            <div class="preview col-sm-10">
+                <p class="form-control-static" id="row-count">{{ preview.len }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="preview_size" class="control-label col-sm-2">Preview Size:</label>
+            <div class="preview col-sm-10">
+                <input type="text" class="form-control" value="25" id="preview_size"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="rows_select" class="control-label col-sm-2">Selection Criteria:</label>
+            <div class="preview col-sm-10">
+                <select id="rows_select" class="form-control">
+                    {% for choice in preview.preview_choices %}
+                        <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <br/>
+        <div class="form-group preview col-sm-12">
+            <button type="submit" class="btn btn-primary">Preview</button>
+        </div>
+    </form>
+
+    <br/>
+    <div class="clearfix"></div>
+    <div class="preview-container">
+        <div class="table-responsive" style="overflow-y: auto; height:100%;" id="preview-container">
+            {% include "datasets/dataset_preview.html" %}
+        </div>
+    </div>
+{% endblock content %}
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var filename = "{{ object.url }}";
+        var dataset_name = "{{ object.name }}"
+        var PREVIEW_URL = "{% url 'datasets:detail' name='TEST' %}"
+        PREVIEW_URL = PREVIEW_URL.substring(0, PREVIEW_URL.length - "TEST/".length);
+    </script>
+    <script src="{% static 'js/datasets/preview.js' %}"></script>
+
+{% endblock %}

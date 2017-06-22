@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% load jsonify %}
+
+{% block content %}
+    {% block header %}
+    {%  endblock %}
+        <form class="form-horizontal" id="linking-form"  method="post">
+            {% csrf_token %}
+            {% if type == 'LINK' %}
+                {{ form.right_columns }}
+            {%  endif %}
+            {{ form.left_columns }}
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a href="#project-main-tab" data-toggle="tab">General</a></li>
+                <li role="presentation"><a href="#project-steps" data-toggle="tab">Steps</a></li>
+                <li role="presentation"><a href="#project-results" data-toggle="tab">Results</a></li>
+            </ul>
+            <div class="tab-content" style="padding-top: 10px;">
+                <div class="tab-pane active" id="project-main-tab">
+                    {%  block main_fields %}
+                        {{ form.status }}
+                        <div class="row">
+                            <label for="{{ form.name.id_for_label }}" class="control-label col-sm-3">{{ form.name.label }}</label>
+                            <div class="preview col-sm-9">
+                                {{ form.name }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="{{ form.description.id_for_label }}" class="control-label col-sm-3">{{ form.description.label }}</label>
+                            <div class="preview col-sm-9">
+                                {{ form.description }}
+                            </div>
+                        </div>
+                    {%  endblock %}
+                    {%  block datasets %}
+                    {%  endblock %}
+                </div>
+                <div class="tab-pane" id="project-steps">
+                    <fieldset>
+                        {% if form.name.value %}
+                            <div id="form-steps-container">
+                                {% include "linking/linking_step_form.html" %}
+                            </div>
+                            <div class="pull-right">
+                                <a id="step-create" href="" class="btn btn-primary">Add a new step</a>
+                            </div>
+                       {% endif %}
+                    </fieldset>
+                </div>
+                <div class="tab-pane" id="project-results">
+                    {% include "linking/linking_results_form.html" %}
+                </div>
+            </div>
+            <div class="form-group preview col-sm-12" style="margin-top: 20px;">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript">
+       var left_data_id = "{{ form.left_data.id_for_label }}";
+       var DATASET_COLUMNS_URL = "{% url 'datasets:header' %}";
+       var COMPARISON_ARGS = JSON.parse('{{ comparison_args | jsonify }}');
+       var header_options = {};
+       header_options[left_data_id] = '';
+       var transformation_choices = JSON.parse('{{ blocking_transformation_choices | jsonify }}');
+       var comparison_choices = JSON.parse('{{ linking_comparison_choices | jsonify }}');
+       var comparison_args = JSON.parse('{{ comparison_args | jsonify }}');
+       var leftColumns = JSON.parse('{{ form.left_columns.value | jsonify }}') || [];
+       var required_left = JSON.parse('{{ required_left  | jsonify }}') || [];
+       var project_type = '{{ type }}';
+
+    </script>
+    <script src="{% static 'js/linking/project_form.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Linking Projects{% endblock %}
+
+{% block messages %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message.text }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{%  endblock %}
+
+{% block content %}
+  <h2>Projects</h2>
+
+    <div class="projects-container">
+        {% include "linking/projects_list.html" %}
+    </div>
+
+    <div>
+        <a href="{% url 'linking:type'%}" class="btn btn-primary">Create a new project</a>
+    </div>
+{% endblock content %}
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript">
+        var total_running = parseInt("{{ total_running }}");
+        var STATUS_URL = "{% url 'linking:status' %}"
+    </script>
+    <script src="{% static 'js/linking/link_list.js' %}"></script>
+{% endblock %}

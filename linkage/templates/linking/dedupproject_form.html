@@ -1,0 +1,23 @@
+{% extends "./project_form.html" %}
+{% load static %}
+
+{% block header %}
+    <legend><h2>De-Duplication Project</h2></legend>
+{%  endblock %}
+
+{%  block datasets %}
+    <fieldset>
+        <legend class="text-left">Dataset</legend>
+        <div class="row">
+            <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-3">{{ form.left_data.label }}</label>
+            <div class="preview col-sm-9">
+                {{ form.left_data }}
+            </div>
+        </div>
+    </fieldset>
+{%  endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="{% static 'js/linking/dedup_form.js' %}"></script>
+{% endblock %}

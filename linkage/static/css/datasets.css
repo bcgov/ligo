@@ -1,0 +1,11 @@
+.preview {
+    margin-bottom: 10px;
+}
+
+.preview-container {
+    border: solid #f7f7f9 5px;
+    padding: 1.0rem;
+    overflow: auto;
+    height: 800px;
+    margin-bottom: 0;
+}
