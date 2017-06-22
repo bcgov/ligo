@@ -38,21 +38,30 @@ RUN mkdir /user_data/media
 RUN mkdir  /user_data/media/datasets
 RUN mkdir  /user_data/media/linking
 
-#use this style when not volume mounting the (files colume --- see the docker-compose file please)
+#use this style when not volume mounting the (files column --- see the docker-compose file please)
 #COPY ./lib/cdi-linking/test/dedup/levensthein/  /user_data/media/datasets
 
 
 #the following change in ownership instructions are not absolutely essential for docker based local/dev env
 
-#RUN chown  django:django -R /user_data
-#RUN chown  django:django /linkage/entrypoint.sh
-#RUN chown  django:django /linkage/start-dev.sh
-#RUN chown  django:django -R /linkage
+RUN chmod -R 0777 /user_data
+RUN echo 'django:x:999:999:django:/:/bin/sh' >> /etc/passwd
 
-RUN chmod -R 0766 /user_data
+RUN chown  999:999 /linkage/entrypoint.sh
+RUN chown  999:999 /linkage/start-dev.sh
+
+RUN chown  999:999 -R /linkage
+RUN chown  999:999 -R /user_data
+
+
+
+#RUN touch /tmp/django-email-dev
+RUN mkdir /tmp/django-email-dev
+RUN chown  999:999 -R /tmp
+
 
 #USER django
+USER "999:999"
 WORKDIR /linkage
 
 ENTRYPOINT ["/linkage/entrypoint.sh"]
-
