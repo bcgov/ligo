@@ -1,3 +1,8 @@
+# Custom Ignore
+.idea
+data-linking
+files
+
 ### OSX ###
 .DS_Store
 .AppleDouble
