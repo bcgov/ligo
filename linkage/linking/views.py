@@ -302,12 +302,13 @@ class LinkingProjectDeleteView(LoginRequiredMixin, DeleteView):
 @csrf_protect
 @login_required
 def execute(request, name):
-    '''
+    """
     Runs a linking/De-Diplication job in background without blocking user actions.
     :param request:
     :param name: Project name
     :return:
-    '''
+    """
+
     project_json = project_to_json(name)
     task = run_task.delay(name, project_json)
     return HttpResponseRedirect(reverse('linking:list'))

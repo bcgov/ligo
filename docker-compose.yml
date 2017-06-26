@@ -67,7 +67,7 @@ services:
         #   #to the lower one (y) after the -l flag
         #   #command: celery -A linkage.taskapp worker -l INFO
         #   command: celery -A linkage.taskapp worker -l DEBUG
-        command: celery -A linkage.taskapp worker -l DEBUG &
+        command: celery -A linkage.taskapp worker -l DEBUG
 volumes:
     files:
 #    db_linking:
