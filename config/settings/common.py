@@ -205,6 +205,7 @@ STATICFILES_FINDERS = (
 MEDIA_ROOT = os.path.join('/user_data', 'media')
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
+SHOW_INDEXES = False
 
 # URL Configuration
 # ------------------------------------------------------------------------------

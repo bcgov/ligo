@@ -10,9 +10,20 @@ PD_PSQL_TYPE_MAP = {
     "bool"      : "BOOLEAN",
     "int8"      : "SMALLINT"
 }
+
+SQL_PANDAS_MAP = {
+    "VARCHAR": object,
+    "BOOLEAN": np.bool_,
+    "REAL": np.float64,
+    "INTEGER": np.int64,
+    "CHAR": object,
+    "TEXT": object,
+}
+
 import logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
 
 class Previewer(object):
 
@@ -36,7 +47,7 @@ class CSV_Previewer(Previewer):
     def __init__(self, filename):
         super(CSV_Previewer, self).__init__(filename, 'csv')
 
-    def preview(self, criteria='head', limit=100):
+    def preview(self, criteria='head', limit=100, data_types=None):
 
         from io import StringIO
         # in Python 2 use
@@ -70,6 +81,7 @@ class CSV_Previewer(Previewer):
         if self.filename is None:
             raise IOError('Dataset filename is missing')
 
+        logger.info('Data type: '.format(data_types))
 
         # Load the csv file
         file_path = settings.DATASTORE_URL + self.filename
@@ -87,15 +99,20 @@ class CSV_Previewer(Previewer):
             'rand': sorted(random.sample(range(1, self.row_count + 1), self.row_count - limit))
         }
         skip_list = selection.get(criteria, None)
-        logger.debug("******************skip_list {0}****************************".format(skip_list))
 
         skip_list = np.asarray(skip_list, dtype=np.int64)
         # MAX >= number of rows in the file
         skip_mask = np.zeros(self.row_count + 1, dtype=bool)
         skip_mask[skip_list] = True
 
-        #result = load_with_buffer(file_path, skip_mask)
-        result = pd.read_csv(file_path, skiprows=skip_list, skipinitialspace=True)
+        # Convert SQL data types to Pandas data types
+        d_types = None
+        if data_types:
+            d_types = {}
+            for col_name, col_type in data_types.items():
+                d_types[col_name] = SQL_PANDAS_MAP[col_type]
+
+        result = pd.read_csv(file_path, skiprows=skip_list, skipinitialspace=True, dtype=d_types)
         result = result.replace(np.nan, '', regex=True)
         header_types = {}
 

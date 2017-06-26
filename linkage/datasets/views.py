@@ -37,7 +37,7 @@ class DatasetPreviewMixin(object):
     def preview(self):
 
         previewer = get_preview(self.filename, self.data_format)
-        result = previewer.preview('head', 25)
+        result = previewer.preview('head', 25, data_types=self.object.data_types)
         return {
             "len": result['len'],
             "header": result['header'],
@@ -66,13 +66,18 @@ class DatasetCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('datasets:edit', kwargs={'name': self.object.name})
 
+
 class DatasetUpdateView(LoginRequiredMixin, UpdateView):
     model = Dataset
     slug_field = 'name'
     slug_url_kwarg = 'name'
 
     form_class = DatasetUpdateForm
+
     def get_context_data(self, **kwargs):
+
+        logger.info('Data type: '.format(self.object.data_types))
+
         data = super(DatasetUpdateView, self).get_context_data(**kwargs)
         if not self.request.POST:
             data['data_types'] = self.object.data_types
@@ -80,7 +85,7 @@ class DatasetUpdateView(LoginRequiredMixin, UpdateView):
             data['COPLUMN_TYPES'] = COPLUMN_TYPES
             data['FIELD_CATS'] = FIELD_CATS
             previewer = get_preview(self.object.url, 'csv')
-            result = previewer.preview('head', 4)
+            result = previewer.preview('head', 4, data_types=self.object.data_types)
             data['columns'] = result['header']
             data['types'] = result['types']
             data['records'] = result['rows']
@@ -99,6 +104,7 @@ class DatasetDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('datasets:list')
+
 
 class DatasetDetailView(LoginRequiredMixin, DatasetPreviewMixin, DetailView):
     model = Dataset

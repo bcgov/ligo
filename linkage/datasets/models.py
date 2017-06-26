@@ -1,6 +1,7 @@
 from __future__ import unicode_literals, absolute_import
 
 import pandas as pd
+import numpy as np
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.conf import settings
@@ -44,11 +45,6 @@ class Dataset(models.Model):
 
     def __str__(self):
         return self.name
-
-    def load_data(self, columns=None):
-        # Load the csv file
-        file_path = settings.DATASTORE_URL + self.url
-        return pd.read_csv(file_path, index_col=self.index_field, usecols=columns, skipinitialspace=True)
 
     def get_fields(self):
         if self.data_types:

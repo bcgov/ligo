@@ -9,6 +9,11 @@ COPY ./requirements /requirements
 RUN pip install -r /requirements/local.txt
 
 COPY ./ /linkage
+RUN mkdir /linkage/lib
+COPY ./data-linking/  /linkage/lib
+
+RUN pip install -e /linkage/lib/cdi-linking/
+RUN pip install -e /linkage/lib/linking_ext/
 
 COPY ./compose/django/entrypoint.sh /linkage/entrypoint.sh
 RUN sed -i 's/\r//' /linkage/entrypoint.sh
