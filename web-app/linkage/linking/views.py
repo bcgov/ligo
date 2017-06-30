@@ -12,7 +12,9 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from linkage.datasets.models import Dataset
 from linkage.linking.utils import project_to_json
-from linkage.taskapp.tasks import run_task, get_task_result, linkage_algorithms
+from linkage.taskapp.tasks import (run_task,
+                                   get_task_result,
+                                   linkage_algorithms, TaskStatus)
 
 from .forms import LinkingForm, DedupForm, LinkingStepFormset, ProjectTypeForm
 from .models import (LinkingProject,
@@ -49,13 +51,21 @@ def update_status(project):
     logger.debug('Project task_id : {0}'.format(project.task_id))
 
     # Get task result (Summary report file)
-    result = get_task_result(project.task_id)
+    task_status, result = get_task_result(project.task_id)
 
-    # Update project if result is not empty.
-    if result is not None:
+    logger.debug('Project Status : {0}, Result: {1}.'.format(task_status, result))
+
+    if task_status == TaskStatus.PENDING:
+        logger.debug('<<--- update_status ---<<')
+        return
+
+    if task_status == TaskStatus.DONE and result is not None:
         project.status = 'COMPLETED'
-        project.results_file = result
-        project.save()
+    else:
+        project.status = 'FAILED'
+        project.comments = 'An error occurred during project execution. Please check the logs for details'
+
+    project.save()
 
     logger.debug('<<--- update_status ---<<')
 
