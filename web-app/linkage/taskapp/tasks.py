@@ -3,7 +3,6 @@ import logging
 from celery.result import AsyncResult
 from linkage.taskapp.celery import app
 
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
