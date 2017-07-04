@@ -1,0 +1,5 @@
+[run]
+include = linkage/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin

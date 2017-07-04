@@ -6,11 +6,11 @@ services:
      #restart: always
      build:
        context: .
-       dockerfile: ./web/linkage/compose/django/Dockerfile-dev
+       dockerfile: ./web-app/compose/django/Dockerfile-dev
 
      ports:
           - "8002:8000"
-     env_file: ./web/linkage/config/settings/.env
+     env_file: ./web-app/config/settings/.env
 
      depends_on:
                  - postgres2
@@ -49,11 +49,9 @@ services:
    celeryworker:
         build:
           context: .
-          dockerfile: ./web/linkage/compose/django/Dockerfile-dev
-        #user: django
-        env_file: ./web/linkage/config/settings/.env
+          dockerfile: ./linkage-worker/Dockerfile
+        env_file: ./linkage-worker/.env
         depends_on:
-         - postgres2
          - redis
         volumes:
            - ./files/:/user_data
@@ -67,7 +65,7 @@ services:
         #   #to the lower one (y) after the -l flag
         #   #command: celery -A linkage.taskapp worker -l INFO
         #   command: celery -A linkage.taskapp worker -l DEBUG
-        command: celery -A linkage.taskapp worker -l DEBUG &
+        #command: celery -A linkage.taskapp worker -l DEBUG
 volumes:
     files:
 #    db_linking:

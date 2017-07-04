@@ -1,0 +1,48 @@
+{% load linking_extras %}
+{% if form.id.value %}
+    {% for left, right, alg in blocking_schema|get_item:form.seq.value %}
+        <div class="block-var-row">
+            <div class="row">
+                <label for="block_id_left_{{ form_index }}_{{ forloop.counter0 }}" class="control-label col-sm-2">Left
+                    Variable</label>
+                <div class="preview col-sm-4">
+                    <select id="block_id_left_{{ form_index }}_{{ forloop.counter0 }}"
+                            class="left-header left-blocking-var form-control"
+                            name="block_id_left_{{ form_index }}_{{ forloop.counter0 }}">
+                        <option value="{{ left }}" selected="selected">{{ left }}</option>
+                    </select>
+                </div>
+                <label for="block_id_right_{{ form_index }}_{{ forloop.counter0 }}" class="control-label col-sm-2">Right
+                    Variable</label>
+                <div class="preview col-sm-4">
+                    <select id="block_id_right_{{ form_index }}_{{ forloop.counter0 }}"
+                            class="left-header right-blocking-var form-control"
+                            name="block_id_right_{{ form_index }}_{{ forloop.counter0 }}">
+                        <option value="{{ right }}" selected="selected">{{ left }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label for="block_comp_{{ form_index }}_{{ forloop.counter0 }}"
+                       class="control-label col-sm-2">Transformation</label>
+                <div class="col-sm-10">
+                    <div class="preview input-group">
+                        <select id="block_comp_{{ form_index }}_{{ forloop.counter0 }}" class="alg form-control"
+                                name="block_comp_{{ form_index }}_{{ forloop.counter0 }}">
+                            <option>------------</option>
+                            {% for item in blocking_transformation_choices %}
+                                <option value="{{ item.0 }}" {% if alg == item.0 %}
+                                        selected="selected" {% endif %}>{{ item.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="input-group-btn">
+                            <button type="button" class="blocking-var-remove btn btn-danger">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}

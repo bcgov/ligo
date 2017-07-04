@@ -1,4 +1,4 @@
-data-linking-ui
+Data Linking UI
 ===============
 
 A web application for linking multiple datasets.
