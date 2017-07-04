@@ -1,14 +1,15 @@
+import logging
 import pandas as pd
 import random
 import numpy as np
 from django.conf import settings
 
 PD_PSQL_TYPE_MAP = {
-    "object"    : "VARCHAR",
-    "int64"     : "INTEGER",
-    "float64"   : "REAL",
-    "bool"      : "BOOLEAN",
-    "int8"      : "SMALLINT"
+    "object": "VARCHAR",
+    "int64": "INTEGER",
+    "float64": "REAL",
+    "bool": "BOOLEAN",
+    "int8": "SMALLINT"
 }
 
 SQL_PANDAS_MAP = {
@@ -20,13 +21,10 @@ SQL_PANDAS_MAP = {
     "TEXT": object,
 }
 
-import logging
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 
 class Previewer(object):
-
     @staticmethod
     def create_previewer(filename, data_format):
         previewers = {'csv': CSV_Previewer}
@@ -43,7 +41,6 @@ class Previewer(object):
 
 
 class CSV_Previewer(Previewer):
-
     def __init__(self, filename):
         super(CSV_Previewer, self).__init__(filename, 'csv')
 
@@ -51,7 +48,7 @@ class CSV_Previewer(Previewer):
 
         from io import StringIO
         # in Python 2 use
-        #from StringIO import StringIO
+        # from StringIO import StringIO
 
         def load_with_buffer(filename, skip, **kwargs):
             s_buf = StringIO()

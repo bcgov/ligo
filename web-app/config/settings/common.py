@@ -13,7 +13,7 @@ from __future__ import absolute_import, unicode_literals
 import environ
 import os
 
-ROOT_DIR = environ.Path(__file__) - 3  # (linkage/config/settings/common.py - 3 = linkage/)
+ROOT_DIR = environ.Path(__file__) - 3  # (web-app/config/settings/common.py - 3 = web-app/)
 APPS_DIR = ROOT_DIR.path('linkage')
 
 env = environ.Env()
@@ -201,7 +201,6 @@ STATICFILES_FINDERS = (
 # MEDIA CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-#print(ROOT_DIR)
 MEDIA_ROOT = os.path.join('/user_data', 'media')
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = '/media/'
@@ -280,4 +279,6 @@ ADMIN_URL = r'^admin/'
 #print(MEDIA_ROOT)
 DATASTORE_URL = env('LINKING_DATASTORE_URL', default=MEDIA_ROOT + '/datasets/')
 #print(DATASTORE_URL)
-OUTPUT_URL = env('LINKING_OUTPUT_URL', default=MEDIA_ROOT  + '/linking/')
+OUTPUT_URL = env('LINKING_OUTPUT_URL', default=MEDIA_ROOT + '/linking/')
+# Data-Linking temporary directory folder
+LINKING_TEMP_PATH = env('LINKING_TEMP_PATH', default=MEDIA_ROOT + '/temp/')

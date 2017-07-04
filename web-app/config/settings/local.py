@@ -11,7 +11,6 @@ Local settings
 """
 
 import socket
-import os
 from .common import *  # noqa
 
 # DEBUG
@@ -75,6 +74,55 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 ########## CELERY
 CELERY_ALWAYS_EAGER = False
 ########## END CELERY
+
+LOGGING_LEVEL = env('LOGGING_LEVEL', default='INFO')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['console'],
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s '
+                      '%(process)d %(thread)d %(message)s'
+        },
+        'standard': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        },
+        'default': {
+            'level': LOGGING_LEVEL,
+            'class': 'logging.StreamHandler',
+            'formatter': 'standard'
+        }
+    },
+    'loggers': {
+        'django.db.backends': {
+            'level': 'ERROR',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'django.security.DisallowedHost': {
+            'level': 'ERROR',
+            'handlers': ['console'],
+            'propagate': False,
+        },
+        'linkage': {
+            'level': LOGGING_LEVEL,
+            'handlers': ['default'],
+            'propagate': False,
+        },
+    },
+}
 
 
 # Your local stuff: Below this line define 3rd party library settings

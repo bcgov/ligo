@@ -3,8 +3,15 @@ import logging
 from celery.result import AsyncResult
 from linkage.taskapp.celery import app
 
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
+
+
+
+class TaskStatus:
+
+    PENDING = 'Pending'
+    DONE = 'Done'
+    FAILED = 'Failed'
 
 
 def run_task(name, project_json):
@@ -12,6 +19,7 @@ def run_task(name, project_json):
     task = app.send_task('linkage.run_project', args=[name, project_json], kwargs={})
 
     return task
+
 
 def get_task_result(task_id):
     """
@@ -27,11 +35,13 @@ def get_task_result(task_id):
 
             logger.info("Results are ready for task {0}.".format(task_id))
             logger.info(result)
-            return result
-    except Exception as e:
-        return None
+            return TaskStatus.DONE, result
+        else:
+            return TaskStatus.PENDING, None
 
-    return None
+    except Exception as e:
+        return TaskStatus.FAILED, None
+
 
 
 def stop_task(task_id):

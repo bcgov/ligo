@@ -12,20 +12,22 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from linkage.datasets.models import Dataset
 from linkage.linking.utils import project_to_json
-from linkage.taskapp.tasks import run_task, get_task_result, linkage_algorithms
+from linkage.taskapp.tasks import (run_task,
+                                   get_task_result,
+                                   linkage_algorithms, TaskStatus)
 
 from .forms import LinkingForm, DedupForm, LinkingStepFormset, ProjectTypeForm
 from .models import (LinkingProject,
                      LinkingStep,
                      LinkingDataset)
 
-logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 algorithms = linkage_algorithms()
 BLOKING_COMPARISONS = algorithms.get('blocking')
 LINKING_COMPARISONS = algorithms.get('linking')
 COMPARISON_ARGS = algorithms.get('args')
+
 
 def select_type(request):
     if request.method == 'POST':
@@ -49,15 +51,24 @@ def update_status(project):
     logger.debug('Project task_id : {0}'.format(project.task_id))
 
     # Get task result (Summary report file)
-    result = get_task_result(project.task_id)
+    task_status, result = get_task_result(project.task_id)
 
-    print ('Task result: ', result)
+    logger.debug('Project Status : {0}, Result: {1}.'.format(task_status, result))
 
-    # Update project if result is not empty.
-    if result is not None:
-        project.status = 'COMPLETED'
+    if task_status == TaskStatus.PENDING:
+        logger.debug('<<--- update_status ---<<')
+        return
+
+    if task_status == TaskStatus.DONE and result is not None:
         project.results_file = result
-        project.save()
+        project.status = 'COMPLETED'
+    else:
+        project.status = 'FAILED'
+        project.comments = 'An error occurred during project execution. Please check the logs for details'
+
+    project.save()
+
+    logger.debug('<<--- update_status ---<<')
 
 
 class ProjectsListMixin(object):
@@ -70,11 +81,11 @@ class ProjectsListMixin(object):
         data = super(ProjectsListMixin, self).get_context_data(**kwargs)
         running_projects = LinkingProject.objects.filter(status='RUNNING')
 
-        print(running_projects)
         for project in running_projects:
             update_status(project)
 
         total_running = LinkingProject.objects.filter(status='RUNNING').count()
+        logger.info('Number of projects currently running: {0}'.format(total_running))
 
         data['total_running'] = total_running
 
@@ -363,19 +374,20 @@ def view_results(request, name):
         file_path = project.results_file
         results_file = os.path.basename(file_path)
         logger.debug(file_path)
-        #Adding file name for ease of debugging
+        # Adding file name for ease of debugging
         if not os.path.exists(file_path):
             message = project_type \
                       + ' Results summary file was not found. The file must have been deleted. ' \
                       + 'Please rerun the project to genereate the file.'
             return render(request, 'linking/linking_errors.html', {'message': message})
 
-        with open(file_path, 'r+b') as report: #Binary mode should be specified in Python 3 otherwise we would get enconding error
+        # Binary mode should be specified in Python 3 otherwise we would get encoding error
+        with open(file_path, 'r+b') as report:
             response = HttpResponse(report.read(), content_type='application/pdf')
             response['Content-Disposition'] = 'inline;filename=' + results_file
             return response
     except LinkingProject.DoesNotExist:
-        logger.error('Databse Error: Linking project {0} was not found.'.format(name))
+        logger.error('Database Error: Linking project {0} was not found.'.format(name))
         return HttpResponseRedirect(reverse('linking:list'))
 
 
@@ -386,7 +398,7 @@ def stop_project(request, name):
         project.save()
 
     except LinkingProject.DoesNotExist as db_err:
-        logger.error('Databse Error: Linking project {0} was not found.'.format(name))
+        logger.error('Database Error: Linking project {0} was not found.'.format(name))
 
     return HttpResponseRedirect(reverse('linking:list'))
 
