@@ -279,4 +279,6 @@ ADMIN_URL = r'^admin/'
 #print(MEDIA_ROOT)
 DATASTORE_URL = env('LINKING_DATASTORE_URL', default=MEDIA_ROOT + '/datasets/')
 #print(DATASTORE_URL)
-OUTPUT_URL = env('LINKING_OUTPUT_URL', default=MEDIA_ROOT  + '/linking/')
+OUTPUT_URL = env('LINKING_OUTPUT_URL', default=MEDIA_ROOT + '/linking/')
+# Data-Linking temporary directory folder
+LINKING_TEMP_PATH = env('LINKING_TEMP_PATH', default=MEDIA_ROOT + '/temp/')
