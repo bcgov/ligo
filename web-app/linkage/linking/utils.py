@@ -56,6 +56,7 @@ def project_to_json(name):
         del step['linking_project']
 
     project_json['output_root'] = settings.OUTPUT_URL
+    project_json['temp_path'] = settings.LINKING_TEMP_PATH
 
     del project_json['id']
     if project.type == 'DEDUP':
