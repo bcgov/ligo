@@ -60,6 +60,7 @@ def update_status(project):
         return
 
     if task_status == TaskStatus.DONE and result is not None:
+        project.results_file = result
         project.status = 'COMPLETED'
     else:
         project.status = 'FAILED'

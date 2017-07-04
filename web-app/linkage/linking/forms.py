@@ -58,8 +58,10 @@ class ProjectForm(ModelForm):
                 left_dataset = data.linkingdataset_set.get(link_seq=1)
                 self.fields['left_data'].initial = left_dataset.dataset.pk
                 try:
-                    columns = json.loads(left_dataset.columns) or []
-                except json.JSONDecodeError as json_err:
+                    columns = json.loads(left_dataset.columns or "[]")
+                except TypeError:
+                    columns = []
+                except json.JSONDecodeError:
                     logger.error('Error on parsing json data of dataset columns.')
                     columns = []
                 if left_dataset.dataset.index_field is not None and left_dataset.dataset.index_field not in columns:
@@ -101,8 +103,10 @@ class LinkingForm(ProjectForm):
                 right_dataset = data.linkingdataset_set.get(link_seq=2)
                 self.fields['right_data'].initial = right_dataset.dataset.pk
                 try:
-                    columns = json.loads(right_dataset.columns) or []
-                except json.JSONDecodeError as json_err:
+                    columns = json.loads(right_dataset.columns or "[]")
+                except TypeError:
+                    columns = []
+                except json.JSONDecodeError:
                     logger.error('Error on parsing json data of dataset columns.')
                     columns = []
                 if right_dataset.dataset.index_field is not None and right_dataset.dataset.index_field not in columns:
