@@ -14,23 +14,31 @@ framework.
 
 """
 import os
-
+from django.conf import settings
 from django.core.wsgi import get_wsgi_application
-if os.environ.get('DJANGO_SETTINGS_MODULE') == 'config.settings.production':
-    from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
 
-# We defer to a DJANGO_SETTINGS_MODULE already in the environment. This breaks
-# if running multiple sites in the same mod_wsgi process. To fix this, use
-# mod_wsgi daemon mode with each site in its own daemon process, or use
-# os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings.production"
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
 
-# This application object is used by any WSGI server configured to use this
-# file. This includes Django's development server, if the WSGI_APPLICATION
-# setting points here.
-application = get_wsgi_application()
-if os.environ.get('DJANGO_SETTINGS_MODULE') == 'config.settings.production':
-    application = Sentry(application)
-# Apply WSGI middleware here.
-# from helloworld.wsgi import HelloWorldApplication
-# application = HelloWorldApplication(application)
+_application = get_wsgi_application()
+
+"""
+Update the application subpath.
+Based on the solution provided by:
+https://integricho.github.io/2014/02/22/running-django-on-a-subpath/
+"""
+def application(environ, start_response):
+
+    app_root = settings.APP_ROOT_URL
+    script_name = environ.get('HTTP_X_SCRIPT_NAME', app_root)
+
+    if script_name:
+        environ['SCRIPT_NAME'] = script_name
+        path_info = environ['PATH_INFO']
+        if path_info.startswith(script_name):
+            environ['PATH_INFO'] = path_info[len(script_name):]
+
+    scheme = environ.get('HTTP_X_SCHEME', '')
+    if scheme:
+        environ['wsgi.url_scheme'] = scheme
+
+    return _application(environ, start_response)

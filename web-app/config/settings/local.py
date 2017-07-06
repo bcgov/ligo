@@ -124,6 +124,8 @@ LOGGING = {
     },
 }
 
-
 # Your local stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+APPEND_SLASH = True
+
+APP_ROOT_URL = env('APP_ROOT_URL', None)
