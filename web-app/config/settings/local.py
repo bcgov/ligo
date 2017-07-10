@@ -128,4 +128,4 @@ LOGGING = {
 # ------------------------------------------------------------------------------
 APPEND_SLASH = True
 
-APP_ROOT_URL = env('APP_ROOT_URL', None)
+APP_ROOT_URL = env('APP_ROOT_URL', default=None)
