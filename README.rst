@@ -132,7 +132,7 @@ The Celery broker is provided by the CELERY_BROKER_URL environment variable. To 
 .. |Cookiecutter| image:: https://img.shields.io/badge/Built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django
      :alt: Built with Cookiecutter Django
-.. |License| image:: https://img.shields.io/badge/license-MIT-blue.svg
-    :target: https://opensource.org/licenses/MIT
-    :alt: License: MIT
+.. |License| image:: https://img.shields.io/badge/license-Apache%202.0-blue.svg
+    :target: http://www.apache.org/licenses/LICENSE-2.0
+    :alt: License: Apache 2.0
 .. |nbsp| unicode:: 0xA0
