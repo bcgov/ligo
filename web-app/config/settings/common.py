@@ -13,7 +13,11 @@ from __future__ import absolute_import, unicode_literals
 import environ
 import os
 
+
+APP_VERSION = '0.2'
+
 ROOT_DIR = environ.Path(__file__) - 3  # (web-app/config/settings/common.py - 3 = web-app/)
+
 APPS_DIR = ROOT_DIR.path('linkage')
 
 env = environ.Env()

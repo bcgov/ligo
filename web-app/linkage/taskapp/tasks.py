@@ -64,3 +64,13 @@ def linkage_field_categories():
 
     field_cats = task.get()
     return field_cats
+
+
+def linkage_linklib_info():
+
+    logger.info('Getting linking library metadata')
+    task = app.send_task('linkage.linklib_info', args=[], kwargs={})
+
+    linklib_info = task.get()
+
+    return linklib_info

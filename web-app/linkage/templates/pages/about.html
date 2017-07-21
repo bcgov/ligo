@@ -1,1 +1,40 @@
 {% extends "base.html" %}
+{% block content %}
+    <div class="row" style="margin-top: 50px;">
+      <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <strong>Data Linking Web-App</strong>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4"><strong>Version</strong></div>
+                    <div class="col-sm-6"><p><samp>{{ data.app_version }}</samp></p></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4"><strong>Git Commit:</strong></div>
+                    <div class="col-sm-6"><p><samp>{{ data.web_commit }}</samp></p></div>
+                </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-info ">
+            <div class="panel-heading">
+                <strong>Data Linking Library</strong>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4"><strong>Version</strong></div>
+                    <div class="col-sm-6"><p><samp>{{ data.link_version }}</samp></p></div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4"><strong>Git Commit:</strong></div>
+                    <div class="col-sm-6"><p><samp>{{ data.link_commit }}</samp></p></div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+{% endblock content %}

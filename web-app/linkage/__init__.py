@@ -1,7 +1,8 @@
 from __future__ import absolute_import
+from django.conf import settings
 
 # -*- coding: utf-8 -*-
-__version__ = '0.1.0'
+__version__ = settings.APP_VERSION
 __version_info__ = tuple([int(num) if num.isdigit() else num for num in __version__.replace('-', '.', 1).split('.')])
 
 # This will make sure the app is always imported when

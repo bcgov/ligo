@@ -4,6 +4,7 @@ from celery import Celery
 from cdilinker.linker.commands import execute_project
 from cdilinker.linker.algorithms import get_algorithms
 from cdilinker.linker.base import FIELD_CATEGORIES
+import cdilinker.version as link_version
 
 logger = logging.getLogger(__name__)
 
@@ -60,3 +61,15 @@ def linkage_field_categories():
     field_cats = tuple((item.name, item.title) for item in FIELD_CATEGORIES)
 
     return field_cats
+
+
+@app.task(name="linkage.linklib_info")
+def linkage_linklib_info():
+
+    data_dict = dict()
+
+    data_dict['version'] = link_version.version
+
+    # ToDo: Add other useful info about data linking library to data_dict
+
+    return data_dict
