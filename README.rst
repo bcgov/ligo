@@ -3,7 +3,31 @@ Data Linking UI
 
 |Cookiecutter| |nbsp| |License|
 
-A web application for linking multiple datasets.
+The Linking Project is a Django application that uses highly configurable matching criteria to perform deduplication and linking on datasets.
+
+**The Linking Project** will help you:
+
+* Identity common entities in a CSV formatted dataset [de-duplication]
+* Identify common entities between two CSV formatted datasets [linking]
+
+
+Features
+--------
+
+* Support for deterministic linking with probabilistic linking coming soon
+* Support for multi-step projects
+    * Each step allows you to define a specific blocking (filtering the search space) and linking criteria
+    * For de-duplication, you can choose the step(s) where entities are identified (i.e., you can join multiple de-duplication steps)
+    * You can have multiple records representing the same entity; the software links entities (not records). At each step, only not-linked entities are evaluated.
+* Comparison rules such as SoundEx, Levenshtein and Jaro-Winkler allow you to tailor matching criteria for individual fields 
+* Designed for handling large datasets
+* Results in CSV and PDF for easy processing / viewing
+
+
+Errors / Bugs
+-------------
+
+If something is not behaving intuitively, it is likely a bug, and `should be reported <https://github.com/bcgov-c/data-linking-ui/issues>`_
 
 
 Dependencies
