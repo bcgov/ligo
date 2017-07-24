@@ -10,18 +10,16 @@ logger = logging.getLogger(__name__)
 class DatasetForm(ModelForm):
     class Meta:
         model = Dataset
-        fields = ['name', 'title', 'description', 'format', 'url']
+        fields = ['name', 'description', 'format', 'url']
 
         labels = {
             'name': _('Dataset Name'),
-            'title': _('Title'),
             'description': _('Description'),
             'format': _('File Format'),
             'url': _('File Name'),
         }
         widgets = {
             'name': TextInput(attrs={'class': 'form-control'}),
-            'title': TextInput(attrs={'class': 'form-control'}),
             'description': Textarea(attrs={'rows': 5, 'class': 'form-control'}),
             'format': Select(attrs={'class': 'form-control'}),
             'url': TextInput(attrs={'class': 'form-control'}),

@@ -8,15 +8,15 @@
         <thead>
         <tr>
             <th>Name</th>
-            <th>Title</th>
+            <th>Description</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         {% for dataset in dataset_list %}
             <tr>
-                <td>{{ dataset.name }}</td>
-                <td>{{ dataset.title }}</td>
+                <td>{{ dataset.name|capfirst}}</td>
+                <td>{{ dataset.description|truncatechars:100|capfirst }}</td>
                 <td>
                     <a href="{% url 'datasets:edit' dataset.pk %}" data-toggle="tooltip" title="Edit Dataset">
                         <i class="glyphicon glyphicon-pencil"></i>
