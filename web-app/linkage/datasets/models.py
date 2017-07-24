@@ -56,7 +56,7 @@ class Dataset(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse("datasets:edit", kwargs={"name": self.name})
+        return reverse("datasets:edit", kwargs={"pk": self.pk})
 
 
 

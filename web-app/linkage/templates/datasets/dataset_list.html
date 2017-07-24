@@ -18,13 +18,13 @@
                 <td>{{ dataset.name }}</td>
                 <td>{{ dataset.title }}</td>
                 <td>
-                    <a href="{% url 'datasets:edit' dataset.name %}" data-toggle="tooltip" title="Edit Dataset">
+                    <a href="{% url 'datasets:edit' dataset.pk %}" data-toggle="tooltip" title="Edit Dataset">
                         <i class="glyphicon glyphicon-pencil"></i>
                     </a>
-                    <a href="{% url 'datasets:detail' dataset.name %}" data-toggle="tooltip" title="Preview Dataset">
+                    <a href="{% url 'datasets:detail' dataset.pk %}" data-toggle="tooltip" title="Preview Dataset">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>
-                    <a class="text-danger" href="{% url 'datasets:delete' dataset.name %}" data-toggle="tooltip" title="Delete Dataset">
+                    <a class="text-danger" href="{% url 'datasets:delete' dataset.pk %}" data-toggle="tooltip" title="Delete Dataset">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>
                 </td>

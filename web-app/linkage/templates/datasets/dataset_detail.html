@@ -56,8 +56,8 @@
     <script type="text/javascript">
         var filename = "{{ object.url }}";
         var dataset_name = "{{ object.name }}"
-        var PREVIEW_URL = "{% url 'datasets:detail' name='TEST' %}"
-        PREVIEW_URL = PREVIEW_URL.substring(0, PREVIEW_URL.length - "TEST/".length);
+        var PREVIEW_URL = "{% url 'datasets:detail' pk='1' %}"
+        PREVIEW_URL = PREVIEW_URL.substring(0, PREVIEW_URL.length - 2);
     </script>
     <script src="{% static 'js/datasets/preview.js' %}"></script>
 

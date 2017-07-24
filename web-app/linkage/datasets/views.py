@@ -61,13 +61,11 @@ class DatasetCreateView(LoginRequiredMixin, CreateView):
     form_class = DatasetForm
 
     def get_success_url(self):
-        return reverse('datasets:edit', kwargs={'name': self.object.name})
+        return reverse('datasets:edit', kwargs={'pk': self.object.pk})
 
 
 class DatasetUpdateView(LoginRequiredMixin, UpdateView):
     model = Dataset
-    slug_field = 'name'
-    slug_url_kwarg = 'name'
 
     form_class = DatasetUpdateForm
 
@@ -94,8 +92,6 @@ class DatasetUpdateView(LoginRequiredMixin, UpdateView):
 
 class DatasetDeleteView(LoginRequiredMixin, DeleteView):
     model = Dataset
-    slug_field = 'name'
-    slug_url_kwarg = 'name'
 
     form_class = DatasetUpdateForm
 
@@ -105,9 +101,6 @@ class DatasetDeleteView(LoginRequiredMixin, DeleteView):
 
 class DatasetDetailView(LoginRequiredMixin, DatasetPreviewMixin, DetailView):
     model = Dataset
-
-    slug_field = 'name'
-    slug_url_kwarg = 'name'
 
 
 @csrf_protect
