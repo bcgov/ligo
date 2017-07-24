@@ -17,31 +17,31 @@
             <td class="status-cell">{{ project.status }}</td>
             <td class="exec-cell">
                 {% if project.status != 'RUNNING' and project.status != 'DRAFT' %}
-                    <a class="project-exec" href="{% url 'linking:exec'  project.name %}" data-toggle="tooltip" title="Run Project">
+                    <a class="project-exec" href="{% url 'linking:exec'  project.pk %}" data-toggle="tooltip" title="Run Project">
                         <i class="glyphicon glyphicon-play-circle"></i>
                     </a>
                 {% endif %}
                 {% if project.status == 'COMPLETED' %}
-                    <a class="results-view" href="{% url 'linking:view_results' project.name %}" data-toggle="tooltip" title="View Results">
+                    <a class="results-view" href="{% url 'linking:view_results' project.pk %}" data-toggle="tooltip" title="View Results">
                         <i class="glyphicon glyphicon-equalizer"></i>
                     </a>
                 {% endif %}
                 {% if project.status != 'DRAFT' %}
-                    <a href="{% url 'linking:export'  project.name %}" data-toggle="tooltip" title="Export to JSON">
+                    <a href="{% url 'linking:export'  project.pk %}" data-toggle="tooltip" title="Export to JSON">
                         <i class="glyphicon glyphicon-export"></i>
                     </a>
                 {% endif %}
                 {% if project.status == 'RUNNING' %}
-                    <a class="project-exec" href="{% url 'linking:stop_project' project.name %}" data-toggle="tooltip" title="Stop Project">
+                    <a class="project-exec" href="{% url 'linking:stop_project' project.pk %}" data-toggle="tooltip" title="Stop Project">
                         <i class="glyphicon glyphicon-stop"></i>
                     </a>
                 {% endif %}
             </td>
             <td class="action-cell">
-                <a href="{% url 'linking:edit'  project.type project.name %}" data-toggle="tooltip" title="Edit Project">
+                <a href="{% url 'linking:edit'  project.type project.pk %}" data-toggle="tooltip" title="Edit Project">
                     <i class="glyphicon glyphicon-pencil"></i>
                 </a>
-                <a class="text-danger" href="{% url 'linking:delete' project.name %}" data-toggle="tooltip" title="Delete Project">
+                <a class="text-danger" href="{% url 'linking:delete' project.pk %}" data-toggle="tooltip" title="Delete Project">
                     <i class="glyphicon glyphicon-trash"></i>
                 </a>
             </td>

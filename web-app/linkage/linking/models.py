@@ -39,7 +39,7 @@ PROJECT_STATUS = (
 )
 
 class LinkingProject(models.Model):
-    name = models.CharField(_('Lnking project name'), unique=True, max_length=255)
+    name = models.CharField(_('Lnking project name'), unique=True, max_length=512)
     type = models.CharField(_('Project Type'), max_length=10, choices=PROJECT_TYPES, default='LINK')
     description = models.TextField(_('Linking Project description'), blank=True)
     relationship_type = models.CharField(_('Linking Relationship type'), max_length=3, choices=LINKING_RELATIONSHIPS,
@@ -56,7 +56,7 @@ class LinkingProject(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("linking:edit", kwargs={"name": self.name})
+        return reverse("linking:edit", kwargs={"pk": self.pk})
 
 class LinkingDataset(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
