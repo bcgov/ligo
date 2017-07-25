@@ -26,32 +26,32 @@ urlpatterns = [
         name='add'
     ),
     url(
-        regex=r'edit/(?P<type>[\w.@+-]+)/(?P<name>[\w.@+-]+)/$',
+        regex=r'edit/(?P<type>[\w.@+-]+)/(?P<pk>[0-9]+)/$',
         view=views.edit_project,
         name='edit'
     ),
     url(
-        regex=r'delete/(?P<name>[\w.@+-]+)/$',
+        regex=r'delete/(?P<pk>[0-9]+)/$',
         view=views.LinkingProjectDeleteView.as_view(),
         name='delete'
     ),
     url(
-        regex=r'exec/(?P<name>[\w.@+-]+)/$',
+        regex=r'exec/(?P<pk>[0-9])/$',
         view=views.execute,
         name='exec'
     ),
     url(
-        regex=r'results/(?P<name>[\w.@+-]+)/$',
+        regex=r'results/(?P<pk>[0-9]+)/$',
         view=views.view_results,
         name='view_results'
     ),
     url(
-        regex=r'export/(?P<name>[\w.@+-]+)/$',
+        regex=r'export/(?P<pk>[0-9]+)/$',
         view=views.export_to_json,
         name='export'
     ),
     url(
-        regex=r'stop/(?P<name>[\w.@+-]+)/$',
+        regex=r'stop/(?P<pk>[0-9]+)/$',
         view=views.stop_project,
         name='stop_project'
     ),

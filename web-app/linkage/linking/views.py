@@ -127,7 +127,7 @@ class LinkingProjectCreateView(LoginRequiredMixin, CreateView):
         return super(LinkingProjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('linking:edit', kwargs={'type': self.object.type, 'name': self.object.name})
+        return reverse('linking:edit', kwargs={'type': self.object.type, 'pk': self.object.pk})
 
 
 class DedupProjectCreateView(LoginRequiredMixin, CreateView):
@@ -151,7 +151,7 @@ class DedupProjectCreateView(LoginRequiredMixin, CreateView):
         return super(DedupProjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('linking:edit', kwargs={'type': self.object.type, 'name': self.object.name})
+        return reverse('linking:edit', kwargs={'type': self.object.type, 'pk': self.object.pk})
 
 
 def create_project(request, type):
@@ -240,9 +240,6 @@ class ProjectUpdateMixin(object):
 class LinkingProjectUpdateView(LoginRequiredMixin, ProjectUpdateMixin, UpdateView):
     model = LinkingProject
 
-    slug_field = 'name'
-    slug_url_kwarg = 'name'
-
     form_class = LinkingForm
     template_name = 'linking/linkingproject_form.html'
 
@@ -276,9 +273,6 @@ class LinkingProjectUpdateView(LoginRequiredMixin, ProjectUpdateMixin, UpdateVie
 class DedupProjectUpdateView(LoginRequiredMixin, ProjectUpdateMixin, UpdateView):
     model = LinkingProject
 
-    slug_field = 'name'
-    slug_url_kwarg = 'name'
-
     form_class = DedupForm
     template_name = 'linking/dedupproject_form.html'
 
@@ -309,17 +303,16 @@ class DedupProjectUpdateView(LoginRequiredMixin, ProjectUpdateMixin, UpdateView)
         return data
 
 
-def edit_project(request, type, name):
+def edit_project(request, type, pk):
+    logger.debug(request)
     if type == 'LINK':
-        return LinkingProjectUpdateView.as_view()(request, name=name)
+        return LinkingProjectUpdateView.as_view()(request, pk=pk)
     else:
-        return DedupProjectUpdateView.as_view()(request, name=name)
+        return DedupProjectUpdateView.as_view()(request, pk=pk)
 
 
 class LinkingProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = LinkingProject
-    slug_field = 'name'
-    slug_url_kwarg = 'name'
 
     form_class = LinkingForm
 
@@ -330,7 +323,7 @@ class LinkingProjectDeleteView(LoginRequiredMixin, DeleteView):
 @transaction.non_atomic_requests
 @csrf_protect
 @login_required
-def execute(request, name):
+def execute(request, pk):
     """
     Runs a linking/De-Diplication job in background without blocking user actions.
     :param request:
@@ -338,12 +331,14 @@ def execute(request, name):
     :return:
     """
 
-    project_json = project_to_json(name)
+    project_json = project_to_json(pk)
 
     print (project_json)
     try:
         project = None
-        project = LinkingProject.objects.get(name=name)
+        project = LinkingProject.objects.get(pk=pk)
+
+        name = project.name
 
         logger.debug("name : {0}".format(name))
         logger.debug("project_json : {0}".format(project_json))
@@ -357,7 +352,7 @@ def execute(request, name):
         project.task_id = task.id
         project.save()
     except LinkingProject.DoesNotExist as db_err:
-        logger.error('Database error. Linking project {0} was not found.'.format(name))
+        logger.error('Database error. Linking project with id {0} was not found.'.format(pk))
     except Exception as e:
         if project is not None:
             project.status = 'FAILED'
@@ -367,9 +362,9 @@ def execute(request, name):
     return HttpResponseRedirect(reverse('linking:list'))
 
 
-def view_results(request, name):
+def view_results(request, pk):
     try:
-        project = LinkingProject.objects.get(name=name)
+        project = LinkingProject.objects.get(pk=pk)
         project_type = {'LINK': 'Linking', 'DEDUP': 'De-Duplication'}.get(project.type, '')
         file_path = project.results_file
         results_file = os.path.basename(file_path)
@@ -387,24 +382,24 @@ def view_results(request, name):
             response['Content-Disposition'] = 'inline;filename=' + results_file
             return response
     except LinkingProject.DoesNotExist:
-        logger.error('Database Error: Linking project {0} was not found.'.format(name))
+        logger.error('Database Error: Linking project with id {0} was not found.'.format(pk))
         return HttpResponseRedirect(reverse('linking:list'))
 
 
-def stop_project(request, name):
+def stop_project(request, pk):
     try:
-        project = LinkingProject.objects.get(name=name)
+        project = LinkingProject.objects.get(pk=pk)
         project.status = 'READY'
         project.save()
 
     except LinkingProject.DoesNotExist as db_err:
-        logger.error('Database Error: Linking project {0} was not found.'.format(name))
+        logger.error('Database Error: Linking project with id {0} was not found.'.format(pk))
 
     return HttpResponseRedirect(reverse('linking:list'))
 
 
-def export_to_json(request, name):
+def export_to_json(request, pk):
 
-    project_json = project_to_json(name)
+    project_json = project_to_json(pk)
 
     return HttpResponse(json.dumps(project_json), content_type="application/json")

@@ -29,8 +29,7 @@ class Dataset(models.Model):
         ('XML', 'XML')
     )
 
-    name = models.CharField(_('Name of Dataset'), unique=True, max_length=255)
-    title = models.CharField(_('Title of Dataset'), max_length=1024)
+    name = models.CharField(_('Name of Dataset'), unique=True, max_length=512)
     description = models.TextField(_('Dataset description'), null=True, blank=True)
     format = models.CharField(_('Dataset Format'), max_length=6, choices=dataset_formats, default='CSV')
     index_field = models.CharField(_('Index Field'), default='id', max_length=255)
@@ -56,7 +55,7 @@ class Dataset(models.Model):
 
 
     def get_absolute_url(self):
-        return reverse("datasets:edit", kwargs={"name": self.name})
+        return reverse("datasets:edit", kwargs={"pk": self.pk})
 
 
 

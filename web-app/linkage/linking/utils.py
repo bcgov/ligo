@@ -6,7 +6,7 @@ from .models import LinkingProject, LinkingDataset
 
 logger = logging.getLogger(__name__)
 
-def project_to_json(name):
+def project_to_json(project_id):
 
     def get_column_dict(data_dict, columns):
         columns_dict = {}
@@ -16,7 +16,7 @@ def project_to_json(name):
                     columns_dict[key] = value
         return columns_dict
 
-    project = LinkingProject.objects.get(name=name)
+    project = LinkingProject.objects.get(pk=project_id)
     project_json = model_to_dict(project)
 
     link_datasets = project.linkingdataset_set.all().order_by('link_seq')

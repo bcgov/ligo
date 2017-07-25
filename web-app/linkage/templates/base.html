@@ -52,7 +52,7 @@
                 <li><a href="{% url 'home' %}">Home</a></li>
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'datasets:list' %}">Datasets</a></li>
-                    <li><a href="{% url 'linking:list' %}">Linking</a></li>
+                    <li><a href="{% url 'linking:list' %}">Projects</a></li>
                 {% endif %}
                 <li><a href="{% url 'about' %}">About</a></li>
             </ul>

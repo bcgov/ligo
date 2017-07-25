@@ -26,17 +26,17 @@ urlpatterns = [
         name='add'
     ),
     url(
-        regex=r'edit/(?P<name>[\w.@+-]+)/$',
+        regex=r'edit/(?P<pk>[0-9]+)/$',
         view=views.DatasetUpdateView.as_view(),
         name='edit'
     ),
     url(
-        regex=r'delete/(?P<name>[\w.@+-]+)/$',
+        regex=r'delete/(?P<pk>[0-9]+)/$',
         view=views.DatasetDeleteView.as_view(),
         name='delete'
     ),
     url(
-        regex=r'^(?P<name>[\w.@+-]+)/$',
+        regex=r'^(?P<pk>[0-9]+)/$',
         view=views.DatasetDetailView.as_view(),
         name='detail'
     ),
