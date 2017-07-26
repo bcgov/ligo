@@ -9,8 +9,8 @@
 {%  block main_fields %}
     {{ block.super }}
     <div class="row">
-        <label for="{{ form.relationship_type.id_for_label }}" class="control-label col-sm-3">{{ form.relationship_type.label }}</label>
-        <div class="preview col-sm-9">
+        <label for="{{ form.relationship_type.id_for_label }}" class="control-label col-sm-2">{{ form.relationship_type.label }}</label>
+        <div class="preview col-sm-10">
             {{ form.relationship_type }}
         </div>
     </div>
@@ -20,13 +20,61 @@
     <fieldset>
         <legend class="text-left">Linking Datasets</legend>
         <div class="row">
-            <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-3">{{ form.left_data.label }}</label>
+            <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-2">{{ form.left_data.label }}</label>
             <div class="preview col-sm-4">
                 {{ form.left_data }}
             </div>
-            <label for="{{ form.right_data.id_for_label }}" class="control-label col-sm-1">{{ form.right_data.label }}</label>
+            <label for="{{ form.right_data.id_for_label }}" class="control-label col-sm-2">{{ form.right_data.label }}</label>
             <div class="preview col-sm-4">
                 {{ form.right_data }}
+            </div>
+        </div>
+        <div class="row">
+            <label for="{{ form.left_index.id_for_label }}"
+                   class="control-label col-sm-2">{{ form.left_index.label }}</label>
+            <div class="preview col-sm-4">
+                <select name="left_index" id="id_left_index"
+                        class="left-header form-control">
+                    {% if form.left_index.value %}
+                        <option value="{{ form.left_index.value }}" selected="selected">
+                                {{ form.left_index.value }}</option>
+                    {% endif %}
+                </select>
+            </div>
+            <label for="{{ form.right_index.id_for_label }}"
+                   class="control-label col-sm-2">{{ form.right_index.label }}</label>
+            <div class="preview col-sm-4">
+                <select name="right_index" id="id_right_index"
+                        class="right-header form-control">
+                    {% if form.right_index.value %}
+                        <option value="{{ form.right_index.value }}" selected="selected">
+                                {{ form.right_index.value }}</option>
+                    {% endif %}
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label for="{{ form.left_entity.id_for_label }}"
+                   class="control-label col-sm-2">{{ form.left_entity.label }}</label>
+            <div class="preview col-sm-4">
+                <select name="left_entity" id="id_left_entity"
+                        class="left-header form-control">
+                    {%  if form.left_entity.value %}
+                        <option value="{{ form.left_entity.value }}" selected="selected">
+                                {{ form.left_entity.value }}</option>
+                    {% endif %}
+                </select>
+            </div>
+            <label for="{{ form.right_entity.id_for_label }}"
+                   class="control-label col-sm-2">{{ form.right_entity.label }}</label>
+            <div class="preview col-sm-4">
+                <select name="right_entity" id="id_right_entity"
+                        class="right-header form-control">
+                    {% if form.right_entity.value %}
+                        <option value="{{ form.right_entity.value }}" selected="selected">
+                                {{ form.right_entity.value }}</option>
+                    {% endif %}
+                </select>
             </div>
         </div>
     </fieldset>

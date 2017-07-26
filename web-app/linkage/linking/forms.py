@@ -32,6 +32,7 @@ class ProjectTypeForm(forms.Form):
 class ProjectForm(ModelForm):
     left_data = ModelChoiceField(queryset=Dataset.objects.all(), label='Left',
                                  widget=Select(attrs={'class': 'form-control'}))
+    left_index = CharField(label='Index Field', required=True)
     left_columns = CharField(widget=HiddenInput(), required=False)
 
     class Meta:
@@ -57,6 +58,7 @@ class ProjectForm(ModelForm):
                 data = LinkingProject.objects.get(pk=self.instance.pk)
                 left_dataset = data.linkingdataset_set.get(link_seq=1)
                 self.fields['left_data'].initial = left_dataset.dataset.pk
+                self.fields['left_index'].initial = left_dataset.index_field
                 try:
                     columns = json.loads(left_dataset.columns or "[]")
                 except TypeError:
@@ -64,10 +66,10 @@ class ProjectForm(ModelForm):
                 except json.JSONDecodeError:
                     logger.error('Error on parsing json data of dataset columns.')
                     columns = []
-                if left_dataset.dataset.index_field is not None and left_dataset.dataset.index_field not in columns:
-                    columns.append(left_dataset.dataset.index_field)
-                if left_dataset.dataset.entity_field is not None and left_dataset.dataset.entity_field not in columns:
-                    columns.append(left_dataset.dataset.entity_field)
+                if left_dataset.index_field is not None and left_dataset.index_field not in columns:
+                    columns.append(left_dataset.index_field)
+                if left_dataset.entity_field is not None and left_dataset.entity_field not in columns:
+                    columns.append(left_dataset.entity_field)
                 self.fields['left_columns'].initial = columns
 
             except LinkingProject.DoesNotExist as project_err:
@@ -80,8 +82,11 @@ class ProjectForm(ModelForm):
 class LinkingForm(ProjectForm):
     right_data = ModelChoiceField(queryset=Dataset.objects.all(), label='right',
                                   widget=Select(attrs={'class': 'form-control'}))
+    right_index = CharField(label='Index Field', required=True)
     right_columns = CharField(widget=HiddenInput(), required=False)
 
+    left_entity = CharField(label='Entity Field', required=False)
+    right_entity = CharField(label='Entity Field', required=False)
 
     class Meta(ProjectForm.Meta):
         fields = ProjectForm.Meta.fields + ['relationship_type']
@@ -100,8 +105,13 @@ class LinkingForm(ProjectForm):
         if self.instance.pk:
             try:
                 data = LinkingProject.objects.get(pk=self.instance.pk)
+                left_dataset = data.linkingdataset_set.get(link_seq=1)
+                self.fields['left_index'].initial = left_dataset.index_field
+                self.fields['left_entity'].initial = left_dataset.entity_field
                 right_dataset = data.linkingdataset_set.get(link_seq=2)
                 self.fields['right_data'].initial = right_dataset.dataset.pk
+                self.fields['right_index'].initial = right_dataset.index_field
+                self.fields['right_entity'].initial = right_dataset.entity_field
                 try:
                     columns = json.loads(right_dataset.columns or "[]")
                 except TypeError:
@@ -109,10 +119,10 @@ class LinkingForm(ProjectForm):
                 except json.JSONDecodeError:
                     logger.error('Error on parsing json data of dataset columns.')
                     columns = []
-                if right_dataset.dataset.index_field is not None and right_dataset.dataset.index_field not in columns:
-                    columns.append(right_dataset.dataset.index_field)
-                if right_dataset.dataset.entity_field is not None and right_dataset.dataset.entity_field not in columns:
-                    columns.append(right_dataset.dataset.entity_field)
+                if right_dataset.index_field is not None and right_dataset.index_field not in columns:
+                    columns.append(right_dataset.index_field)
+                if right_dataset.entity_field is not None and right_dataset.entity_field not in columns:
+                    columns.append(right_dataset.entity_field)
                 self.fields['right_columns'].initial = columns
             except LinkingProject.DoesNotExist:
                 logger.error('Database error. Linking project with id {0} was not found'.format(self.instance.pk))

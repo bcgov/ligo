@@ -34,6 +34,8 @@ def project_to_json(project_id):
         datasets[0]['columns'] = left_columns
         datasets[0]['data_types'] = get_column_dict(datasets[0]['data_types'], left_columns)
         datasets[0]['field_cats'] = get_column_dict(datasets[0]['field_cats'], left_columns)
+        datasets[0]['index_field'] = left_link.index_field
+        datasets[0]['entity_field'] = left_link.entity_field
 
     if len(datasets) > 1 and project.type == 'LINK':
         right_link = LinkingDataset.objects.get(link_project=project, link_seq=2)
@@ -45,7 +47,9 @@ def project_to_json(project_id):
 
         datasets[1]['columns'] = right_columns
         datasets[1]['data_types'] = get_column_dict(datasets[1]['data_types'], right_columns)
-        datasets[0]['field_cats'] = get_column_dict(datasets[1]['field_cats'], right_columns)
+        datasets[1]['field_cats'] = get_column_dict(datasets[1]['field_cats'], right_columns)
+        datasets[1]['index_field'] = right_link.index_field
+        datasets[1]['entity_field'] = right_link.entity_field
 
     for dataset in project_json.get('datasets', []):
         dataset['url'] = settings.DATASTORE_URL + dataset['url']

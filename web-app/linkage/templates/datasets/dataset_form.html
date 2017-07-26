@@ -33,16 +33,6 @@
                 {% if form.instance.pk %}
                     {{ form.data_types }}
                     {{ form.field_cats }}
-                    <label for="{{ form.index_field.id_for_label }}"
-                           class="control-label col-sm-3">{{ form.index_field.label }}</label>
-                    <div class="preview col-sm-9">
-                        {{ form.index_field }}
-                    </div>
-                    <label for="{{ form.entity_field.id_for_label }}"
-                           class="control-label col-sm-3">{{ form.entity_field.label }}</label>
-                    <div class="preview col-sm-9">
-                        {{ form.entity_field }}
-                    </div>
                     <div class="col-sm-12">
                         <legend><h3>Data types</h3></legend>
                         <table id="header-type-table" class="table table-bordered">

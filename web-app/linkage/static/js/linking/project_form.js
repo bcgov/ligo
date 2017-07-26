@@ -18,19 +18,26 @@ $(function () {
 });
 
 function getLeftHeader() {
-    var leftDataset = $('#id_left_data').find("option:selected").text();
-    $('#left-columns-title').text(leftDataset + ' Columns:');
-    getHeader(left_data_id, 'left-header', function(header) {
-        left_header = header;
-    });
+    var selectedDataset = $('#id_left_data').find("option:selected").val();
+    if (selectedDataset) {
+        var leftDataset = $('#id_left_data').find("option:selected").text();
+         console.log('Left Dataset: ', leftDataset);
+        $('#left-columns-title').text(leftDataset + ' Columns:');
+        getHeader(left_data_id, 'left-header', function(header) {
+            left_header = header;
+        });
+    }
 }
 
 function getRightHeader() {
-    var rightDataset = $('#id_right_data').find("option:selected").text();
-    $('#right-columns-title').text(rightDataset + ' Columns:');
-    getHeader(right_data_id, 'right-header', function(header) {
-        right_header = header;
-    });
+    var selectedDataset = $('#id_right_data').find("option:selected").val();
+    if (selectedDataset) {
+        var rightDataset = $('#id_right_data').find("option:selected").text();
+        $('#right-columns-title').text(rightDataset + ' Columns:');
+        getHeader(right_data_id, 'right-header', function(header) {
+            right_header = header;
+        });
+    }
 }
 
 function getHeader(elmnt, class_name, callback) {

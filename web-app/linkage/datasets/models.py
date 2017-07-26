@@ -32,8 +32,6 @@ class Dataset(models.Model):
     name = models.CharField(_('Name of Dataset'), unique=True, max_length=512)
     description = models.TextField(_('Dataset description'), null=True, blank=True)
     format = models.CharField(_('Dataset Format'), max_length=6, choices=dataset_formats, default='CSV')
-    index_field = models.CharField(_('Index Field'), default='id', max_length=255)
-    entity_field = models.CharField(_('Entity identifier Field'), default='entity_id', max_length=255)
     url = models.CharField(_('Name of the dataset file'), max_length=255)
 
     data_types = JSONField(blank=True, null=True)

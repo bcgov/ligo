@@ -113,14 +113,23 @@ class LinkingProjectCreateView(LoginRequiredMixin, CreateView):
 
         # Save linking project data files
         left_dataset = Dataset.objects.get(pk=form.cleaned_data['left_data'].pk)
+        index_field = form.cleaned_data['left_index']
+        entity_field = form.cleaned_data['left_entity']
+
         left_link = LinkingDataset(link_project=new_project,
                                    dataset=left_dataset,
+                                   index_field=index_field,
+                                   entity_field=entity_field,
                                    link_seq=1)
         left_link.save()
 
         right_dataset = Dataset.objects.get(pk=form.cleaned_data['right_data'].pk)
+        index_field = form.cleaned_data['right_index']
+        entity_field = form.cleaned_data['right_entity']
         right_link = LinkingDataset(link_project=new_project,
                                     dataset=right_dataset,
+                                    index_field=index_field,
+                                    entity_field=entity_field,
                                     link_seq=2)
         right_link.save()
 
@@ -137,20 +146,32 @@ class DedupProjectCreateView(LoginRequiredMixin, CreateView):
 
     template_name = 'linking/dedupproject_form.html'
 
+    def form_invalid(self, form):
+        logger.debug(form)
+        print (form)
+        return super(DedupProjectCreateView, self).form_invalid(form)
+
     def form_valid(self, form):
+
+        print (form)
+
         form.instance.type = 'DEDUP'
         new_project = form.save()
 
         # Save linking project data files
         left_dataset = Dataset.objects.get(pk=form.cleaned_data['left_data'].pk)
+        index_field = form.cleaned_data['left_index']
+        logger.debug('Left index: {}'.format(index_field))
         left_link = LinkingDataset(link_project=new_project,
                                    dataset=left_dataset,
+                                   index_field=index_field,
                                    link_seq=1)
         left_link.save()
 
         return super(DedupProjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
+        print (self.object)
         return reverse('linking:edit', kwargs={'type': self.object.type, 'pk': self.object.pk})
 
 
@@ -183,8 +204,8 @@ class ProjectUpdateMixin(object):
             left_link = LinkingDataset.objects.get(link_project=self.object, link_seq=1)
             required_left = []
             if left_link:
-                required_left.append(left_link.dataset.index_field)
-                entity_id = left_link.dataset.entity_field
+                required_left.append(left_link.index_field)
+                entity_id = left_link.entity_field
                 if entity_id:
                     required_left.append(entity_id)
             data['required_left'] = required_left
@@ -193,8 +214,8 @@ class ProjectUpdateMixin(object):
                 right_link = LinkingDataset.objects.get(link_project=self.object, link_seq=2)
                 required_right = []
                 if right_link:
-                    required_right.append(right_link.dataset.index_field)
-                    entity_id = right_link.dataset.entity_field
+                    required_right.append(right_link.index_field)
+                    entity_id = right_link.entity_field
                     if entity_id:
                         required_right.append(entity_id)
 
@@ -221,13 +242,18 @@ class ProjectUpdateMixin(object):
             left_link = LinkingDataset.objects.get(link_project=self.object, link_seq=1)
             if left_link:
                 left_link.columns = form.cleaned_data['left_columns']
+                left_link.index_field = form.cleaned_data['left_index']
                 left_link.dataset = Dataset.objects.get(pk=form.cleaned_data['left_data'].pk)
                 left_link.save()
 
             if self.object.type == 'LINK':
+                if left_link:
+                    left_link.entity_field = form.cleaned_data['left_entity']
                 right_link = LinkingDataset.objects.get(link_project=self.object, link_seq=2)
                 if right_link:
                     right_link.columns = form.cleaned_data['right_columns']
+                    right_link.index_field = form.cleaned_data['right_index']
+                    right_link.entity_field = form.cleaned_data['right_entity']
                     right_link.dataset = Dataset.objects.get(pk=form.cleaned_data['right_data'].pk)
                     right_link.save()
 

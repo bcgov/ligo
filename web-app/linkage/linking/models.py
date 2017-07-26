@@ -63,6 +63,8 @@ class LinkingDataset(models.Model):
     link_project = models.ForeignKey(LinkingProject, on_delete=models.CASCADE)
     link_seq = models.IntegerField()
     columns = JSONField(blank=True, null=True)
+    index_field = models.CharField(_('Index Field'), max_length=255)
+    entity_field = models.CharField(_('Entity identifier Field'), max_length=255, blank=True, null=True)
 
     class Meta:
         ordering = ['link_seq']

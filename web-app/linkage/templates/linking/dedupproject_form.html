@@ -9,9 +9,20 @@
     <fieldset>
         <legend class="text-left">Dataset</legend>
         <div class="row">
-            <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-3">{{ form.left_data.label }}</label>
-            <div class="preview col-sm-9">
+            <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-2">{{ form.left_data.label }}</label>
+            <div class="preview col-sm-4">
                 {{ form.left_data }}
+            </div>
+            <label for="{{ form.left_index.id_for_label }}"
+                   class="control-label col-sm-2">{{ form.left_index.label }}</label>
+            <div class="preview col-sm-4">
+                <select name="left_index" id="id_left_index"
+                        class="left-header form-control">
+                    {% if form.left_index.value %}
+                        <option value="{{ form.left_index.value }}" selected="selected">
+                                {{ form.left_index.value }}</option>
+                    {% endif %}
+                </select>
             </div>
         </div>
     </fieldset>
