@@ -45,11 +45,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">CDI Linking</a>
+            <a class="navbar-brand" href="{% url 'home' %}">CDI Linking</a>
         </div>
         <div class="collapse navbar-collapse" id="cdi-linking-navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{% url 'home' %}">Home</a></li>
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'datasets:list' %}">Datasets</a></li>
                     <li><a href="{% url 'linking:list' %}">Projects</a></li>

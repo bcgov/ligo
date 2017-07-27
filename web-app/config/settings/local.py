@@ -129,3 +129,8 @@ LOGGING = {
 APPEND_SLASH = True
 
 APP_ROOT_URL = env('APP_ROOT_URL', default=None)
+
+# Developer info variables
+# ------------------------------------------------------------------------------
+LINKING_LIB_SOURCE = env('LINKING_LIB_REPO', default='https://github.com/bcgov-c/data-linking')
+LINKING_APP_SOURCE = env('LINKING_APP_REPO', default='https://github.com/bcgov-c/data-linking-ui')

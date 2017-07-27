@@ -31,6 +31,8 @@ def about_view(request):
     logger.info('Application about page.')
     git_commits = get_source_commit()
     data = {
+        'app_source': settings.LINKING_APP_SOURCE,
+        'link_source': settings.LINKING_LIB_SOURCE,
         'app_version': settings.APP_VERSION,
         'link_version': linkapp_info.get('version'),
         'web_commit': git_commits.get('web_source_commit', ''),
