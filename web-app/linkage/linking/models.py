@@ -24,12 +24,6 @@ LINKING_RELATIONSHIPS = (
     ('MT1', 'Many to One'),
 )
 
-BLOKING_COMPARISONS = (
-    ('EXACT', 'Exact'),
-    ('SOUNDEX', 'Soundex'),
-    ('NYSIIS', 'New York State Identification and Intelligence System'),
-)
-
 PROJECT_STATUS = (
     ('DRAFT', 'DRAFT'),
     ('READY', 'Ready'),

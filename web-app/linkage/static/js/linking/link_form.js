@@ -33,7 +33,7 @@ $('#form-steps-container').on('click', '.blocking-vars .block-var-create', funct
              + '<div class="col-sm-10"><div class="preview input-group">'
              + '<select id="block_comp_' + form_index + '_' + rows + '" class="alg form-control"'
              + 'name="block_comp_' + form_index + '_' + rows + '">'
-             + '<option>------------</option>' + transformation + '</select>'
+             + '<option value=""></option>' + transformation + '</select>'
              + '<div class="input-group-btn">'
              + '<button type="button" class="blocking-var-remove btn btn-danger">'
              + '<i class="glyphicon glyphicon-remove"></i></button>'
@@ -42,6 +42,10 @@ $('#form-steps-container').on('click', '.blocking-vars .block-var-create', funct
     $("#" + div_id + " .block-vars-container").append(row_html);
 
     $('#form-steps-container .blocking-vars select').select2({width: 'none'});
+    $('#form-steps-container .blocking-vars .alg').select2({
+        width: 'none',
+        placeholder: "Please select a transformation"
+    });
     return false;
 
 });
@@ -73,7 +77,7 @@ $('#form-steps-container').on('click', '.linking-vars .link-var-create', functio
              + '<div class="col-sm-10"><div class="preview input-group">'
              + '<select id="link_comp_' + form_index + '_' + rows + '" class="alg form-control"'
              + 'name="link_comp_' + form_index + '_' + rows + '">'
-             + '<option>------------</option>' + comparisons + '</select>'
+             + '<option value=""></option>' + comparisons + '</select>'
              + '<div class="input-group-btn">'
              + '<button type="button" class="linking-var-remove btn btn-danger">'
              + '<i class="glyphicon glyphicon-remove"></i></button>'
@@ -83,6 +87,10 @@ $('#form-steps-container').on('click', '.linking-vars .link-var-create', functio
     $("#" + div_id + " .link-vars-container").append(row_html);
 
     $('#form-steps-container .linking-vars select').select2({width: 'none'});
+    $('#form-steps-container .linking-vars .alg').select2({
+        width: 'none',
+        placeholder: "Please select a comparison method"
+    });
     return false;
 });
 

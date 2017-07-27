@@ -6,7 +6,7 @@
         <div class="preview input-group">
             <select id="link_comp_{{ form_index }}_{{ forloop.counter0 }}" class="alg form-control"
                     name="link_comp_{{ form_index }}_{{ forloop.counter0 }}">
-                <option>------------</option>
+                <option value=""></option>
                 {% for item in linking_comparison_choices|get_item:form.linking_method.value %}
                     <option value="{{ item.0 }}" {% if alg.name == item.0 %}
                             selected="selected" {% endif %}>{{ item.1 }}</option>

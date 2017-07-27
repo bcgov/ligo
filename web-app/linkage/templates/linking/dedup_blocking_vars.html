@@ -29,7 +29,7 @@
                     <div class="preview input-group">
                         <select id="block_comp_{{ form_index }}_{{ forloop.counter0 }}" class="alg form-control"
                                 name="block_comp_{{ form_index }}_{{ forloop.counter0 }}">
-                            <option>------------</option>
+                            <option value=""></option>
                             {% for item in blocking_transformation_choices %}
                                 <option value="{{ item.0 }}" {% if alg == item.0 %}
                                         selected="selected" {% endif %}>{{ item.1 }}</option>
