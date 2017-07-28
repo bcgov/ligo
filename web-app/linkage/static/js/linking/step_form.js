@@ -1,12 +1,3 @@
-$(function () {
-    getRightHeader();
-});
-
-$("#" + right_data_id).change(function() {
-    getRightHeader();
-});
-
-
 $('#form-steps-container').on('click', '.blocking-vars .block-var-create', function() {
     var div_id = $(this).parent().parent().attr('id');
     form_index = div_id.slice(-1);
@@ -18,17 +9,25 @@ $('#form-steps-container').on('click', '.blocking-vars .block-var-create', funct
                         + transformation_choices[item][1] + '</option>';
     }
 
+    var dataset_id = left_data_id;
+    var header_class = 'left';
+    if (project_type === 'LINK') {
+        dataset_id = right_data_id;
+        header_class = 'right';
+    }
+
     row_html = '<div class="block-var-row">'
-             + '<div class="row">'
+             + '<div class="row required">'
              + '<label for="block_id_left_' + form_index + '_' + rows + '" class="control-label col-sm-2">Left Variable</label>'
              + '<div class="preview col-sm-4">'
              + '<select id="block_id_left_' + form_index + '_' + rows + '" class="left-header left-blocking-var form-control"'
              + ' name="block_id_left_' + form_index + '_' + rows + '">' + header_options[left_data_id] + '</select></div>'
              + '<label for="block_id_right_' + form_index + '_' + rows + '" class="control-label col-sm-2">Right Variable</label>'
              + '<div class="preview col-sm-4">'
-             + '<select id="block_id_right_' + form_index + '_' + rows + '" class="right-header right-blocking-var form-control"'
-             + ' name="block_id_right_' + form_index + '_' + rows + '">' + header_options[right_data_id] + '</select></div></div>'
-             + '<div class="row">'
+             + '<select id="block_id_right_' + form_index + '_' + rows
+             + '" class="' + header_class + '-header right-blocking-var form-control"'
+             + ' name="block_id_right_' + form_index + '_' + rows + '">' + header_options[dataset_id] + '</select></div></div>'
+             + '<div class="row required">'
              + '<label for="block_comp_' + form_index + '_' + rows + '" class="control-label col-sm-2">Transformation</label>'
              + '<div class="col-sm-10"><div class="preview input-group">'
              + '<select id="block_comp_' + form_index + '_' + rows + '" class="alg form-control"'
@@ -50,29 +49,45 @@ $('#form-steps-container').on('click', '.blocking-vars .block-var-create', funct
 
 });
 
+
+
+$("#form-steps-container").on('click', '.checkbox-label', function() {
+    var target = $(this).attr('for');
+    $("#" + target).prop("checked", !$("#" + target).prop("checked"));
+    return false;
+});
+
 $('#form-steps-container').on('click', '.linking-vars .link-var-create', function() {
     var div_id = $(this).parent().parent().attr('id');
     var form_index = div_id.slice(-1);
     var rows = $("#" + div_id + " .link-var-row").length;
 
+    var dataset_id = left_data_id;
+    var header_class = 'left';
+    if (project_type === 'LINK') {
+        dataset_id = right_data_id;
+        header_class = 'right';
+    }
+
     var step_link_method = $('#id_steps-' + form_index + '-linking_method').val();
     var cmprsnChoices = comparison_choices[step_link_method];
     var comparisons = '';
-    for (item in cmprsnChoices) {
+    for (var item in cmprsnChoices) {
         comparisons += '<option value="' + cmprsnChoices[item][0] + '">' + cmprsnChoices[item][1] + '</option>';
     }
 
     row_html = '<div class="link-var-row">'
-             + '<div class="row">'
+             + '<div class="row required">'
              + '<label for="link_id_left_' + form_index + '_' + rows + '" class="control-label col-sm-2">Left Variable</label>'
              + '<div class="preview col-sm-4">'
              + '<select id="link_id_left_' + form_index + '_' + rows + '" class="left-header left-link-var form-control"'
              + ' name="link_id_left_' + form_index + '_' + rows + '">' + header_options[left_data_id] + '</select></div>'
              + '<label for="link_id_right_' + form_index + '_' + rows + '" class="control-label col-sm-2">Right Variable</label>'
              + '<div class="preview col-sm-4">'
-             + '<select id="link_id_right_' + form_index + '_' + rows + '" class="right-header right-link-var form-control"'
-             + ' name="link_id_right_' + form_index + '_' + rows + '">' + header_options[right_data_id] + '</select></div></div>'
-             + '<div class="row">'
+             + '<select id="link_id_right_' + form_index + '_' + rows
+             + '" class="' + header_class + '-header right-link-var form-control"'
+             + ' name="link_id_right_' + form_index + '_' + rows + '">' + header_options[dataset_id] + '</select></div></div>'
+             + '<div class="row required">'
              + '<label for="link_comp_' + form_index + '_' + rows + '" class="control-label col-sm-2">Comparison Method</label>'
              + '<div class="col-sm-10"><div class="preview input-group">'
              + '<select id="link_comp_' + form_index + '_' + rows + '" class="alg form-control"'

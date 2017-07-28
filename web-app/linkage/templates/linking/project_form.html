@@ -20,7 +20,7 @@
                 <div class="tab-pane active" id="project-main-tab">
                     {%  block main_fields %}
                         {{ form.status }}
-                        <div class="row">
+                        <div class="row required">
                             <label for="{{ form.name.id_for_label }}" class="control-label col-sm-2">{{ form.name.label }}</label>
                             <div class="preview col-sm-10">
                                 {{ form.name }}
@@ -76,4 +76,5 @@
 
     </script>
     <script src="{% static 'js/linking/project_form.js' %}"></script>
+    <script src="{% static 'js/linking/step_form.js' %}"></script>
 {% endblock %}

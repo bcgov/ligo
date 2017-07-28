@@ -2,7 +2,7 @@
 {% if form.id.value %}
     {% for left, right, alg in linking_schema|get_item:form.seq.value %}
         <div class="link-var-row">
-            <div class="row">
+            <div class="row required">
                 <label for="link_id_left_{{ form_index }}_{{ forloop.counter0 }}" class="control-label col-sm-2">Left
                     Variable</label>
                 <div class="preview col-sm-4">
@@ -16,7 +16,11 @@
                     Variable</label>
                 <div class="preview col-sm-4">
                     <select id="link_id_right_{{ form_index }}_{{ forloop.counter0 }}"
-                            class="left-header right-link-var form-control"
+                            {% if type == 'DEDUP' %}
+                                class="left-header right-link-var form-control"
+                            {% else %}
+                                class="right-header right-link-var form-control"
+                            {% endif %}
                             name="link_id_right_{{ form_index }}_{{ forloop.counter0 }}">
                         <option value="{{ right }}" selected="selected">{{ right }}</option>
                     </select>

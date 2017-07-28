@@ -46,11 +46,7 @@
         <div class="tab-content blocking-vars" id="step-{{ form_index }}-tabs">
             <div class="tab-pane active" id="blocking-vars-{{ form_index }}" style="padding-top: 10px; padding-bottom: 5px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; border-top:none">
                 <div class="block-vars-container">
-                    {%  if type == 'LINK' %}
-                        {% include "linking/link_blocking_variables.html" %}
-                    {% else %}
-                        {% include "linking/dedup_blocking_vars.html" %}
-                    {%  endif %}
+                    {% include "linking/blocking_vars.html" %}
                 </div>
                 <div class="text-center">
                     <a href="" class="block-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New variable</a>
@@ -58,11 +54,7 @@
             </div>
             <div class="tab-pane linking-vars" id="linking-vars-{{ form_index }}" style="padding-top: 10px; padding-bottom: 5px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; border-top:none">
                 <div class="link-vars-container">
-                    {%  if type == 'LINK' %}
-                        {% include "linking/link_linking_variables.html" %}
-                    {% else %}
-                        {% include "linking/dedup_linking_vars.html" %}
-                    {%  endif %}
+                    {% include "linking/linking_vars.html" %}
                 </div>
                 <div class="text-center">
                     <a href="" class="link-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New variable</a>

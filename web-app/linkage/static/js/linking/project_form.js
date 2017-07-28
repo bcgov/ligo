@@ -8,6 +8,9 @@ $(function () {
     });
 
     getLeftHeader();
+    if (project_type === 'LINK') {
+        getRightHeader();
+    }
     var total_steps = $("#id_steps-TOTAL_FORMS").val();
     $("#form-steps-container input:checkbox").hide();
 
@@ -86,12 +89,11 @@ function getHeader(elmnt, class_name, callback) {
             }
         }
     );
-};
+}
 
 $("#" + left_data_id).change(function() {
     getLeftHeader();
 });
-
 
 function showSelectedColumns(header, columns, requiredCols) {
     var columnsHtml = '';

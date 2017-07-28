@@ -19,7 +19,7 @@
 {%  block datasets %}
     <fieldset>
         <legend class="text-left">Linking Datasets</legend>
-        <div class="row">
+        <div class="row required">
             <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-2">{{ form.left_data.label }}</label>
             <div class="preview col-sm-4">
                 {{ form.left_data }}
@@ -29,7 +29,7 @@
                 {{ form.right_data }}
             </div>
         </div>
-        <div class="row">
+        <div class="row required">
             <label for="{{ form.left_index.id_for_label }}"
                    class="control-label col-sm-2">{{ form.left_index.label }}</label>
             <div class="preview col-sm-4">
@@ -53,7 +53,7 @@
                 </select>
             </div>
         </div>
-        <div class="row">
+        <div class="row required">
             <label for="{{ form.left_entity.id_for_label }}"
                    class="control-label col-sm-2">{{ form.left_entity.label }}</label>
             <div class="preview col-sm-4">
@@ -89,6 +89,10 @@
        var rightColumns = JSON.parse('{{ form.right_columns.value | jsonify }}') || [];
        header_options[right_data_id] = '';
        var required_right = JSON.parse('{{ required_right  | jsonify }}') || [];
+
+        $("#" + right_data_id).change(function() {
+            getRightHeader();
+        });
+
     </script>
-    <script src="{% static 'js/linking/link_form.js' %}"></script>
 {% endblock %}

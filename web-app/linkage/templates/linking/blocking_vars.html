@@ -1,8 +1,8 @@
 {% load linking_extras %}
 {% if form.id.value %}
     {% for left, right, alg in blocking_schema|get_item:form.seq.value %}
-        <div class="link-var-row">
-            <div class="row">
+        <div class="block-var-row">
+            <div class="row required">
                 <label for="block_id_left_{{ form_index }}_{{ forloop.counter0 }}" class="control-label col-sm-2">Left
                     Variable</label>
                 <div class="preview col-sm-4">
@@ -15,14 +15,18 @@
                 <label for="block_id_right_{{ form_index }}_{{ forloop.counter0 }}" class="control-label col-sm-2">Right
                     Variable</label>
                 <div class="preview col-sm-4">
-                    <select id="bock_id_right_{{ form_index }}_{{ forloop.counter0 }}"
-                            class="right-header right-blocking-var form-control"
+                    <select id="block_id_right_{{ form_index }}_{{ forloop.counter0 }}"
+                            {% if type == 'DEDUP' %}
+                                class="left-header right-blocking-var form-control"
+                            {% else %}
+                                class="right-header right-blocking-var form-control"
+                            {% endif %}
                             name="block_id_right_{{ form_index }}_{{ forloop.counter0 }}">
                         <option value="{{ right }}" selected="selected">{{ right }}</option>
                     </select>
                 </div>
             </div>
-            <div class="row">
+            <div class="row required">
                 <label for="block_comp_{{ form_index }}_{{ forloop.counter0 }}"
                        class="control-label col-sm-2">Transformation</label>
                 <div class="col-sm-10">

@@ -7,7 +7,7 @@
 
 {%  block datasets %}
     <fieldset>
-        <div class="row">
+        <div class="row required">
             <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-2">{{ form.left_data.label }}</label>
             <div class="preview col-sm-4">
                 {{ form.left_data }}
@@ -26,8 +26,3 @@
         </div>
     </fieldset>
 {%  endblock %}
-
-{% block javascript %}
-    {{ block.super }}
-    <script src="{% static 'js/linking/dedup_form.js' %}"></script>
-{% endblock %}
