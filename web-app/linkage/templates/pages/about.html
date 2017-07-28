@@ -8,15 +8,18 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-5"><strong>Version: </strong><samp>{{ data.app_version }}</samp></div>
-                    <div class="col-sm-5 pull-right text-right"><a href="{{ data.app_source }}"><strong>Github</strong></a></div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-4"><strong>Git Commit:</strong></div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
+                        <strong>Version: </strong>
+                        <samp>{{ data.app_version }}</samp>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="{{ data.app_source }}">
+                            <strong>Github</strong>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 pull-right text-right">
                         <a href="{{ data.app_source }}/commit/{{ data.web_commit }}">
-                            <samp>{{ data.web_commit }}</samp>
+                            <strong>Source Commit</strong>
                         </a>
                     </div>
                 </div>
@@ -30,15 +33,18 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-5"><strong>Version: </strong><samp>{{ data.link_version }}</samp></div>
-                    <div class="col-sm-5 pull-right text-right"><a href="{{ data.link_source }}"><strong>Github</strong></a></div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-4"><strong>Git Commit:</strong></div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
+                        <strong>Version: </strong>
+                        <samp>{{ data.link_version }}</samp>
+                    </div>
+                    <div class="col-sm-4">
+                        <a href="{{ data.link_source }}">
+                            <strong>Github</strong>
+                        </a>
+                    </div>
+                    <div class="col-sm-4 pull-right text-right">
                         <a href="{{ data.link_source }}/commit/{{ data.link_commit }}">
-                            <samp>{{ data.link_commit }}</samp>
+                            <strong>Source Commit</strong>
                         </a>
                     </div>
                 </div>

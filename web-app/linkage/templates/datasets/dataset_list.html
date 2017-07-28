@@ -4,26 +4,29 @@
 
 {% block content %}
     <h2>Datasets</h2>
-    <table class="table list-table table-striped">
+    <table class="table table-striped list-table">
         <thead>
         <tr>
-            <th>Name</th>
+            <th style="width: 250px;">Name</th>
             <th>Description</th>
-            <th></th>
+            <th colspan="2"></th>
         </tr>
         </thead>
         <tbody>
         {% for dataset in dataset_list %}
             <tr>
-                <td style="border-right:solid #ddd 1px; vertical-align: middle !important;">{{ dataset.name|capfirst}}</td>
-                <td style="border-right:solid #ddd 1px;">{{ dataset.description|truncatechars:100|capfirst }}</td>
-                <td>
-                    <a href="{% url 'datasets:edit' dataset.pk %}" data-toggle="tooltip" title="Edit Dataset">
-                        <i class="glyphicon glyphicon-pencil"></i>
+                <td style="border-right:solid #ddd 1px; vertical-align: middle !important;">
+                    <a href="{% url 'datasets:edit' dataset.pk %}">
+                        {{ dataset.name|capfirst}}
                     </a>
+                </td>
+                <td style="border-right:solid #ddd 1px;">{{ dataset.description|truncatechars:100|capfirst}}</td>
+                <td style="width: 40px;" class="text-left">
                     <a href="{% url 'datasets:detail' dataset.pk %}" data-toggle="tooltip" title="Preview Dataset">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>
+                </td>
+                <td style="width: 40px;" class="text-right">
                     <a class="text-danger" href="{% url 'datasets:delete' dataset.pk %}" data-toggle="tooltip" title="Delete Dataset">
                         <i class="glyphicon glyphicon-trash"></i>
                     </a>

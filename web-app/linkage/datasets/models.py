@@ -24,9 +24,9 @@ class Dataset(models.Model):
 
     dataset_formats = (
         ('CSV', 'Comma Separated Values'),
-        ('XLSX', 'Microsoft Excel file'),
-        ('JSON', 'JavaScript Object Notation'),
-        ('XML', 'XML')
+        # ('XLSX', 'Microsoft Excel file'),
+        # ('JSON', 'JavaScript Object Notation'),
+        # ('XML', 'XML')
     )
 
     name = models.CharField(_('Name of Dataset'), unique=True, max_length=512)

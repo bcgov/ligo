@@ -45,7 +45,7 @@ class ProjectForm(ModelForm):
         }
         widgets = {
             'name': TextInput(attrs={'class': 'form-control'}),
-            'description': Textarea(attrs={'rows': 5, 'class': 'form-control'}),
+            'description': Textarea(attrs={'rows': 8, 'class': 'form-control'}),
             'status': HiddenInput()
         }
 
@@ -80,7 +80,7 @@ class ProjectForm(ModelForm):
 
 
 class LinkingForm(ProjectForm):
-    right_data = ModelChoiceField(queryset=Dataset.objects.all(), label='right',
+    right_data = ModelChoiceField(queryset=Dataset.objects.all(), label='Right',
                                   widget=Select(attrs={'class': 'form-control'}))
     right_index = CharField(label='Index Field', required=True)
     right_columns = CharField(widget=HiddenInput(), required=False)
@@ -130,7 +130,7 @@ class LinkingForm(ProjectForm):
 
 
 class DedupForm(ProjectForm):
-    left_data = ModelChoiceField(queryset=Dataset.objects.all(), label='Data file',
+    left_data = ModelChoiceField(queryset=Dataset.objects.all(), label='Dataset name',
                                  widget=Select(attrs={'class': 'form-control'}))
 
     class Meta(ProjectForm.Meta):

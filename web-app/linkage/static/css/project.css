@@ -45,6 +45,11 @@
     /*text-align: right */
 }
 
+.list-table tr:last-child td {
+    border-bottom: 1px solid #ddd;
+}
+
+
 .link-var-row {
   border-bottom: 1px dotted #ddd;
   margin-top: 5px;
