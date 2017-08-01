@@ -1,37 +1,30 @@
-FROM python:3.5
-
+FROM python:3.6
 ENV PYTHONUNBUFFERED 1
 
 #Docker file for forming local/dev Django container
+RUN mkdir -p /user_data/media/datasets /user_data/media/linking
+RUN mkdir /tmp/django-email-dev
+# Ownership change not a requirement for local/dev docker environments
+RUN chmod -R 0777 /user_data
 
 # Requirements have to be pulled and installed here, otherwise caching won't work
 COPY ./web-app/requirements /requirements
 RUN pip install -r /requirements/local.txt
 
-COPY ./web-app /linkage
-
 COPY ./web-app/compose/django/entrypoint.sh /linkage/entrypoint.sh
 RUN sed -i 's/\r//' /linkage/entrypoint.sh
 RUN chmod +x /linkage/entrypoint.sh
-
 
 COPY ./web-app/compose/django/start-dev.sh /linkage/start-dev.sh
 RUN sed -i 's/\r//' /linkage/start-dev.sh
 RUN chmod +x /linkage/start-dev.sh
 
-RUN mkdir /user_data
-RUN mkdir /user_data/media
-RUN mkdir  /user_data/media/datasets
-RUN mkdir  /user_data/media/linking
+COPY ./web-app /linkage
 
-#the following change in ownership instructions are not absolutely essential for docker based local/dev env
 #openshift doesn't listen to the user command so we have to 777 everything
-RUN chmod -R 0777 /user_data
-
 RUN chmod -R 777 /linkage
 
-RUN mkdir /tmp/django-email-dev
-RUN chmod  777 -R /tmp
+RUN chmod 777 -R /tmp
 
 WORKDIR /linkage
 
