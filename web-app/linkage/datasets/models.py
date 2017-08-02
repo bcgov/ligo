@@ -1,7 +1,6 @@
 from __future__ import unicode_literals, absolute_import
 
 import pandas as pd
-import numpy as np
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.conf import settings
@@ -11,7 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.fields import JSONField
 
 
-COPLUMN_TYPES = (
+COLUMN_TYPES = (
     ('BOOLEAN', 'Boolean'),
     ('REAL', 'Float'),
     ('INTEGER', 'Integer'),
@@ -30,8 +29,10 @@ class Dataset(models.Model):
     )
 
     name = models.CharField(_('Name of Dataset'), unique=True, max_length=512)
-    description = models.TextField(_('Dataset description'), null=True, blank=True)
-    format = models.CharField(_('Dataset Format'), max_length=6, choices=dataset_formats, default='CSV')
+    description = models.TextField(_('Dataset description'), null=True,
+                                   blank=True)
+    format = models.CharField(_('Dataset Format'), max_length=6,
+                              choices=dataset_formats, default='CSV')
     url = models.CharField(_('Name of the dataset file'), max_length=255)
 
     data_types = JSONField(blank=True, null=True)
@@ -50,7 +51,6 @@ class Dataset(models.Model):
             file_path = settings.DATASTORE_URL + self.url
             df = pd.read_csv(file_path, nrows=1)
             return list(df)
-
 
     def get_absolute_url(self):
         return reverse("datasets:edit", kwargs={"pk": self.pk})

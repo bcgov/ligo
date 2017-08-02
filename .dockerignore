@@ -68,6 +68,7 @@ node_modules/
 
 # virtual environments
 .env
+.venv/
 
 # Compiled Python Files
 *.pyc

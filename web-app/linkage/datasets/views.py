@@ -14,12 +14,12 @@ from linkage.taskapp.tasks import linkage_field_categories
 
 from .forms import DatasetForm, DatasetUpdateForm
 from .logic.preview import get_preview
-from .models import Dataset, COPLUMN_TYPES
+from .models import Dataset, COLUMN_TYPES
 
 logger = logging.getLogger(__name__)
 
-
 FIELD_CATS = linkage_field_categories()
+
 
 class DatasetPreviewMixin(object):
 
@@ -29,12 +29,12 @@ class DatasetPreviewMixin(object):
         ('rand', 'Random Selection')
     )
 
-
     @property
     def preview(self):
 
         previewer = get_preview(self.filename, self.data_format)
-        result = previewer.preview('head', 25, data_types=self.object.data_types)
+        result = previewer.preview('head', 25,
+                                   data_types=self.object.data_types)
         return {
             "len": result['len'],
             "header": result['header'],
@@ -77,10 +77,11 @@ class DatasetUpdateView(LoginRequiredMixin, UpdateView):
         if not self.request.POST:
             data['data_types'] = self.object.data_types
             data['field_cats'] = self.object.field_cats
-            data['COPLUMN_TYPES'] = COPLUMN_TYPES
+            data['COLUMN_TYPES'] = COLUMN_TYPES
             data['FIELD_CATS'] = FIELD_CATS
             previewer = get_preview(self.object.url, 'csv')
-            result = previewer.preview('head', 4, data_types=self.object.data_types)
+            result = previewer.preview('head', 4,
+                                       data_types=self.object.data_types)
             data['columns'] = result['header']
             data['types'] = result['types']
             data['records'] = result['rows']
@@ -119,6 +120,7 @@ def dataset_preview(request):
 
     return render(request, 'datasets/dataset_preview.html', {'preview': data})
 
+
 @csrf_protect
 @login_required
 def dataset_header(request):
@@ -127,10 +129,11 @@ def dataset_header(request):
         dataset = Dataset.objects.get(pk=id)
         fields = dataset.get_fields()
     except Dataset.DoesNotExist as db_err:
-        logger.error('Database error. No dataset with id {0} was found.'.format(id))
+        logger.error('Database error. No dataset with id %s was found.', id)
         fields = None
     except ValueError as value_err:
         logger.error('Database error on fetching record data.')
         fields = None
 
-    return HttpResponse(json.dumps({'header': fields}), content_type="application/json")
+    return HttpResponse(json.dumps({'header': fields}),
+                        content_type="application/json")
