@@ -15,10 +15,8 @@
         <div class="form-horizontal">
             <div class="row" style="margin-left:0;">
                 <p class="form-control-static col-sm-3" style="padding-left:0;" id="row-count">Step: {{ form.seq.value }}</p>
-                <label for="{{ form.linking_method.id_for_label }}" class="control-label col-sm-5">{{ form.linking_method.label }}</label>
-                <div class="col-sm-4">
-                    {{ form.linking_method }}
-                </div>
+                <label for="{{ form.linking_method.id_for_label }}" class="control-label col-sm-5 hidden">{{ form.linking_method.label }}</label>
+                <div class="col-sm-4 hidden">{{ form.linking_method }}</div>
             </div>
             <div class="row" style="margin-top:10px; margin-left:0;">
                 {%  if type == 'DEDUP' %}
@@ -71,7 +69,6 @@
 {% endblock %}
 
 <script type="text/html" id="item-template">
-
     <div id="form-step-__prefix__" style="border-bottom: 1px dotted #ddd; padding-bottom: 10px; margin-bottom: 15px;">
         {{ linking_step_form.empty_form.id }}
         {{ linking_step_form.empty_form.linking_project }}
@@ -84,10 +81,8 @@
         <div class="form-horizontal">
             <div class="row" style="margin-left:0;">
                 <p class="form-control-static col-sm-3" style="padding-left:0;" id="row-count">Step: {{ form.seq.value }}</p>
-                <label for="{{ linking_step_form.empty_form.linking_method.id_for_label }}" class="control-label col-sm-5">{{ linking_step_form.empty_form.linking_method.label }}</label>
-                <div class="col-sm-4">
-                    {{ linking_step_form.empty_form.linking_method }}
-                </div>
+                <label for="{{ linking_step_form.empty_form.linking_method.id_for_label }}" class="control-label col-sm-5 hidden">{{ linking_step_form.empty_form.linking_method.label }}</label>
+                <div class="col-sm-4 hidden">{{ linking_step_form.empty_form.linking_method }}</div>
             </div>
             <div class="row" style="margin-left:0;">
                 {%  if type == 'DEDUP' %}

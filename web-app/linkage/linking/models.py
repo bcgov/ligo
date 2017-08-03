@@ -32,6 +32,7 @@ PROJECT_STATUS = (
     ('FAILED', 'Failed'),
 )
 
+
 class LinkingProject(models.Model):
     name = models.CharField(_('Lnking project name'), unique=True, max_length=512)
     type = models.CharField(_('Project Type'), max_length=10, choices=PROJECT_TYPES, default='LINK')
@@ -51,6 +52,7 @@ class LinkingProject(models.Model):
 
     def get_absolute_url(self):
         return reverse("linking:edit", kwargs={"pk": self.pk})
+
 
 class LinkingDataset(models.Model):
     dataset = models.ForeignKey(Dataset, on_delete=models.CASCADE)
