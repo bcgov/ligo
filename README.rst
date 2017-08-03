@@ -82,7 +82,7 @@ CELERY_BROKER_URL  Example: redis://localhost:6379/0
 
 
 ========================  ===========================================================
-linkage-worker Variables          Description
+linkage-worker Variables  Description
 ========================  ===========================================================
 IN_DOCKER                 1 if Dockerized, 0 otherwise
 C_FORCE_ROOT              Boolean - forces workspace from root directory
@@ -97,6 +97,9 @@ LOGGING_LEVEL             Valid Logging levels: DEBUG, INFO, WARNING, ERROR, CRI
 APP_ROOT_URL              Defines Root URL - Can be left blank
 STATIC_URL                Example: /static/
 ========================  ===========================================================
+
+
+You can use the env.example files as a template for creating your environment variable files.
 
 
 Docker

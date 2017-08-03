@@ -66,6 +66,9 @@ node_modules/
 # Compass
 .sass-cache
 
+# Examples
+*.example
+
 # virtual environments
 .env
 .venv/
