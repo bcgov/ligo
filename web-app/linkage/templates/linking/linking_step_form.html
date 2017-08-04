@@ -2,7 +2,7 @@
 
 {{ linking_step_form.management_form }}
 {% for form in linking_step_form %}
-    {%  with form_index=forloop.counter0 %}
+    {% with form_index=forloop.counter0 %}
     <div id="form-step-{{ forloop.counter0 }}" style="border-bottom: 1px dotted #ddd; padding-bottom: 10px; margin-bottom: 15px;">
         {{ form.id }}
         {{ form.linking_project }}
@@ -14,59 +14,51 @@
         {% endif %}
         <div class="form-horizontal">
             <div class="row" style="margin-left:0;">
-                <p class="form-control-static col-sm-3" style="padding-left:0;" id="row-count">Step: {{ form.seq.value }}</p>
+                <h4 class="form-control-static col-sm-3" style="padding-left:0;" id="row-count">Step: {{ form.seq.value }}</h4>
                 <label for="{{ form.linking_method.id_for_label }}" class="control-label col-sm-5 hidden">{{ form.linking_method.label }}</label>
                 <div class="col-sm-4 hidden">{{ form.linking_method }}</div>
             </div>
+            {% if type == 'DEDUP' %}
             <div class="row" style="margin-top:10px; margin-left:0;">
-                {%  if type == 'DEDUP' %}
-                <label class="control-label pull-left">Group records?</label>
+                <label class="control-label pull-left">Group Records:</label>
                 <div class="toggles">
                     {{ form.group }}
                     <label for="{{ form.group.id_for_label }}" data-off="no" data-on="yes" class="checkbox-label"></label>
                 </div>
-                {%  endif %}
             </div>
+            {% endif %}
         </div>
-        <br/>
-        <div class="form-inline">
-            <div class="pull-right">
-                <a href="" class="btn btn-danger step-delete">
-                    <i class="glyphicon glyphicon-remove"></i>
-                    Delete this step
-                </a>
-            </div>
+        <br />
+        <div class="form-inline pull-right">
+            <a href="" class="btn btn-danger step-delete"><i class="glyphicon glyphicon-remove"></i> Delete Step</a>
         </div>
         <ul class="nav nav-tabs">
-          <li role="presentation" class="active"><a href="#blocking-vars-{{ form_index }}" data-toggle="tab">Blocking Variables</a></li>
-          <li role="presentation"><a href="#linking-vars-{{ form_index }}" data-toggle="tab">Linking Variables</a></li>
+            <li role="presentation" class="active"><a href="#blocking-vars-{{ form_index }}" data-toggle="tab">Blocking Variables</a></li>
+            <li role="presentation"><a href="#linking-vars-{{ form_index }}" data-toggle="tab">Linking Variables</a></li>
         </ul>
         <div class="tab-content blocking-vars" id="step-{{ form_index }}-tabs">
-            <div class="tab-pane active" id="blocking-vars-{{ form_index }}" style="padding-top: 10px; padding-bottom: 5px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; border-top:none">
+            <div class="tab-pane active" id="blocking-vars-{{ form_index }}">
                 <div class="block-vars-container">
                     {% include "linking/blocking_vars.html" %}
                 </div>
                 <div class="text-center">
-                    <a href="" class="block-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New variable</a>
+                    <a href="" class="block-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New Variable</a>
                 </div>
             </div>
-            <div class="tab-pane linking-vars" id="linking-vars-{{ form_index }}" style="padding-top: 10px; padding-bottom: 5px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; border-top:none">
+            <div class="tab-pane linking-vars" id="linking-vars-{{ form_index }}">
                 <div class="link-vars-container">
                     {% include "linking/linking_vars.html" %}
                 </div>
                 <div class="text-center">
-                    <a href="" class="link-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New variable</a>
+                    <a href="" class="link-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New Variable</a>
                 </div>
             </div>
             <div class="clearfix"></div>
         </div>
     </div>
-{% endwith %}
+    {% endwith %}
 {% endfor %}
-
-{% block blocking_vars_template %}
-
-{% endblock %}
+{% block blocking_vars_template %}{% endblock %}
 
 <script type="text/html" id="item-template">
     <div id="form-step-__prefix__" style="border-bottom: 1px dotted #ddd; padding-bottom: 10px; margin-bottom: 15px;">
@@ -80,41 +72,41 @@
         {% endif %}
         <div class="form-horizontal">
             <div class="row" style="margin-left:0;">
-                <p class="form-control-static col-sm-3" style="padding-left:0;" id="row-count">Step: {{ form.seq.value }}</p>
+                <h4 class="form-control-static col-sm-3" style="padding-left:0;" id="row-count">Step: {{ form.seq.value }}</h4>
                 <label for="{{ linking_step_form.empty_form.linking_method.id_for_label }}" class="control-label col-sm-5 hidden">{{ linking_step_form.empty_form.linking_method.label }}</label>
                 <div class="col-sm-4 hidden">{{ linking_step_form.empty_form.linking_method }}</div>
             </div>
+            {% if type == 'DEDUP' %}
             <div class="row" style="margin-left:0;">
-                {%  if type == 'DEDUP' %}
-                <label class="control-label pull-left">Group records?</label>
+                <label class="control-label pull-left">Group Records:</label>
                 <div class="toggles">
                     {{ linking_step_form.empty_form.group }}
                     <label for="id_steps-__prefix__-group" data-off="no" data-on="yes" class="checkbox-label"></label>
                 </div>
-                {%  endif %}
             </div>
+            {% endif %}
         </div>
         <br/>
         <div class="form-inline">
-           <div class="pull-right"><a href="" class="btn btn-danger step-delete"><i class="glyphicon glyphicon-remove"></i> Delete this step</a></div>
+            <div class="pull-right"><a href="" class="btn btn-danger step-delete"><i class="glyphicon glyphicon-remove"></i> Delete Step</a></div>
         </div>
         <ul class="nav nav-tabs">
-          <li role="presentation" class="active"><a href="#blocking-vars-__prefix__" data-toggle="tab">Blocking Variables</a></li>
-          <li role="presentation"><a href="#linking-vars-__prefix__" data-toggle="tab">Linking Variables</a></li>
+            <li role="presentation" class="active"><a href="#blocking-vars-__prefix__" data-toggle="tab">Blocking Variables</a></li>
+            <li role="presentation"><a href="#linking-vars-__prefix__" data-toggle="tab">Linking Variables</a></li>
         </ul>
         <div class="tab-content blocking-vars" id="step-__prefix__-tabs">
-            <div class="tab-pane active" id="blocking-vars-__prefix__" style="padding-top: 10px; padding-bottom: 5px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; border-top:none">
+            <div class="tab-pane active" id="blocking-vars-__prefix__">
                 <div class="block-vars-container">
                 </div>
                 <div class="text-center">
-                    <a href="" class="block-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New variable</a>
+                    <a href="" class="block-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New Variable</a>
                 </div>
             </div>
-            <div class="tab-pane linking-vars" id="linking-vars-__prefix__" style="padding-top: 10px; padding-bottom: 5px; border: 1px solid #ddd; border-radius: 0 0 4px 4px; border-top:none">
+            <div class="tab-pane linking-vars" id="linking-vars-__prefix__">
                 <div class="link-vars-container">
                 </div>
                 <div class="text-center">
-                    <a href="" class="link-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New variable</a>
+                    <a href="" class="link-var-create btn btn-primary"><i class="glyphicon glyphicon-plus"></i> New Variable</a>
                 </div>
             </div>
             <div class="clearfix"></div>

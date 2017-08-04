@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Linking Projects{% endblock %}
-
 {% block messages %}
     {% if messages %}
         {% for message in messages %}
@@ -13,17 +12,15 @@
             </div>
         {% endfor %}
     {% endif %}
-{%  endblock %}
+{% endblock %}
 
 {% block content %}
-  <h2>Projects</h2>
-
+    <h2>Projects</h2>
     <div class="projects-container">
         {% include "linking/projects_list.html" %}
     </div>
-
     <div>
-        <a href="{% url 'linking:type'%}" class="btn btn-primary">Create a new project</a>
+        <a href="{% url 'linking:type'%}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create New Project</a>
     </div>
 {% endblock content %}
 {% block javascript %}

@@ -39,16 +39,15 @@
 
 
 .list-table tr td:last-child {
-    white-space: nowrap;
-    width: 1px;
+  white-space: nowrap;
+  width: 1px;
 
-    /*text-align: right */
+  /*text-align: right */
 }
 
 .list-table tr:last-child td {
-    border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
-
 
 .link-var-row {
   border-bottom: 1px dotted #ddd;
@@ -59,4 +58,16 @@
 .required .control-label:after {
   content:" *";
   color:red;
+}
+
+.tab-content {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 4px 4px;
+  border-top:none;
+}
+
+.tab-pane {
+  padding: 0 15px 0;
 }

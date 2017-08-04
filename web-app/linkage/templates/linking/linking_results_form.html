@@ -1,11 +1,11 @@
-<div id="selected-columns" class="container-fluid">
+<div id="selected-columns" class="row" style="padding: 0 15px 0;">
     <h4 id="left-columns-title"></h4>
-    <div id="selected_left_columns" class="row">
-    </div>
+    <div style="border-bottom: 1px solid #ddd; margin-top: 10px;"></div>
+    <div id="selected_left_columns"></div>
     {% if type == 'LINK' %}
-        <div style="border-bottom: 1px solid #ddd; margin-top: 10px;"></div>
+        <div class="clearfix"></div>
         <h4 id="right-columns-title"></h4>
-        <div id="selected_right_columns" class="row">
-        </div>
+        <div style="border-bottom: 1px solid #ddd; margin-top: 10px;"></div>
+        <div id="selected_right_columns"></div>
     {% endif %}
 </div>

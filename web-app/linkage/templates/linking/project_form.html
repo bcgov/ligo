@@ -3,9 +3,8 @@
 {% load jsonify %}
 
 {% block content %}
-    {% block header %}
-    {%  endblock %}
-        <form class="form-horizontal" id="linking-form"  method="post">
+    {% block header %}{% endblock %}
+        <form class="form-horizontal" id="linking-form" method="post">
             {% csrf_token %}
             {% if type == 'LINK' %}
                 {{ form.right_columns }}
@@ -16,9 +15,9 @@
                 <li role="presentation"><a href="#project-steps" data-toggle="tab">Steps</a></li>
                 <li role="presentation"><a href="#project-results" data-toggle="tab">Results</a></li>
             </ul>
-            <div class="tab-content" style="padding-top: 10px;">
+            <div class="tab-content">
                 <div class="tab-pane active" id="project-main-tab">
-                    {%  block main_fields %}
+                    {% block main_fields %}
                         {{ form.status }}
                         <div class="row required">
                             <label for="{{ form.name.id_for_label }}" class="control-label col-sm-2">{{ form.name.label }}</label>
@@ -32,9 +31,8 @@
                                 {{ form.description }}
                             </div>
                         </div>
-                    {%  endblock %}
-                    {%  block datasets %}
-                    {%  endblock %}
+                    {% endblock %}
+                    {% block datasets %}{% endblock %}
                 </div>
                 <div class="tab-pane" id="project-steps">
                     <fieldset>
@@ -43,9 +41,9 @@
                                 {% include "linking/linking_step_form.html" %}
                             </div>
                             <div class="pull-right">
-                                <a id="step-create" href="" class="btn btn-primary">Add a new step</a>
+                                <a id="step-create" href="" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Add Step</a>
                             </div>
-                       {% endif %}
+                        {% endif %}
                     </fieldset>
                 </div>
                 <div class="tab-pane" id="project-results">
@@ -53,10 +51,9 @@
                 </div>
             </div>
             <div class="form-group preview col-sm-12" style="margin-top: 20px;">
-                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-disk"></i> Save</button>
             </div>
         </form>
-
 {% endblock %}
 
 {% block javascript %}
@@ -73,7 +70,6 @@
        var leftColumns = JSON.parse('{{ form.left_columns.value | jsonify }}') || [];
        var required_left = JSON.parse('{{ required_left  | jsonify }}') || [];
        var project_type = '{{ type }}';
-
     </script>
     <script src="{% static 'js/linking/project_form.js' %}"></script>
     <script src="{% static 'js/linking/step_form.js' %}"></script>
