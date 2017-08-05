@@ -344,8 +344,7 @@ $("#form-steps-container").on('change', '.link-method', function() {
 });
 
 $("#form-steps-container").on('click', '.step-delete', function() {
-
-    var form_id = $(this).parent().parent().parent().attr('id');
+    var form_id = $(this).parent().parent().attr('id');
     var form_index = form_id.slice(10);
     var delete_id = "id_steps-" + form_index + "-DELETE" ;
     $("#" + delete_id).prop('checked', true);
