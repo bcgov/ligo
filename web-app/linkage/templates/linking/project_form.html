@@ -11,9 +11,9 @@
             {%  endif %}
             {{ form.left_columns }}
             <ul class="nav nav-tabs" id="project-tabs">
-                <li role="presentation" class="active"><a href="#project-main-tab" data-toggle="tab">General</a></li>
-                <li role="presentation"><a href="#project-steps" data-toggle="tab">Steps</a></li>
-                <li role="presentation"><a href="#project-results" data-toggle="tab">Results</a></li>
+                <li role="presentation" class="active" id="tab-main"><a href="#project-main-tab" data-toggle="tab">General</a></li>
+                <li role="presentation" class="disabled" id="tab-steps"><a href="#project-steps" data-toggle="tab">Steps</a></li>
+                <li role="presentation" class="disabled" id="tab-results"><a href="#project-results" data-toggle="tab">Results</a></li>
             </ul>
             <div class="tab-content" id="project-tab-content">
                 <div class="tab-pane active" id="project-main-tab">

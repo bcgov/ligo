@@ -29,7 +29,13 @@ $(function () {
         placeholder: "Please select a comparison method"
     });
 
+    $("#project-tabs > li").click(function() {
+        if($(this).hasClass("disabled"))
+            return false;
+    });
+
     stepContinueVisibility();
+    tabDisableState();
 });
 
 function getLeftHeader() {
@@ -369,6 +375,9 @@ $("#step-create").click(function() {
     $("#id_steps-" + count +"-seq").val(count+1);
 
     $('#form-step-' + count + ' .link-method').select2({width: 'none'});
+
+    stepContinueVisibility();
+    tabDisableState();
     return false
 });
 
@@ -510,6 +519,20 @@ function stepContinueVisibility() {
             break;
         default:
             btn.addClass("hidden");
+            break;
+    }
+}
+
+// Tab Flow Context Disable Functionality
+function tabDisableState() {
+    var tab = $("#project-tab-content > .active").attr("id");
+    switch(tab) {
+        case "project-main-tab":
+            ($("#step-create").length > 0) ? $("#tab-steps").removeClass("disabled") : $("#tab-steps").addClass("disabled");
+        case "project-steps":
+            ($("#id_steps-TOTAL_FORMS").val() > 0) ? $("#tab-results").removeClass("disabled") : $("#tab-results").addClass("disabled");
+            break;
+        default:
             break;
     }
 }
