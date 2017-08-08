@@ -29,6 +29,7 @@ $(function () {
         placeholder: "Please select a comparison method"
     });
 
+    stepContinueVisibility();
 });
 
 function getLeftHeader() {
@@ -479,3 +480,36 @@ $("#form-steps-container").on('select2:select', '.block-vars-container .block-va
         $('#' + right_var_id).select2({width: 'none'});
     }
 });
+
+// Continue Button Functionality
+$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function() {
+    stepContinueVisibility();
+})
+
+$("#step-continue").click(function() {
+    var tab = $("#project-tab-content > .active").attr("id");
+    switch(tab) {
+        case "project-main-tab":
+        case "project-steps":
+            $('#project-tabs > .active').next('li').find('a').trigger('click');
+            break;
+        default:
+            break;
+    }
+});
+
+function stepContinueVisibility() {
+    var btn = $("#step-continue");
+    var tab = $("#project-tab-content > .active").attr("id");
+    switch(tab) {
+        case "project-main-tab":
+            ($("#step-create").length > 0) ? btn.removeClass("hidden") : btn.addClass("hidden");
+            break;
+        case "project-steps":
+            ($("#id_steps-TOTAL_FORMS").val() > 0) ? btn.removeClass("hidden") : btn.addClass("hidden");
+            break;
+        default:
+            btn.addClass("hidden");
+            break;
+    }
+}
