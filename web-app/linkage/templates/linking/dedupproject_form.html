@@ -3,9 +3,9 @@
 
 {% block header %}
     <legend><h2>De-Duplication Project</h2></legend>
-{%  endblock %}
+{% endblock %}
 
-{%  block datasets %}
+{% block datasets %}
     <fieldset>
         <div class="row required">
             <label for="{{ form.left_data.id_for_label }}" class="control-label col-sm-2">{{ form.left_data.label }}</label>
@@ -25,4 +25,4 @@
             </div>
         </div>
     </fieldset>
-{%  endblock %}
+{% endblock %}

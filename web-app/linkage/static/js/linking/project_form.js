@@ -42,9 +42,24 @@ $(document).ready(function() {
     else
         $('#project-tabs a:first').tab('show');
 
+    showProjectTitle();
     tabDisableState();
     saveButtonState();
     createContinueButtonState();
+});
+
+// Update button visibility on tab change
+$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function() {
+    showProjectTitle();
+    tabDisableState();
+    createContinueButtonState();
+})
+
+// Continue button functionality
+$("#step-continue").click(function() {
+    var tab = $("#project-tab-content > .active").attr("id");
+    if (tab === "project-main-tab" || tab === "project-steps")
+        $('#project-tabs > .active').next('li').find('a').trigger('click');
 });
 
 // Tab flow - disable functionality
@@ -67,19 +82,6 @@ function tabDisableState() {
             break;
     }
 }
-
-// Update button visibility on tab change
-$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function() {
-    tabDisableState();
-    createContinueButtonState();
-})
-
-// Continue button functionality
-$("#step-continue").click(function() {
-    var tab = $("#project-tab-content > .active").attr("id");
-    if (tab === "project-main-tab" || tab === "project-steps")
-        $('#project-tabs > .active').next('li').find('a').trigger('click');
-});
 
 // Save button visibility
 function saveButtonState() {
@@ -120,6 +122,16 @@ function createContinueButtonState() {
                 break;
         }
     }
+}
+
+// Display project title on steps and results tab
+function showProjectTitle() {
+    var title = $('#id_name').val();
+    var projTitle = $('#project-title');
+    var tab = $("#project-tab-content > .active").attr("id");
+
+    projTitle.text(title);
+    (title !== "" && tab === "project-steps" || tab === "project-results") ? projTitle.removeClass("hidden") : projTitle.addClass("hidden");
 }
 
 function getLeftHeader() {
@@ -447,8 +459,8 @@ $("#step-create").click(function() {
 
     $('#form-step-' + count + ' .link-method').select2({width: 'none'});
 
-    createContinueButtonState();
     tabDisableState();
+    createContinueButtonState();
     return false
 });
 

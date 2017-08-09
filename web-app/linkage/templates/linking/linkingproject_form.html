@@ -4,9 +4,9 @@
 
 {% block header %}
     <legend><h2>Linking Project</h2></legend>
-{%  endblock %}
+{% endblock %}
 
-{%  block main_fields %}
+{% block main_fields %}
     {{ block.super }}
     <div class="row">
         <label for="{{ form.relationship_type.id_for_label }}" class="control-label col-sm-2">{{ form.relationship_type.label }}</label>
@@ -16,7 +16,7 @@
     </div>
 {% endblock %}
 
-{%  block datasets %}
+{% block datasets %}
     <fieldset>
         <legend class="text-left">Linking Datasets</legend>
         <div class="row required">
@@ -59,7 +59,7 @@
             <div class="preview col-sm-4">
                 <select name="left_entity" id="id_left_entity"
                         class="left-header form-control">
-                    {%  if form.left_entity.value %}
+                    {% if form.left_entity.value %}
                         <option value="{{ form.left_entity.value }}" selected="selected">
                                 {{ form.left_entity.value }}</option>
                     {% endif %}
@@ -78,7 +78,7 @@
             </div>
         </div>
     </fieldset>
-{%  endblock %}
+{% endblock %}
 
 {% block javascript %}
     {{ block.super }}
@@ -89,10 +89,8 @@
        var rightColumns = JSON.parse('{{ form.right_columns.value | jsonify }}') || [];
        header_options[right_data_id] = '';
        var required_right = JSON.parse('{{ required_right  | jsonify }}') || [];
-
-        $("#" + right_data_id).change(function() {
-            getRightHeader();
-        });
-
+       $("#" + right_data_id).change(function() {
+          getRightHeader();
+       });
     </script>
 {% endblock %}
