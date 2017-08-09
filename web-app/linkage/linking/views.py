@@ -136,7 +136,7 @@ class LinkingProjectCreateView(LoginRequiredMixin, CreateView):
         return super(LinkingProjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('linking:edit', kwargs={'type': self.object.type, 'pk': self.object.pk})
+        return reverse('linking:edit', kwargs={'type': self.object.type, 'pk': self.object.pk})[:-1] + "#project-steps"
 
 
 class DedupProjectCreateView(LoginRequiredMixin, CreateView):
@@ -148,12 +148,11 @@ class DedupProjectCreateView(LoginRequiredMixin, CreateView):
 
     def form_invalid(self, form):
         logger.debug(form)
-        print (form)
+        print(form)
         return super(DedupProjectCreateView, self).form_invalid(form)
 
     def form_valid(self, form):
-
-        print (form)
+        print(form)
 
         form.instance.type = 'DEDUP'
         new_project = form.save()
@@ -171,8 +170,8 @@ class DedupProjectCreateView(LoginRequiredMixin, CreateView):
         return super(DedupProjectCreateView, self).form_valid(form)
 
     def get_success_url(self):
-        print (self.object)
-        return reverse('linking:edit', kwargs={'type': self.object.type, 'pk': self.object.pk})
+        print(self.object)
+        return reverse('linking:edit', kwargs={'type': self.object.type, 'pk': self.object.pk})[:-1] + "#project-steps"
 
 
 def create_project(request, type):
@@ -221,11 +220,9 @@ class ProjectUpdateMixin(object):
 
                 data['required_right'] = required_right
 
-
         return data
 
     def form_valid(self, form):
-
         context = self.get_context_data()
         linking_step_form = context['linking_step_form']
         if linking_step_form.is_valid():
