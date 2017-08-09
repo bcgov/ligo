@@ -9,7 +9,7 @@ from linkage.datasets.models import Dataset
 
 
 PROJECT_TYPES = (
-    ('DEDEUP', 'De-Duplication'),
+    ('DEDUP', 'De-Duplication'),
     ('LINK', 'Data Linkage')
 )
 
@@ -25,7 +25,7 @@ LINKING_RELATIONSHIPS = (
 )
 
 PROJECT_STATUS = (
-    ('DRAFT', 'DRAFT'),
+    ('DRAFT', 'Draft'),
     ('READY', 'Ready'),
     ('RUNNING', 'In Progress'),
     ('COMPLETED', 'Completed'),

@@ -1,24 +1,24 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-        <legend><h2>Project Type</h2></legend>
-        <form class="form-horizontal" id="type_select-form"  method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="{{ form.type.id_for_label }}" class="col-sm-3 control-label">{{ form.type.label }}</label>
-                <div class="col-sm-5">
-                    {{ form.type }}
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create</button>
-                </div>
+    <legend><h2>Project Type</h2></legend>
+    <form class="form-horizontal" id="type_select-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.type.id_for_label }}" class="col-sm-3 control-label">{{ form.type.label }}</label>
+            <div class="col-sm-5">
+                {{ form.type }}
             </div>
-        </form>
-{%  endblock %}
+            <div>
+                <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
 
 {% block javascript %}
     {{ block.super }}
     <script type="text/javascript">
         $('select').select2({width: 'none'});
-   </script>
+    </script>
 {% endblock %}

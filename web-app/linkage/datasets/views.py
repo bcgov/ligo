@@ -22,7 +22,6 @@ FIELD_CATS = linkage_field_categories()
 
 
 class DatasetPreviewMixin(object):
-
     preview_choices = (
         ('head', 'First rows'),
         ('tail', 'Last rows'),
@@ -57,7 +56,6 @@ class DatasetListView(LoginRequiredMixin, ListView):
 
 class DatasetCreateView(LoginRequiredMixin, CreateView):
     model = Dataset
-
     form_class = DatasetForm
 
     def get_success_url(self):
@@ -66,12 +64,10 @@ class DatasetCreateView(LoginRequiredMixin, CreateView):
 
 class DatasetUpdateView(LoginRequiredMixin, UpdateView):
     model = Dataset
-
     form_class = DatasetUpdateForm
 
     def get_context_data(self, **kwargs):
-
-        logger.info('Data type: '.format(self.object.data_types))
+        logger.info('Data type: %s', self.object.data_types)
 
         data = super(DatasetUpdateView, self).get_context_data(**kwargs)
         if not self.request.POST:
@@ -93,7 +89,6 @@ class DatasetUpdateView(LoginRequiredMixin, UpdateView):
 
 class DatasetDeleteView(LoginRequiredMixin, DeleteView):
     model = Dataset
-
     form_class = DatasetUpdateForm
 
     def get_success_url(self):
@@ -107,7 +102,6 @@ class DatasetDetailView(LoginRequiredMixin, DatasetPreviewMixin, DetailView):
 @csrf_protect
 @login_required
 def dataset_preview(request):
-
     filename = request.POST.get('filename')
     limit = request.POST.get('limit')
     criteria = request.POST.get('criteria')
@@ -116,7 +110,7 @@ def dataset_preview(request):
     data = {
         'header': result['header'],
         'rows': result['rows'],
-    };
+    }
 
     return render(request, 'datasets/dataset_preview.html', {'preview': data})
 
@@ -128,10 +122,10 @@ def dataset_header(request):
     try:
         dataset = Dataset.objects.get(pk=id)
         fields = dataset.get_fields()
-    except Dataset.DoesNotExist as db_err:
+    except Dataset.DoesNotExist:
         logger.error('Database error. No dataset with id %s was found.', id)
         fields = None
-    except ValueError as value_err:
+    except ValueError:
         logger.error('Database error on fetching record data.')
         fields = None
 

@@ -6,9 +6,7 @@ from linkage.taskapp.celery import app
 logger = logging.getLogger(__name__)
 
 
-
 class TaskStatus:
-
     PENDING = 'Pending'
     DONE = 'Done'
     FAILED = 'Failed'
@@ -28,7 +26,6 @@ def get_task_result(task_id):
     :return: The results if the task is completed.
     """
     try:
-
         task = AsyncResult(task_id)
         if task.ready():
             result = task.get(timeout=1)
@@ -39,7 +36,7 @@ def get_task_result(task_id):
         else:
             return TaskStatus.PENDING, None
 
-    except Exception as e:
+    except Exception:
         return TaskStatus.FAILED, None
 
 
