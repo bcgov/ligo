@@ -2,7 +2,7 @@ var left_header = [];
 var right_header = [];
 var status = 'DRAFT';
 
-$(function () {
+$(document).ready(function() {
     $.ajaxSetup({
         headers: { "X-CSRFToken": Cookies.get('csrftoken') }
     });
@@ -29,7 +29,98 @@ $(function () {
         placeholder: "Please select a comparison method"
     });
 
+    // Disable tab links
+    $("#project-tabs > li").click(function() {
+        if($(this).hasClass("disabled"))
+            return false;
+    });
+
+    // Jump to specified tab from hash
+    var hash = window.location.hash;
+    if (hash != "")
+        $('#project-tabs a[href="' + hash + '"]').tab('show');
+    else
+        $('#project-tabs a:first').tab('show');
+
+    tabDisableState();
+    saveButtonState();
+    createContinueButtonState();
 });
+
+// Tab flow - disable functionality
+function tabDisableState() {
+    var stepsTab = $("#tab-steps");
+    var resultsTab = $("#tab-results");
+    var tab = $("#project-tab-content > .active").attr("id");
+
+    switch(tab) {
+        case "project-main-tab":
+            ($("#step-create").length > 0) ? stepsTab.removeClass("disabled") : stepsTab.addClass("disabled");
+        case "project-steps":
+            ($("#id_steps-TOTAL_FORMS").val() > 0) ? resultsTab.removeClass("disabled") : resultsTab.addClass("disabled");
+            break;
+        case "project-results":
+            stepsTab.removeClass("disabled");
+            resultsTab.removeClass("disabled");
+            break;
+        default:
+            break;
+    }
+}
+
+// Update button visibility on tab change
+$(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function() {
+    tabDisableState();
+    createContinueButtonState();
+})
+
+// Continue button functionality
+$("#step-continue").click(function() {
+    var tab = $("#project-tab-content > .active").attr("id");
+    if (tab === "project-main-tab" || tab === "project-steps")
+        $('#project-tabs > .active').next('li').find('a').trigger('click');
+});
+
+// Save button visibility
+function saveButtonState() {
+    var saveBtn = $("#project-save");
+    ($("#step-create").length > 0 && $("#id_steps-TOTAL_FORMS").val() > 0) ? saveBtn.removeClass("hidden") : saveBtn.addClass("hidden");
+}
+
+// Create, Continue button visibility
+function createContinueButtonState() {
+    if ($("#project-save").hasClass("hidden")) {
+        var createBtn = $("#project-create");
+        var contBtn = $("#step-continue");
+        var tab = $("#project-tab-content > .active").attr("id");
+
+        switch(tab) {
+            case "project-main-tab":
+                if ($("#step-create").length > 0) {
+                    createBtn.addClass("hidden");
+                    contBtn.removeClass("hidden disabled");
+                } else {
+                    createBtn.removeClass("hidden");
+                    contBtn.addClass("hidden disabled");
+                }
+                break;
+            case "project-steps":
+                createBtn.addClass("hidden");
+                contBtn.removeClass("hidden");
+                ($("#id_steps-TOTAL_FORMS").val() > 0) ? contBtn.removeClass("disabled") : contBtn.addClass("disabled");
+                break;
+            case "project-results":
+                createBtn.addClass("hidden disabled");
+                contBtn.addClass("hidden");
+                saveButtonState();
+                break;
+            default:
+                createBtn.addClass("hidden disabled");
+                contBtn.addClass("hidden");
+                break;
+        }
+    }
+}
 
 function getLeftHeader() {
     var selectedDataset = $('#id_left_data').find("option:selected").val();
@@ -114,7 +205,6 @@ function showSelectedColumns(header, columns, requiredCols) {
     return columnsHtml;
 }
 
-
 function getVariable(typeSelector, headerSelector, index) {
     var selector = '#' + typeSelector + '-vars-' + index + ' .' + headerSelector;
     var items = [];
@@ -127,15 +217,14 @@ function getVariable(typeSelector, headerSelector, index) {
 }
 
 function blocking_json(index) {
+    schema = {left : [], right: [], transformations: [] };
 
-     schema = {left : [], right: [], transformations: [] };
+    schema.left = getVariable('blocking', 'left-blocking-var', index);
+    schema.right = getVariable('blocking', 'right-blocking-var', index);
 
-     schema.left = getVariable('blocking', 'left-blocking-var', index);
-     schema.right = getVariable('blocking', 'right-blocking-var', index);
-
-     if (schema.left.length == 0) {
-         status = 'DRAFT';
-     }
+    if (schema.left.length == 0) {
+        status = 'DRAFT';
+    }
 
     var trans_selector = "#blocking-vars-" + index + " .alg";
     $(trans_selector).not(".deleted").each(function() {
@@ -146,7 +235,7 @@ function blocking_json(index) {
         schema.transformations.push(selected_val);
     });
 
-   for (var index=0; index < schema.left.length; index++) {
+    for (var index=0; index < schema.left.length; index++) {
         if (!schema.left[index].trim()) {
             status = 'DRAFT';
         }
@@ -156,55 +245,50 @@ function blocking_json(index) {
     }
 
     return JSON.stringify(schema);
-
 }
 
 function linking_json(index) {
+    schema = {left : [], right: [], comparisons: [] };
+    schema.left = getVariable('linking', 'left-link-var', index);
+    schema.right = getVariable('linking', 'right-link-var', index);
 
+    if (schema.left.length == 0) {
+        status = 'DRAFT';
+    }
 
-     schema = {left : [], right: [], comparisons: [] };
+    var link_method = $('#id_steps-' + index + '-linking_method').val();
+    var trans_selector = "#linking-vars-" + index + " .alg";
+    $(trans_selector).not(".deleted").each(function() {
+        var selected_val = $(this).val();
+        if (!selected_val.trim()) {
+            status = 'DRAFT';
+        }
+        var suffix = this.id.slice(9);
 
-     schema.left = getVariable('linking', 'left-link-var', index);
-     schema.right = getVariable('linking', 'right-link-var', index);
-
-     if (schema.left.length == 0) {
-         status = 'DRAFT';
-     }
-
-     var link_method = $('#id_steps-' + index + '-linking_method').val();
-     var trans_selector = "#linking-vars-" + index + " .alg";
-     $(trans_selector).not(".deleted").each(function() {
-         var selected_val = $(this).val();
-         if (!selected_val.trim()) {
-             status = 'DRAFT';
-         }
-         var suffix = this.id.slice(9);
-
-         var comparison = {"name": selected_val};
-         args_list = COMPARISON_ARGS[link_method][selected_val];
-         if (args_list) {
-             args = {};
-             for (index = 0; index < args_list.length; index++) {
-                 arg = {};
-                 arg_id = "link_comp_arg" + suffix + "_" + index;
-                 var arg_val = $("#" + arg_id).val();
-                 var arg_name = $('label[for="' + arg_id + '"]').html();
-                 if (!arg_val.trim()) {
-                     status = 'DRAFT';
-                 }
-                 else {
+        var comparison = {"name": selected_val};
+        args_list = COMPARISON_ARGS[link_method][selected_val];
+        if (args_list) {
+            args = {};
+            for (index = 0; index < args_list.length; index++) {
+                arg = {};
+                arg_id = "link_comp_arg" + suffix + "_" + index;
+                var arg_val = $("#" + arg_id).val();
+                var arg_name = $('label[for="' + arg_id + '"]').html();
+                if (!arg_val.trim()) {
+                    status = 'DRAFT';
+                }
+                else {
                     arg_val = (!isNaN(arg_val)) ? parseFloat(arg_val) : arg_val;
-                 }
-                 args[arg_name] = arg_val;
-             }
+                }
+                args[arg_name] = arg_val;
+            }
+            comparison["args"] = args;
+        }
+        schema.comparisons.push(comparison);
+    });
 
-             comparison["args"] = args;
-         }
-         schema.comparisons.push(comparison);
-     });
 
-
-   for (var index=0; index < schema.left.length; index++) {
+    for (var index=0; index < schema.left.length; index++) {
         if (!schema.left[index].trim()) {
             status = 'DRAFT';
         }
@@ -214,9 +298,7 @@ function linking_json(index) {
     }
 
     return JSON.stringify(schema);
-
 }
-
 
 function getSelectedColumns(selector) {
 
@@ -277,7 +359,6 @@ $("#linking-form").submit(function() {
     return true;
 });
 
-
 $('#form-steps-container').on('click', '.blocking-vars .blocking-var-remove', function() {
     var row = $(this).parent().parent().parent().parent().parent();
     row.find("select, input").addClass( "deleted" );
@@ -295,7 +376,6 @@ $('#form-steps-container').on('click', '.linking-vars .linking-var-remove', func
 });
 
 $("#form-steps-container").on('change', '.link-vars-container .link-var-row .alg', function(){
-
     var select_id = $(this).attr('id');
     var form_index = select_id.slice(10).split('_')[0];
     var step_link_method = $('#id_steps-' + form_index + '-linking_method').val();
@@ -317,7 +397,6 @@ $("#form-steps-container").on('change', '.link-vars-container .link-var-row .alg
 });
 
 $("#form-steps-container").on('change', '.link-method', function() {
-
     var selected_method = $(this).val()
     var form_id = $(this).parent().parent().parent().parent().attr('id');
     var form_index = form_id.slice(-1);
@@ -357,7 +436,6 @@ $("#form-steps-container").on('click', '.step-delete', function() {
     http://stackoverflow.com/questions/21260987/add-a-dynamic-form-to-a-django-formset-using-javascript-in-a-right-way?answertab=votes#tab-top
  */
 $("#step-create").click(function() {
-
     var count = parseInt($('#id_steps-TOTAL_FORMS').val());
     var tmplMarkup = $('#item-template').html();
     var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
@@ -368,11 +446,13 @@ $("#step-create").click(function() {
     $("#id_steps-" + count +"-seq").val(count+1);
 
     $('#form-step-' + count + ' .link-method').select2({width: 'none'});
+
+    createContinueButtonState();
+    tabDisableState();
     return false
 });
 
 $('a[href="#project-results"]').on('click', function() {
-
     var left_vars = [];
     var right_vars = [];
 
@@ -417,7 +497,6 @@ function updateSelectedColumns(columnSet, selectedElem) {
             columnSet.splice(index, 1);
         }
     }
-
 }
 
 $('#selected_left_columns').on('click', ' input:checkbox', function() {
@@ -434,14 +513,12 @@ var previous_block_var;
 
 
 $("#form-steps-container").on('select2:selecting', '.link-vars-container .link-var-row .left-link-var', function(){
-
     // Store the left variable before the change.
     previous_link_var = this.value;
 
 });
 
 $("#form-steps-container").on('select2:select', '.link-vars-container .link-var-row .left-link-var', function(){
-
     if (project_type === 'LINK')  return;
 
     var left_var_id = $(this).attr('id');
@@ -458,14 +535,12 @@ $("#form-steps-container").on('select2:select', '.link-vars-container .link-var-
 
 
 $("#form-steps-container").on('select2:selecting', '.block-vars-container .block-var-row .left-blocking-var', function() {
-
     // Store the left variable before the change.
     previous_block_var = this.value;
 
 });
 
 $("#form-steps-container").on('select2:select', '.block-vars-container .block-var-row .left-blocking-var', function(){
-
     if (project_type === 'LINK')  return;
 
     var left_var_id = $(this).attr('id');
