@@ -1,4 +1,3 @@
-
 $('.project-exec').on('click', function() {
     var view_link = $(this).parent().find('.results-view');
     view_link.hide();
@@ -6,7 +5,6 @@ $('.project-exec').on('click', function() {
     exec_link.hide();
     $(this).parent().parent().find('.status-cell').text('RUNNING');
 });
-
 
 var task_timer = null;
 

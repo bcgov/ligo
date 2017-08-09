@@ -101,10 +101,14 @@ $('#form-steps-container').on('click', '.linking-vars .link-var-create', functio
 
     $("#" + div_id + " .link-vars-container").append(row_html);
 
-    $('#form-steps-container .linking-vars select').select2({width: 'none'});
+    $('#form-steps-container .linking-vars select').select2({
+        width: 'none',
+        sorter: customSorter
+    });
     $('#form-steps-container .linking-vars .alg').select2({
         width: 'none',
-        placeholder: "Please select a comparison method"
+        placeholder: "Select a comparison method",
+        sorter: customSorter
     });
     return false;
 });

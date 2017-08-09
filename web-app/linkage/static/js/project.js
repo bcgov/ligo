@@ -20,3 +20,14 @@ Issues with the above approach:
 */
 $('.form-group').removeClass('row');
 $.fn.select2.defaults.set( "theme", "bootstrap" );
+
+// Mainly used for sorting Select2 drop-downs
+var customSorter = function(data) {
+    return data.sort(function (a, b) {
+        if (a.text > b.text)
+            return 1;
+        if (a.text < b.text)
+            return -1;
+        return 0;
+    });
+}

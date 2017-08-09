@@ -23,7 +23,6 @@ function preview() {
     $.ajax(preview_req);
 };
 
-
 $('#preview-form').on('submit', function(event){
     event.preventDefault();
     preview();

@@ -17,16 +17,21 @@ $(document).ready(function() {
     $('.step-seq').each(function(index) {
         $(this).val(index + 1);
     });
-    $('select').select2({width: 'none'});
+    $('select').select2({
+        width: 'none',
+        sorter: customSorter
+    });
 
     $('#form-steps-container .blocking-vars .alg').select2({
         width: 'none',
-        placeholder: "Please select a transformation"
+        placeholder: "Select a transformation",
+        sorter: customSorter
     });
 
     $('#form-steps-container .linking-vars .alg').select2({
         width: 'none',
-        placeholder: "Please select a comparison method"
+        placeholder: "Select a comparison method",
+        sorter: customSorter
     });
 
     // Disable tab links
@@ -457,7 +462,12 @@ $("#step-create").click(function() {
     $("#id_steps-" + count +"-DELETE").hide();
     $("#id_steps-" + count +"-seq").val(count+1);
 
-    $('#form-step-' + count + ' .link-method').select2({width: 'none'});
+    $('#form-step-' + count + ' .link-method').select2({
+        width: 'none',
+        sorter: function(data) {
+            return data.sort();
+        }
+    });
 
     tabDisableState();
     createContinueButtonState();
@@ -541,10 +551,12 @@ $("#form-steps-container").on('select2:select', '.link-vars-container .link-var-
     // Change the right variable to the new value if left and right variables were the same before the change.
     if (previous_link_var === right_selected_value) {
         $('#' + right_var_id).val($(this).val());
-        $('#' + right_var_id).select2({width: 'none'});
+        $('#' + right_var_id).select2({
+            width: 'none',
+            sorter: customSorter
+        });
     }
 });
-
 
 $("#form-steps-container").on('select2:selecting', '.block-vars-container .block-var-row .left-blocking-var', function() {
     // Store the left variable before the change.
@@ -563,6 +575,9 @@ $("#form-steps-container").on('select2:select', '.block-vars-container .block-va
     // Change the right variable to the new value if left and right variables were the same before the change.
     if (previous_block_var === right_selected_value) {
         $('#' + right_var_id).val($(this).val());
-        $('#' + right_var_id).select2({width: 'none'});
+        $('#' + right_var_id).select2({
+            width: 'none',
+            sorter: customSorter
+        });
     }
 });
