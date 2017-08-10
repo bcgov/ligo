@@ -1,11 +1,19 @@
-.preview {
-    margin-bottom: 10px;
-}
-
 .preview-container {
     border: solid #f7f7f9 5px;
-    padding: 1.0rem;
-    overflow: auto;
+    padding: 1.0rem 1.0rem calc(1.0rem + 20px);
     height: 800px;
-    margin-bottom: 0;
+    margin-bottom: 1.0rem;
+}
+
+#preview-table, #preview-table-topscroll {
+    overflow-y: auto;
+}
+
+#preview-table-topscroll {
+    height: 20px;
+    width: calc(100% - 20px);
+}
+
+#preview-table {
+    height: 100%;
 }

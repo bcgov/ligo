@@ -1,20 +1,18 @@
-
 <table class="table table-striped table-bordered">
-        <thead>
+    <thead>
+        <tr>
+            {% for field in preview.header %}
+                <th>{{ field }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in preview.rows %}
             <tr>
-                {% for field in preview.header %}
-                    <th>{{ field }}</th>
+                {% for item in record %}
+                    <td>{{ item }}</td>
                 {% endfor %}
             </tr>
-        </thead>
-            {% for record in preview.rows %}
-                <tr>
-                    {% for item in record %}
-                        <td>{{ item }}</td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        <tbody>
-
-        </tbody>
+        {% endfor %}
+    </tbody>
 </table>

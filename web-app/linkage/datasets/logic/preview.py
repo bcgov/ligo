@@ -2,6 +2,7 @@ import logging
 import pandas as pd
 import random
 import numpy as np
+import sys
 from django.conf import settings
 
 PD_PSQL_TYPE_MAP = {
@@ -45,10 +46,10 @@ class CSV_Previewer(Previewer):
         super(CSV_Previewer, self).__init__(filename, 'csv')
 
     def preview(self, criteria='head', limit=100, data_types=None):
-
-        from io import StringIO
-        # in Python 2 use
-        # from StringIO import StringIO
+        if sys.version_info[0] < 3:
+            from StringIO import StringIO
+        else:
+            from io import StringIO
 
         def load_with_buffer(filename, skip, **kwargs):
             s_buf = StringIO()
@@ -82,7 +83,7 @@ class CSV_Previewer(Previewer):
 
         # Load the csv file
         file_path = settings.DATASTORE_URL + self.filename
-        self.row_count = sum(1 for row in open(file_path))
+        self.row_count = sum(1 for _ in open(file_path))
 
         if limit > self.row_count:
             limit = self.row_count
@@ -95,7 +96,7 @@ class CSV_Previewer(Previewer):
             'tail': range(1, self.row_count - limit),
             'rand': sorted(random.sample(range(1, self.row_count + 1), self.row_count - limit))
         }
-        skip_list = selection.get(criteria, None)
+        skip_list = selection.get(criteria)
 
         skip_list = np.asarray(skip_list, dtype=np.int64)
         # MAX >= number of rows in the file
@@ -115,6 +116,7 @@ class CSV_Previewer(Previewer):
 
         for (key, value) in result.dtypes.items():
             header_types[key] = PD_PSQL_TYPE_MAP.get(value.name)
+
         return {
             'len': self.row_count,
             'header': list(result),
