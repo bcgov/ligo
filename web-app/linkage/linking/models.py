@@ -46,6 +46,7 @@ class LinkingProject(models.Model):
     status = models.CharField(_('Project Status'), max_length=10, choices=PROJECT_STATUS, default='DRAFT')
     task_id = models.CharField(_('Project task id'), max_length=255, blank=True)
     comments = models.TextField(_('Comments'), blank=True)
+    last_edit_date = models.DateField(_('Last edit date'), auto_now=True)
 
     def __str__(self):
         return self.name

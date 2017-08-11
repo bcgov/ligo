@@ -13,7 +13,6 @@ $(function () {
         headers: { "X-CSRFToken": Cookies.get('csrftoken') }
     });
     checkStatus(total_running);
-    $('[data-toggle="tooltip"]').tooltip();
 });
 
 var updateStatus = function() {

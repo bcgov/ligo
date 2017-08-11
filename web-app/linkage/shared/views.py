@@ -12,9 +12,7 @@ linkapp_info = linkage_linklib_info()
 
 
 def get_source_commit():
-
     logger.info('ROOT_DIR: {0}, APP_DIR: {1}'.format(settings.ROOT_DIR, settings.APPS_DIR))
-
     source_commit_file = os.path.join(settings.ROOT_DIR(), 'git_commits.json')
 
     try:
@@ -23,7 +21,6 @@ def get_source_commit():
 
     except OSError:
         return dict()
-
 
 
 def about_view(request):

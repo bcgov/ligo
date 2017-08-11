@@ -6,22 +6,22 @@
     <h2>Datasets</h2>
     <table class="table table-striped list-table">
         <thead>
-        <tr>
-            <th style="width: 250px;">Name</th>
-            <th>Description</th>
-            <th colspan="2"></th>
-        </tr>
+            <tr>
+                <th style="width: 250px;">Name</th>
+                <th>Description</th>
+                <th style="width: 125px;">Last Edited</th>
+                <th colspan="2">Actions</th>
+            </tr>
         </thead>
         <tbody>
-        {% for dataset in dataset_list %}
+        {% for dataset in dataset_list.all|dictsort:"name" %}
             <tr>
                 <td style="border-right:solid #ddd 1px; vertical-align: middle !important;">
-                    <a href="{% url 'datasets:edit' dataset.pk %}">
-                        {{ dataset.name|capfirst}}
-                    </a>
+                    <a href="{% url 'datasets:edit' dataset.pk %}">{{ dataset.name }}</a>
                 </td>
-                <td style="border-right:solid #ddd 1px;">{{ dataset.description|truncatechars:100|capfirst}}</td>
-                <td style="width: 40px;" class="text-left">
+                <td style="border-right:solid #ddd 1px;">{{ dataset.description|truncatechars:100 }}</td>
+                <td style="border-right:solid #ddd 1px;">{{ dataset.last_edit_date }}</td>
+                <td style="border-right:solid #ddd 1px; width: 40px;" class="text-left">
                     <a href="{% url 'datasets:detail' dataset.pk %}" data-toggle="tooltip" title="Preview Dataset">
                         <i class="glyphicon glyphicon-eye-open"></i>
                     </a>
@@ -39,5 +39,4 @@
     <div>
         <a href="{% url 'datasets:add' %}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Create New Dataset</a>
     </div>
-
 {% endblock content %}

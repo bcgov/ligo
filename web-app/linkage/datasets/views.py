@@ -30,7 +30,6 @@ class DatasetPreviewMixin(object):
 
     @property
     def preview(self):
-
         previewer = get_preview(self.filename, self.data_format)
         result = previewer.preview('head', 25,
                                    data_types=self.object.data_types)

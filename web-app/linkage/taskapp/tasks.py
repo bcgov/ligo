@@ -40,7 +40,6 @@ def get_task_result(task_id):
         return TaskStatus.FAILED, None
 
 
-
 def stop_task(task_id):
 
     AsyncResult(task_id).revoke(terminate=True)
