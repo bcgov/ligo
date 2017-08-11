@@ -27,7 +27,6 @@ class DatasetForm(ModelForm):
 
 
 class DatasetUpdateForm(DatasetForm):
-
     class Meta(DatasetForm.Meta):
 
         fields = DatasetForm.Meta.fields + ['data_types', 'field_cats']
@@ -38,5 +37,3 @@ class DatasetUpdateForm(DatasetForm):
         if self.instance.pk:
             self.fields['data_types'].widget = HiddenInput()
             self.fields['field_cats'].widget = HiddenInput()
-
-

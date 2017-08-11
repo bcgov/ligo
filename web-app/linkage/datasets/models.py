@@ -1,13 +1,13 @@
 from __future__ import unicode_literals, absolute_import
 
 import pandas as pd
+
+from django.conf import settings
+from django.contrib.postgres.fields import JSONField
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.conf import settings
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-
-from django.contrib.postgres.fields import JSONField
 
 
 COLUMN_TYPES = (
@@ -20,7 +20,6 @@ COLUMN_TYPES = (
 
 @python_2_unicode_compatible
 class Dataset(models.Model):
-
     dataset_formats = (
         ('CSV', 'Comma Separated Values'),
         # ('XLSX', 'Microsoft Excel file'),
@@ -34,6 +33,7 @@ class Dataset(models.Model):
     format = models.CharField(_('Dataset Format'), max_length=6,
                               choices=dataset_formats, default='CSV')
     url = models.CharField(_('Name of the dataset file'), max_length=255)
+    last_edit_date = models.DateField(_('Last edit date'), auto_now=True)
 
     data_types = JSONField(blank=True, null=True)
     field_cats = JSONField(blank=True, null=True)
