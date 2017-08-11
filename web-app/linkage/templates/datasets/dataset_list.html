@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for dataset in dataset_list %}
+        {% for dataset in dataset_list.all|dictsort:"name" %}
             <tr>
                 <td style="border-right:solid #ddd 1px; vertical-align: middle !important;">
                     <a href="{% url 'datasets:edit' dataset.pk %}">{{ dataset.name }}</a>
