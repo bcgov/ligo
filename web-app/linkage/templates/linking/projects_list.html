@@ -5,25 +5,27 @@
         <th>Description</th>
         <th>Type</th>
         <th>Status</th>
-        <th colspan="4"></th>
+        <th style="width: 125px;">Last Edited</th>
+        <th colspan="4">Actions</th>
     </tr>
     </thead>
     <tbody>
     {% for project in linkingproject_list %}
         <tr>
             <td style="border-right:solid #ddd 1px; vertical-align: middle !important;" class="name-cell" {% if project.status == 'FAILED' %}rowspan="2"{% endif %}>
-                <a href="{% url 'linking:edit' project.type project.pk %}">{{ project.name|capfirst }}</a>
+                <a href="{% url 'linking:edit' project.type project.pk %}">{{ project.name }}</a>
             </td>
-            <td style="border-right:solid #ddd 1px;" class="description-cell">{{ project.description|truncatechars:100|capfirst }}</td>
-            <td class="type-cell">{{ project.type }}</td>
+            <td style="border-right:solid #ddd 1px;" class="description-cell">{{ project.description|truncatechars:100 }}</td>
+            <td style="border-right:solid #ddd 1px;" class="type-cell">{{ project.type }}</td>
             <td style="border-right:solid #ddd 1px;" class="status-cell">{{ project.status }}</td>
+            <td style="border-right:solid #ddd 1px;">{{ project.last_edit_date }}</td>
             <td style="width: 40px" class="exec-cell text-left">
                 {% if project.status == 'RUNNING'%}
                     <a class="project-exec" href="{% url 'linking:stop_project' project.pk %}" data-toggle="tooltip" title="Stop Project">
                         <i class="glyphicon glyphicon-stop"></i>
                     </a>
                 {% elif project.status != 'DRAFT' %}
-                    <a class="project-exec" href="{% url 'linking:exec'  project.pk %}" data-toggle="tooltip" title="Run Project">
+                    <a class="project-exec" href="{% url 'linking:exec' project.pk %}" data-toggle="tooltip" title="Run Project">
                         <i class="glyphicon glyphicon-play-circle"></i>
                     </a>
                 {% endif %}
@@ -37,7 +39,7 @@
             </td>
             <td style="border-right:solid #ddd 1px; width: 40px" class="action-cell text-right">
                 {% if project.status != 'DRAFT' %}
-                    <a href="{% url 'linking:export'  project.pk %}" data-toggle="tooltip" title="Export to JSON">
+                    <a href="{% url 'linking:export' project.pk %}" data-toggle="tooltip" title="Export to JSON">
                         <i class="glyphicon glyphicon-export"></i>
                     </a>
                 {% endif %}

@@ -21,6 +21,10 @@ Issues with the above approach:
 $('.form-group').removeClass('row');
 $.fn.select2.defaults.set( "theme", "bootstrap" );
 
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
 // Mainly used for sorting Select2 drop-downs
 var customSorter = function(data) {
     return data.sort(function (a, b) {
