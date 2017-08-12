@@ -110,7 +110,9 @@ class CSV_Previewer(Previewer):
             for col_name, col_type in data_types.items():
                 d_types[col_name] = SQL_PANDAS_MAP[col_type]
 
-        result = pd.read_csv(file_path, skiprows=skip_list, skipinitialspace=True, dtype=d_types)
+        # Pandas skiprows version
+        # result = pd.read_csv(file_path, skiprows=skip_list, skipinitialspace=True, dtype=d_types)
+        result = load_with_buffer(file_path, skip_mask, skipinitialspace=True, dtype=d_types)
         result = result.replace(np.nan, '', regex=True)
         header_types = {}
 
