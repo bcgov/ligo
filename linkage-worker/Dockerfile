@@ -8,25 +8,25 @@ RUN mkdir /tmp/django-email-dev
 RUN chmod -R 0777 /user_data
 
 # Install Celery Requirements
-COPY ./linkage-worker/link-server /linkage-worker
-RUN pip install -r /linkage-worker/requirements.txt
+COPY ./linkage-worker/link-server /usr/src/app
+RUN pip install -r /usr/src/app/requirements.txt
 
 # Install Data Linking Requirements
-COPY ./data-linking/requirements /linkage-worker/lib/requirements
-RUN pip install -r /linkage-worker/lib/requirements/base.txt
+COPY ./data-linking/requirements /usr/src/app/lib/requirements
+RUN pip install -r /usr/src/app/lib/requirements/base.txt
 
 # Install Data Linking Packages
-COPY ./data-linking /linkage-worker/lib
-RUN pip install -e /linkage-worker/lib/cdi-linking/
-RUN pip install -e /linkage-worker/lib/linking_ext/
+COPY ./data-linking /usr/src/app/lib
+RUN pip install -e /usr/src/app/lib/cdi-linking/
+RUN pip install -e /usr/src/app/lib/linking_ext/
 
 RUN echo 'django:x:999:999:django:/:/bin/sh' >> /etc/passwd
 
-RUN chown 999:999 -R /linkage-worker
+RUN chown 999:999 -R /usr/src/app
 RUN chown 999:999 -R /user_data
 RUN chown 999:999 -R /tmp
 
 USER "999:999"
-WORKDIR /linkage-worker
+WORKDIR /usr/src/app
 
-ENTRYPOINT ["celery", "-A", "tasks", "worker", "--loglevel=info"]
+ENTRYPOINT celery -A tasks worker --loglevel=info

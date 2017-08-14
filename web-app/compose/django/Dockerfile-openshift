@@ -8,24 +8,24 @@ RUN mkdir /tmp/django-email-dev
 RUN chmod -R 0777 /user_data
 
 # Requirements have to be pulled and installed here, otherwise caching won't work
-COPY ./web-app/requirements /requirements
-RUN pip install -r /requirements/local.txt
+COPY ./web-app/requirements /usr/src/app/requirements
+RUN pip install -r /usr/src/app/requirements/local.txt
 
-COPY ./web-app/compose/django/entrypoint.sh /linkage/entrypoint.sh
-RUN sed -i 's/\r//' /linkage/entrypoint.sh
-RUN chmod +x /linkage/entrypoint.sh
+COPY ./web-app/compose/django/entrypoint.sh /usr/src/app/entrypoint.sh
+RUN sed -i 's/\r//' /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
-COPY ./web-app/compose/django/start-dev.sh /linkage/start-dev.sh
-RUN sed -i 's/\r//' /linkage/start-dev.sh
-RUN chmod +x /linkage/start-dev.sh
+COPY ./web-app/compose/django/start-dev.sh /usr/src/app/start-dev.sh
+RUN sed -i 's/\r//' /usr/src/app/start-dev.sh
+RUN chmod +x /usr/src/app/start-dev.sh
 
-COPY ./web-app /linkage
+COPY ./web-app /usr/src/app
 
 #openshift doesn't listen to the user command so we have to 777 everything
-RUN chmod -R 777 /linkage
+RUN chmod -R 777 /usr/src/app
 
 RUN chmod 777 -R /tmp
 
-WORKDIR /linkage
+WORKDIR /usr/src/app
 
-ENTRYPOINT ["/linkage/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]

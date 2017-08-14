@@ -8,31 +8,31 @@ RUN mkdir /tmp/django-email-dev
 RUN chmod -R 0777 /user_data
 
 # Requirements have to be pulled and installed here, otherwise caching won't work
-COPY ./web-app/requirements /requirements
-RUN pip install -r /requirements/local.txt
+COPY ./web-app/requirements /usr/src/app/requirements
+RUN pip install -r /usr/src/app/requirements/local.txt
 
-COPY ./web-app/compose/django/entrypoint.sh /linkage/entrypoint.sh
-RUN sed -i 's/\r//' /linkage/entrypoint.sh
-RUN chmod +x /linkage/entrypoint.sh
+COPY ./web-app/compose/django/entrypoint.sh /usr/src/app/entrypoint.sh
+RUN sed -i 's/\r//' /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
-COPY ./web-app/compose/django/start-dev.sh /linkage/start-dev.sh
-RUN sed -i 's/\r//' /linkage/start-dev.sh
-RUN chmod +x /linkage/start-dev.sh
+COPY ./web-app/compose/django/start-dev.sh /usr/src/app/start-dev.sh
+RUN sed -i 's/\r//' /usr/src/app/start-dev.sh
+RUN chmod +x /usr/src/app/start-dev.sh
 
-COPY ./web-app /linkage
+COPY ./web-app /usr/src/app
 
 RUN echo 'django:x:999:999:django:/:/bin/sh' >> /etc/passwd
 
-RUN chown 999:999 /linkage/entrypoint.sh
-RUN chown 999:999 /linkage/start-dev.sh
+RUN chown 999:999 /usr/src/app/entrypoint.sh
+RUN chown 999:999 /usr/src/app/start-dev.sh
 
-RUN chown 999:999 -R /linkage
+RUN chown 999:999 -R /usr/src/app
 RUN chown 999:999 -R /user_data
 RUN chown 999:999 -R /tmp
 
 #USER django
 USER "999:999"
 
-WORKDIR /linkage
+WORKDIR /usr/src/app
 
-ENTRYPOINT ["/linkage/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
