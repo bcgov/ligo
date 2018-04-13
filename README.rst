@@ -3,7 +3,7 @@ LIGO
 
 |Cookiecutter| |nbsp| |License|
 
-Ligo, an open source application, that provides an easy-to-use web interface that lets analysts
+Ligo an open source application that provides an easy-to-use web interface that lets analysts
 select among a number of data linking methods and use these in a documented, repeatable, tested,
 step-by-step process to deduplicate and match administrative records.
 
@@ -18,7 +18,6 @@ Currently, deterministic approaches to linking have been implemented and probabi
 in alpha testing. The high-level application road-map anticipates the inclusion of machine learning
 extensions in future releases.
 
-''
 
 
 **LIGO** will help you:
@@ -40,6 +39,11 @@ Features
 * Results in CSV and PDF for easy processing / viewing
 * Can run in both offline workstations and cloud environments
 * Supports running concurrent sessions on cloud infrastructure.
+
+Documentation
+-------------
+A very basic user manual has been started. Feel free to contribute to it here //docs/ 
+
 
 
 Errors / Bugs
