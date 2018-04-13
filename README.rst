@@ -1,11 +1,27 @@
-Data Linking UI
+LIGO
 ===============
 
 |Cookiecutter| |nbsp| |License|
 
-The Linking Project is a Django application that uses highly configurable matching criteria to perform deduplication and linking on datasets.
+Ligo, an open source application, that provides an easy-to-use web interface that lets analysts
+select among a number of data linking methods and use these in a documented, repeatable, tested,
+step-by-step process to deduplicate and match administrative records.
 
-**The Linking Project** will help you:
+Ligo's framework for managing data linking projects is extensible to allow for the addition of new
+methodologies and algorithms in the completion of administrative data linking projects.
+
+Built in Python and implemented as a desktop-capable and cloud-deployable containerized application,
+Ligo includes many of the latest data-linking comparison algorithms with a plugin architecture that
+supports the simple addition of new formulae and methods.
+
+Currently, deterministic approaches to linking have been implemented and probabilistic methods are
+in alpha testing. The high-level application road-map anticipates the inclusion of machine learning
+extensions in future releases.
+
+''
+
+
+**LIGO** will help you:
 
 * Identity common entities in a CSV formatted dataset [de-duplication]
 * Identify common entities between two CSV formatted datasets [linking]
@@ -14,20 +30,22 @@ The Linking Project is a Django application that uses highly configurable matchi
 Features
 --------
 
-* Support for deterministic linking with probabilistic linking coming soon
+* Support for deterministic linking with probabilistic linking underway
 * Support for multi-step projects
     * Each step allows you to define a specific blocking (filtering the search space) and linking criteria
     * For de-duplication, you can choose the step(s) where entities are identified (i.e., you can join multiple de-duplication steps)
     * You can have multiple records representing the same entity; the software links entities (not records). At each step, only not-linked entities are evaluated.
-* Comparison rules such as SoundEx, Levenshtein and Jaro-Winkler allow you to tailor matching criteria for individual fields 
+* Comparison rules such as SoundEx, Levenshtein and Jaro-Winkler allow you to tailor matching criteria for individual fields
 * Designed for handling large datasets
 * Results in CSV and PDF for easy processing / viewing
+* Can run in both offline workstations and cloud environments
+* Supports running concurrent sessions on cloud infrastructure.
 
 
 Errors / Bugs
 -------------
 
-If something is not behaving intuitively, it is likely a bug, and `should be reported <https://github.com/bcgov-c/data-linking-ui/issues>`_
+If something is not behaving intuitively, it is likely a bug, and `should be reported <https://github.com/bcgov/LIGO/issues>`_
 
 
 Dependencies
@@ -37,7 +55,7 @@ Since we depend on the data-linking library, we must acquire a copy of the data-
 
 .. code:: sh
 
-    git checkout git@github.com:bcgov-c/data-linking.git
+    git checkout git@github.com:bcgov/data-linking.git
 
 
 Then use the following commands in the application root directory to install the remaining python library requirements:
@@ -60,7 +78,7 @@ Installation
 Folder Structure
 ~~~~~~~~~~~~~~~~
 
-The data-linking-ui expects data files and resources in certain pre-defined locations. Run the following command in the application root:
+Ligo expects data files and resources in certain pre-defined locations. Run the following command in the application root:
 
 .. code:: sh
 
@@ -123,20 +141,19 @@ Setting Up Your Users
 
 * To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
 
-* To create an **superuser account**, use this command:
+* To create an **superuser account**, (that allows for the management of users) use this command:
 
 .. code:: python
 
     python manage.py createsuperuser
 
 
-For convenience, you could keep your normal user logged in on Chrome and your superuser logged in on Firefox (or similar), so that you can see how the site behaves for both kinds of users.
 
 
 Database Migration
 ~~~~~~~~~~~~~~~~~~
 
-The data-linking-ui web application uses postgresql linkage database for managing datasets and linking projects. To migrate the database, on the application root directory run:
+Ligo  uses PostgreSQL  for managing datasets and linking projects. To migrate the database, on the application root directory run:
 
 .. code:: python
 
