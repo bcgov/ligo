@@ -55,11 +55,11 @@ If something is not behaving intuitively, it is likely a bug, and `should be rep
 Dependencies
 ------------
 
-Since we depend on the data-linking library, we must acquire a copy of the data-linking repository and store it in  the application root under data-linking. Run the following in the application root:
+Since we depend on the data-linking library, we must acquire a copy of the ligo-lib repository and store it in  the application root under data-linking. Run the following in the application root:
 
 .. code:: sh
 
-    git checkout git@github.com:bcgov/data-linking.git
+    git checkout git@github.com:bcgov/ligo-lib.git
 
 
 Then use the following commands in the application root directory to install the remaining python library requirements:
