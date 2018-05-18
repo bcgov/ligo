@@ -78,6 +78,14 @@ For production environment use:
 
 Installation
 ------------
+Warning: Despite the use of Django accounts to support multi-user linking project
+management, Ligo is not designed to provide any security to prevent access to data or controls. 
+The application should only be used within an access controlled desktop environment or behind a 
+web firewall that limits access to trusted parties. Do NOT rely on user accounts to protect data.
+
+The application has been containerized to support repeatablity in development processes and 
+deployment - a refactoring to support leveraging scaling within a Kubernetes cluster is in the roadmap.
+
 
 Folder Structure
 ~~~~~~~~~~~~~~~~
