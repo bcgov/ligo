@@ -19,7 +19,11 @@ services:
     build:
       context: .
       dockerfile: ./linkage-worker/Dockerfile
-    env_file: ./linkage-worker/.env
+    #env_file: ./linkage-worker/.env
+    environment:
+      IN_DOCKER=1
+      C_FORCE_ROOT=true
+      CELERY_BROKER_URL=redis://redis:6379/0
     depends_on:
       - redis
     volumes:
@@ -42,7 +46,21 @@ services:
       dockerfile: ./web-app/compose/django/Dockerfile-dev
     ports:
       - "8002:8000"
-    env_file: ./web-app/config/settings/.env
+    #env_file: ./web-app/config/settings/.env
+    environment:
+      - IN_DOCKER=1
+      - C_FORCE_ROOT=true
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - LINK_DB_NAME=postgres
+      - LINK_DB_USER=postgres
+      - LINK_DB_HOST=postgres2
+      - LINK_DB_PORT=5432
+      - LINK_DB_SERVICE=postgres
+      - LINK_DB_PASSWORD=
+      - LOGGING_LEVEL=DEBUG
+      - STATIC_URL=/static/
+      - APP_ROOT_URL=
+
     depends_on:
       - postgres2
     #environment:
@@ -55,12 +73,7 @@ services:
     volumes:
       - ./files/:/user_data
     command:
-      #for testing
-      #sh -c 'echo \"hello\" > /linkage/media/sk_test.csv' &&
-      #python manage.py runserver  0.0.0.0:8000
       /bin/bash start-dev.sh
-      #for testing
-      #  #bash -c "while ! /usr/local/bin/nc -w 1 -z postgres 5452; do sleep 0.1; done; ./manage.py migrate; while :; do ./manage.py runserver_plus 0.0.0.0:8000; sleep 1; done"
 
 volumes:
   files:
