@@ -6,7 +6,6 @@ worker containers with separate code base using docker-compose.
 
 Inspired by https://github.com/itsrifat/flask-celery-docker-scale to create celery worker with separate code base.
 
-:License: MIT
 
 
 Settings
