@@ -20,5 +20,5 @@ before_install:
   #well it performs   
   - docker-compose --version
   - docker-compose build
-  - docker-compose start
+  - docker-compose up
   - docker ps
