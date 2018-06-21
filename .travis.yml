@@ -20,12 +20,12 @@ before_install:
   #well it performs   
   - docker-compose --version
   - docker -v
-  - fuser -k 5432/tcp
+  #- fuser -k 5432/tcp
 
 script:
   #- docker-compose -f docker-compose.yml up -d
-  #- docker-compose build #creating image
-  - docker-compose up 
+  - docker-compose build #creating image
+  #- docker-compose up 
   - docker images | grep -q 'web\|celery\|redis\|postgres2'
 
 deploy:
