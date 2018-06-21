@@ -23,8 +23,8 @@ before_install:
 
 script:
   #- docker-compose -f docker-compose.yml up -d
-  - docker-compose build #creating image
-  - docker-compose up #create containers
+  #- docker-compose build #creating image
+  - docker-compose up --build #builds images and starts containers
 
   - docker ps | grep -q 'web\|celery\|redis\|postgres2'
 
