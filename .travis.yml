@@ -9,23 +9,17 @@ services:
 
 before_install:
   #- sudo apt-get update
-  #- sudo apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y docker-engine
   - sudo rm -f /usr/local/bin/docker-compose
 
   - curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-  #commented out the above to see the docker-compose version as is on Travis and how
-  #well it performs   
   - docker-compose --version
   - docker -v
-  #- fuser -k 5432/tcp
 
 script:
-  #- docker-compose -f docker-compose.yml up -d
   - docker-compose build #creating image
-  #- docker-compose up 
   - docker images | grep -q 'web\|celery\|redis\|postgres2'
 
 deploy:
@@ -38,5 +32,4 @@ deploy:
 env:
   DOCKERHUB_PASSWORD:
     secure: fDVGwEV8oY0zE9OwBHD6AYcNbpb4OBY4YH7lETYzpZc57ufCO/54uIu9ioXW7QzMM16Gg2MpbJGQhkReIvWyWXwHEdtUkenVKe+Agv61VjVHPTXCmFCodNXMcWsIoxFnvj2Yj6wJqlLabVE3JHajpuaktWOjTfJHXuBBc2HVoWN6i2arzaZrrLC2Jk7tvHpjYRTMgy40wD/DCxNDpM9k8YsDJZbVP0VQUs/x3bPcz7I/7DZHnuMB2k0MWgNcknWmUuqrNRR6Ya41p82B48r7fHDmr3Lpmbh+45bqqPkiQ7VTNOopBwkAlDwI3w6/UXsbzr5JOVl75i8X1+OVV3+w6bq8ceQ9Jicyt7w7rJKGlnOHcDH+rS0zKQhkzn2nGYSGRP0cPjgnJf/P2FMWY49EF2Nlxq4POksBGk3Nk6t9zvsJVyictpzh1xDdAL/KU0QhcZzLNHjYFn+V7eMjBe+zD8Q0zKDQ5dAOGQ2DL9eIcWTGBrV8oB2G1KYCFXcRfVOekN05XHSOogvbo5LKbGuN34/lMDvGFwYgzPIWMhwRozxK4upXXJ7AgrTHrQZHf4QgltqK/cB31KGGi44OdXTAXh4FfS4GWWuLdJxB6WefUjJfwDbW2AckXEYqEuqRtgRvysV7U3xI0lSaYrzyd3dYGPCWESk7KU8N71meXfmREyg=
-  DOCKERHUB_USERNAME:
-    NovaVic
+  DOCKERHUB_USERNAME: NovaVic
