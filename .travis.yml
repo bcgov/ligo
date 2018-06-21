@@ -20,7 +20,7 @@ before_install:
 
 script:
   - docker-compose build #creating image
-  - docker images | grep -q 'web\|celery\|redis\|postgres2'
+  - docker images | grep 'web\|celery\'
 
 deploy:
   provider: script
