@@ -24,8 +24,7 @@ before_install:
 script:
   #- docker-compose -f docker-compose.yml up -d
   #- docker-compose build #creating image
-  - docker-compose up --build #builds images and starts containers
-
+  - docker-compose up -d --force-recreate
   - docker ps | grep -q 'web\|celery\|redis\|postgres2'
 
 deploy:
