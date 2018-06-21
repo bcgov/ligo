@@ -20,11 +20,12 @@ before_install:
   #well it performs   
   - docker-compose --version
   - docker -v
-  #- docker-compose build #creating image
-  #- docker-compose up #create containers
 
 script:
-  - docker-compose -f docker-compose.yml up -d
+  #- docker-compose -f docker-compose.yml up -d
+  - docker-compose build #creating image
+  - docker-compose up #create containers
+
   - docker ps | grep -q 'web\|celery\|redis\|postgres2'
 
 deploy:
