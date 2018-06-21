@@ -54,7 +54,7 @@ services:
       - LINK_DB_NAME=postgres
       - LINK_DB_USER=postgres
       - LINK_DB_HOST=postgres2
-      #- LINK_DB_PORT=5432
+      - LINK_DB_PORT=5432
       - LINK_DB_SERVICE=postgres
       - LINK_DB_PASSWORD=
       - LOGGING_LEVEL=DEBUG
