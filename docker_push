@@ -1,4 +1,4 @@
 #!/bin/bash
 echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
-docker push NovaVic/novavicligo_web
-docker push NovaVic/novavicligo_celeryworker
+docker push novavic/ligo_web
+docker push novavic/ligo_celeryworker
