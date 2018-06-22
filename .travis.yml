@@ -1,27 +1,25 @@
 sudo: required
 language: python
 python:
-- '3.6'
+  - '3.6'
 services:
-- docker
+  - docker
 before_install:
-- sudo rm -f /usr/local/bin/docker-compose
-- curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname
-  -s`-`uname -m` > docker-compose
-- chmod +x docker-compose
-- sudo mv docker-compose /usr/local/bin
-- docker-compose --version
-- docker -v
+  - sudo rm -f /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname-s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose --version
+  - docker -v
 script:
-- docker-compose build
-- docker images | grep 'web\|celery'
+  - docker-compose build
+  - docker images | grep 'web\|celery'
 deploy:
   provider: script
   script: bash docker_push
   on:
     branch: master
-#env:
-  #DOCKERHUB_USERNAME: NovaVic
-  #DOCKERHUB_PASSWORD:
-  #  secure: 
-#KZg72GMgXX1RCuQeegKbamV2AD2Sc9jqMERznc7eEuJlCsmlg+2gTBAFpkoQF4MkMxQ9oGA0xk6z9QHmuU7LFdFMumA0VqpmGwCETvUWULcKY8H72TDILPY5WelmGhL1beZeVpYdLKnFon40Jogcf40ddU7SEMNkiLwubHhGML/s9vVniODljHk1NX1mLjPYJThUZ1p8pYV+T8qfua4Z0WcLN85wFttqOkxi5CTI4dG2jK++VahvIwYD1o+Z7dGfqWNIQ6F/jPQxQ/FhGzOTz8HDQWAzJWtB6wj/BCBcTrNkI7qJ4/oVF4bwiAJng03AqiVQ08NQGSRMtpzgcxQy8YKeB8k7PBf5WJFP1yz00t+Fon0BegxqWn7M7p6WyXNw2SZ+LExnEc4qrvdv1TdFIg+amvE9VRUKgi8rMRiCPaeeQ/0XZkSrGyZQn6sXzbowyF97HxIOx+u18jACauvWKYcQC1hfnEQsc16llvoNjfGtHhEuDjHtoiqsQyx6xK2BLRc00BrBpV5v6a6Ax8/rL8b5De40atpTTPTMOGZgnfuyRbquDLzYxDl1IoIZElLGq5bwLpK1V8BrASg6xVTsS/+9zO/1SjcAC6NWoB884XCReGmKo1oaa5jVf3Iny7I9Y/kHF6g97yJwzIZC9CZiNEkv8nBPNXNAwTg81e/jn94=
+env:
+  DOCKERHUB_USERNAME: novavic
+  DOCKERHUB_PASSWORD: 
+    secure: sBmxSVSlKsz5RzrrHknGgaAcp65lNpSXfROXBXpL8TiGrO45Xfu2g+E7/7GqGedt26xgDG4m0X0WRc/pcezv4RXtx4ltmSEKe139dwc2KBZXB+ldXoQ6ahE/dNMZ1Q1PZMIzZaAbIBT9HYdq8GGEnU/WmXYwSjOsT2TNLUp4DWHHP4UvQ9XkQjPyUlBAhaAVWfO5N/zxi99PyHxxoZkbr1RJPnlGCERepokL99cRRL2zOM1XhjzOdSrmt2T3PRcnratFsXK5lCrkNC8/H17hShid4a6H+VK9CzMRUsnoNOPo8nb+LZB9ptxY5hERkKriT1pel41eWb2PxnVrBXUy7ZzQhAfwWpvAbV4sI+cMJE/Dv6wG/Y6BIJRKEa1KfxadPlU/dqxHy87XbYR/bFJ/m8IdzDdJmfiPAi+G/Jb1Jr3xyRU5DsutQNMlcses6XGdXUnKBhJv3h0bhaoU39Sl+Z5yMaTHPCaFQh7oX5dqEJ0LGfg8oUMdycZIMbNuY/EAdYb8gAx3vA+XM0C/o9AhBNPUfgSJMFEGBm9tiGUOFPbFLsdWVoK6GR066822qL1/9rzImuYHWVY36pUb+cfiYux2opHDnoRMPPTZnoERtNpRZJC5jFPYM3ek4GCQHQDUJaZd2owOuWBmn7e9Y98pivG7RY3UTblBMLhnUhHNtL0=
