@@ -2,7 +2,7 @@
 echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
 
 #docker login -u "$DOCKERHUB_USERNAME" -p  "$DOCKERHUB_PASSWORD"
-docker tag  ligo_web novavic/ligo_web
+docker tag  ligo_web  hub.docker.com/novavic/ligo_web
 docker push hub.docker.com/novavic/ligo_web:latest
 #docker tag ligo_celeryworker novavic/ligo_celeryworker
 #docker push hub.docker.com/novavic/ligo_celeryworker:latest
