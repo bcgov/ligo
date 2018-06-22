@@ -5,4 +5,4 @@ echo "$DOCKERHUB_PASSWORD" | docker login https://index.docker.io/v1/  -u "$DOCK
 docker tag  ligo_web  novavic/ligo_web
 docker push novavic/ligo_web:latest
 docker tag ligo_celeryworker novavic/ligo_celeryworker
-docker push hub.docker.com/novavic/ligo_celeryworker:latest
+docker push novavic/ligo_celeryworker:latest
