@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Django settings for CDI Linking project.
+Django settings for Ligo Linking project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/dev/topics/settings/
