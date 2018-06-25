@@ -26,6 +26,15 @@ extensions in future releases.
 * Identify common entities between two CSV formatted datasets [linking]
 
 
+
+Build
+-----
+
+.. image:: https://travis-ci.org/NovaVic/ligo.svg?branch=master
+    :target: https://travis-ci.org/NovaVic/ligo
+
+
+
 Features
 --------
 
