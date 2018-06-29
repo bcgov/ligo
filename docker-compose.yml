@@ -15,10 +15,9 @@ services:
     # exposing host post 5432 (LHS) to postgres container called "postgres2"'s
     # port 5432 (RHS)
 
+
   celeryworker:
-    build:
-      context: .
-      dockerfile: ./linkage-worker/Dockerfile
+    image: novavic/ligo_celeryworker:latest
     #env_file: ./linkage-worker/.env
     environment:
       - IN_DOCKER=1
@@ -39,11 +38,10 @@ services:
     #   command: celery -A linkage.taskapp worker -l DEBUG
     # command: celery -A linkage.taskapp worker -l DEBUG
 
+  #not so technical user (pulling image instead of building) focused docker compose file
   web:
     #restart: always
-    build:
-      context: .
-      dockerfile: ./web-app/compose/django/Dockerfile-dev
+    image: novavic/ligo_web:latest
     ports:
       - "8002:8000"
     #env_file: ./web-app/config/settings/.env
