@@ -12,12 +12,13 @@ before_install:
 - docker-compose --version
 - docker -v
 script:
-- docker-compose build
+- docker-compose -f docker-compose-dev.yml build
 - docker images | grep 'web\|celery'
 deploy:
   provider: script
   script: bash docker_push
   on:
+    #tags: true 
     branch: master
 env:
   DOCKERHUB_USERNAME: novavic
