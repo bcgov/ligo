@@ -39,6 +39,8 @@ services:
 
   web:
     #restart: always
+    #contributing user focused dockerfile: the user can modify source code and
+    #build the docker image for the ligo ui/web component locally 
     build:
       context: .
       dockerfile: ./web-app/compose/django/Dockerfile-dev
@@ -58,7 +60,8 @@ services:
       - LOGGING_LEVEL=DEBUG
       - STATIC_URL=/static/
       - APP_ROOT_URL=
-
+      - LINKING_LIB_REPO=https://github.com/NovaVic/ligo-lib
+      - LINKING_APP_REPO=https://github.com/NovaVic/ligo
     depends_on:
       - postgres2
     #environment:
