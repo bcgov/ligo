@@ -1,8 +1,8 @@
 #!/bin/bash
+
+#Automatically logging into dockerhub
 echo "$DOCKERHUB_PASSWORD" | docker login https://index.docker.io/v1/  -u "$DOCKERHUB_USERNAME" --password-stdin
 
-#docker login -u "$DOCKERHUB_USERNAME" -p  "$DOCKERHUB_PASSWORD"
+#building docker image for LIGO UI, tagging and pushing it to dockerhub
 docker tag  ligo_web  novavic/ligo_web
 docker push novavic/ligo_web:latest
-#docker tag ligo_celeryworker novavic/ligo_celeryworker
-#docker push novavic/ligo_celeryworker:latest
