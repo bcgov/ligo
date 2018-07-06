@@ -17,7 +17,7 @@ services:
 
 
   celeryworker:
-    image: novavic/ligo_celeryworker:3.0.1
+    image: novavic/ligo_celeryworker:3.1.0
     #env_file: ./worker/.env
     environment:
       - IN_DOCKER=1
