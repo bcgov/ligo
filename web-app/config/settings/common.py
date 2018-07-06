@@ -12,16 +12,21 @@ from __future__ import absolute_import, unicode_literals
 
 import environ
 import os
-import subprocess
 
-APP_VERSION=subprocess.check_output(['git', 'describe', '--always']).decode('utf-8').strip()
+import git
+
 
 ROOT_DIR = environ.Path(__file__) - 3  # (web-app/config/settings/common.py - 3 = web-app/)
 
 APPS_DIR = ROOT_DIR.path('linkage')
 
+
+APP_VERSION=os.environ.get('APP_VERSION','')
+
+
 env = environ.Env()
 env.read_env()
+
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -287,3 +292,7 @@ DATASTORE_URL = env('LINKING_DATASTORE_URL', default=MEDIA_ROOT + '/datasets/')
 OUTPUT_URL = env('LINKING_OUTPUT_URL', default=MEDIA_ROOT + '/linking/')
 # Data-Linking temporary directory folder
 LINKING_TEMP_PATH = env('LINKING_TEMP_PATH', default=MEDIA_ROOT + '/temp/')
+
+
+
+

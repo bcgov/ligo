@@ -14,6 +14,8 @@ before_install:
 script:
 - docker-compose -f docker-compose-dev.yml build
 - docker images | grep 'web\|celery'
+- export APP_VERSION=$(git describe --always)
+- echo $APP_VERSION
 deploy:
   provider: script
   script: bash docker_push

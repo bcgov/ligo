@@ -41,7 +41,7 @@ services:
   #not so technical user (pulling image instead of building) focused docker compose file
   web:
     #restart: always
-    image: novavic/ligo_web:2.0.1
+    image: novavic/ligo_web:{$APP_VERSION}
     ports:
       - "8002:8000"
     #env_file: ./web-app/config/settings/.env
@@ -60,6 +60,7 @@ services:
       - APP_ROOT_URL=
       - LINKING_LIB_REPO=https://github.com/NovaVic/ligo-lib
       - LINKING_APP_REPO=https://github.com/NovaVic/ligo
+      - APP_VERSION:{$APP_VERSION}
     depends_on:
       - postgres2
     #environment:

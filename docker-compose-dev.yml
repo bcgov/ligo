@@ -16,7 +16,7 @@ services:
     # port 5432 (RHS)
 
   celeryworker:
-    image: novavic/ligo_celeryworker:3.0.1
+    image: novavic/ligo_celeryworker:3.1.0
     #env_file: ./linkage-worker/.env
     environment:
       - IN_DOCKER=1
@@ -62,6 +62,7 @@ services:
       - APP_ROOT_URL=
       - LINKING_LIB_REPO=https://github.com/NovaVic/ligo-lib
       - LINKING_APP_REPO=https://github.com/NovaVic/ligo
+      - APP_VERSION={$APP_VERSION}
     depends_on:
       - postgres2
     #environment:
