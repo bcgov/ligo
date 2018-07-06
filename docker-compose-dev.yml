@@ -16,7 +16,7 @@ services:
     # port 5432 (RHS)
 
   celeryworker:
-    image: novavic/ligo_celeryworker:latest
+    image: novavic/ligo_celeryworker:3.0.1
     #env_file: ./linkage-worker/.env
     environment:
       - IN_DOCKER=1
@@ -40,7 +40,7 @@ services:
   web:
     #restart: always
     #contributing user focused dockerfile: the user can modify source code and
-    #build the docker image for the ligo ui/web component locally 
+    #build the docker image for the ligo ui/web component locally
     build:
       context: .
       dockerfile: ./web-app/compose/django/Dockerfile-dev

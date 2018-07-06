@@ -12,9 +12,9 @@ from __future__ import absolute_import, unicode_literals
 
 import environ
 import os
+import subprocess
 
-
-APP_VERSION = '0.2'
+APP_VERSION=subprocess.check_output(['git', 'describe', '--always']).decode('utf-8').strip()
 
 ROOT_DIR = environ.Path(__file__) - 3  # (web-app/config/settings/common.py - 3 = web-app/)
 

@@ -18,8 +18,8 @@ deploy:
   provider: script
   script: bash docker_push
   on:
-    #tags: true 
-    branch: master
+    tags: true
+    #branch: master
 env:
   DOCKERHUB_USERNAME: novavic
   global:
