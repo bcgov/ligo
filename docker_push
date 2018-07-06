@@ -3,8 +3,11 @@
 #Automatically logging into dockerhub
 echo "$DOCKERHUB_PASSWORD" | docker login https://index.docker.io/v1/  -u "$DOCKERHUB_USERNAME" --password-stdin
 
+
 #building docker image for LIGO UI, tagging and pushing it to dockerhub
 docker build  . -t  novavic/ligo_web:$(git describe --tags)
 
 #docker tag  ligo_web  novavic/ligo_web:$(git describe --always)
-docker push novavic/ligo_web:$(git describe --always)
+docker push novavic/ligo_web:$(git describe --tags)
+
+#the above two statemenst would fail if there is no tagged commit to this git repo
