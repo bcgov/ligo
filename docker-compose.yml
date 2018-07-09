@@ -17,12 +17,13 @@ services:
 
 
   celeryworker:
-    image: novavic/ligo_celeryworker:3.1.0
+    image: novavic/ligo_celeryworker:3.1.1
     #env_file: ./worker/.env
     environment:
       - IN_DOCKER=1
       - C_FORCE_ROOT=true
       - CELERY_BROKER_URL=redis://redis:6379/0
+      - LIB_VERSION:3.1.1
     depends_on:
       - redis
     volumes:
@@ -60,7 +61,7 @@ services:
       - APP_ROOT_URL=
       - LINKING_LIB_REPO=https://github.com/NovaVic/ligo-lib
       - LINKING_APP_REPO=https://github.com/NovaVic/ligo
-      - APP_VERSION:{$APP_VERSION}
+      - APP_VERSION:2.0.4
     depends_on:
       - postgres2
     #environment:
