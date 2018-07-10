@@ -45,6 +45,8 @@ services:
     build:
       context: .
       dockerfile: ./web-app/compose/django/Dockerfile-dev
+      args:
+       - APP_VERSION=${APP_VERSION}
     ports:
       - "8002:8000"
     #env_file: ./web-app/config/settings/.env
