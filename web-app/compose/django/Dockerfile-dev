@@ -1,6 +1,9 @@
 FROM python:3.6
 ENV PYTHONUNBUFFERED 1
 
+ARG APP_VERSION
+ENV APP_VERSION=${APP_VERSION}
+
 #Docker file for forming local/dev Django container
 RUN mkdir -p /user_data/media/datasets /user_data/media/linking
 RUN mkdir /tmp/django-email-dev
@@ -29,7 +32,7 @@ RUN chown 999:999 /linkage/start-dev.sh
 RUN chown 999:999 -R /linkage
 RUN chown 999:999 -R /user_data
 RUN chown 999:999 -R /tmp
-
+#RUN echo "version=$(git describe --always)" >>/linkage/version.py
 #USER django
 USER "999:999"
 

@@ -26,6 +26,15 @@ extensions in future releases.
 * Identify common entities between two CSV formatted datasets [linking]
 
 
+
+Build
+-----
+
+.. image:: https://travis-ci.org/NovaVic/ligo.svg?branch=master
+    :target: https://travis-ci.org/NovaVic/ligo
+
+
+
 Features
 --------
 
@@ -112,7 +121,7 @@ CELERY_BROKER_URL  Example: redis://localhost:6379/0
 
 
 ========================  ===========================================================
-linkage-worker Variables  Description
+worker Variables  Description
 ========================  ===========================================================
 IN_DOCKER                 1 if Dockerized, 0 otherwise
 C_FORCE_ROOT              Boolean - forces workspace from root directory
