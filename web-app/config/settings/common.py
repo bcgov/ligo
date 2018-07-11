@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Django settings for CDI Linking project.
+Django settings for Ligo Linking project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/dev/topics/settings/
@@ -14,14 +14,16 @@ import environ
 import os
 
 
-APP_VERSION = '0.2'
 
 ROOT_DIR = environ.Path(__file__) - 3  # (web-app/config/settings/common.py - 3 = web-app/)
 
 APPS_DIR = ROOT_DIR.path('linkage')
 
+
 env = environ.Env()
 env.read_env()
+
+APP_VERSION = env('APP_VERSION',default='')
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -248,7 +250,7 @@ AUTHENTICATION_BACKENDS = (
 # Some really nice defaults
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none' #probable values 'mandatory', 'none', 'optional'
 
 ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', False)
 ACCOUNT_ADAPTER = 'linkage.users.adapters.AccountAdapter'
