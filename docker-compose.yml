@@ -59,8 +59,8 @@ services:
       - LOGGING_LEVEL=DEBUG
       - STATIC_URL=/static/
       - APP_ROOT_URL=
-      - LINKING_LIB_REPO=https://github.com/NovaVic/ligo-lib
-      - LINKING_APP_REPO=https://github.com/NovaVic/ligo
+      - LINKING_LIB_REPO=https://github.com/bcgov/ligo-lib
+      - LINKING_APP_REPO=https://github.com/bcgov/ligo
       - APP_VERSION:2.0.8
     depends_on:
       - postgres2
