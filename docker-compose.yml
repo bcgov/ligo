@@ -17,13 +17,13 @@ services:
 
 
   celeryworker:
-    image: novavic/ligo_celeryworker:3.2.2
+    image: novavic/ligo_celeryworker:3.2.3
     #env_file: ./worker/.env
     environment:
       - IN_DOCKER=1
       - C_FORCE_ROOT=true
       - CELERY_BROKER_URL=redis://redis:6379/0
-      - LIB_VERSION:3.2.2
+      - LIB_VERSION:3.2.3
     depends_on:
       - redis
     volumes:
