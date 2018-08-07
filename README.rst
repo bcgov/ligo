@@ -93,7 +93,11 @@ dockerhub instead of building any images from source code.
     chmod -R 777 ligo_app/files
 
 * Use a browser to download this docker-compose.yml and save the file into the directory ligo_app.
-* To run the application, change to the ligo_app directory where you put the docker-compose.yml file and type the following command (and press enter): docker-compose up 
+* To run the application, change to the ligo_app directory where you put the docker-compose.yml file and type the following command (and press enter):
+
+.. code:: sh
+
+    docker-compose up 
 
 * You will see some text scroll by in the window as the application starts up. Once it has finished scrolling open a web browser like Edge/Firefox/Chrome and in the address bar type http://localhost:8002 and hit enter.
 
