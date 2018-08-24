@@ -24,7 +24,8 @@ TEMPLATES[0]['OPTIONS']['debug'] = DEBUG
 # Note: This key only used for development and testing.
 SECRET_KEY = env('DJANGO_SECRET_KEY', default='vzqpz#bo&^l)=s%9e=%08i(!7v(zswd+0=36%sp#&ftb2jzv2s')
 allowed_host = env('ALLOWED_HOST', default='127.0.0.1')
-ALLOWED_HOSTS = ['localhost', allowed_host, '[::1]', 'services-secure-area', 'proof-dev-services-secure-area.canadacentral.cloudapp.azure.com']
+# TODO: Parameterize allowed hosts list or use production when creating
+ALLOWED_HOSTS = ['localhost', allowed_host, '[::1]', 'ligo-demo', 'ligo-demo.canadacentral.cloudapp.azure.com']
 
 # Mail settings
 # ------------------------------------------------------------------------------
