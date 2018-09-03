@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 
 {%  block content %}
-    <p>The Linking Project is an application that uses highly configurable
-        matching criteria to perform deduplication and linking on datasets.
+    <p>Ligo uses highly configurable matching criteria to perform deduplication and linking on datasets.
     </p>
     <p>
-    The Linking Project will help you:
+    Ligo will help you:
     </p>
     <ul>
         <li>
-            <p>Identity common entities in a CSV formatted dataset [de-duplication]</p>
+            <p>Identify common entities in a CSV formatted dataset [de-duplication]</p>
         </li>
         <li>
             <p>Identify common entities between two CSV formatted datasets [linking]</p>
@@ -17,17 +16,17 @@
     </ul>
 
     <h4><a href="{% url 'datasets:list' %}">Datasets</a></h4>
-    <p>Datasets are the source of data for the linking tool.
-        To add a new dataset to the linking tool, you first
-        must add your data file to the dataset folder
-        of the linking application (files/media/datasets).
-        Currently, only comma separated values (.csv) files are supported.
-    </p>
+    <p> At this time Ligo is limited to using comma seperated value files (.csv).
+      To add a new dataset to Ligo, you must ensure it has a field that uniquely identifies each row.
+      If the dataset doesn't already have a unique row id , this can easily achieved by adding a simple
+      sequential integer field.  Once the file is ready it should be added to the dataset folder 
+      (files/media/datasets).
+        </p>
     <h4><a href="{% url 'linking:list' %}">Projects</a></h4>
     <p>
     You can perform deduplication and linking on your datasets via projects.
         When you create a new project you will be prompted to pick either
-        the deduplication or linking project.
+        a deduplication or linking project.
     </p>
     <p>
         A deduplication project finds
