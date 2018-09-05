@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
-
+import os
 
 COLUMN_TYPES = (
     ('BOOLEAN', 'Boolean'),
@@ -27,12 +27,18 @@ class Dataset(models.Model):
         # ('XML', 'XML')
     )
 
+    path = os.environ.get('FILE_LOC', '/user_data/media/datasets/')
+
+    #Traversing directory to load dataset or filename
+    dataset_urls = ((file_name, file_name) for file_name in os.listdir(path) if file_name.lower().endswith(".csv"))
+
+
     name = models.CharField(_('Name of Dataset'), unique=True, max_length=512)
     description = models.TextField(_('Dataset description'), null=True,
                                    blank=True)
     format = models.CharField(_('Dataset Format'), max_length=6,
                               choices=dataset_formats, default='CSV')
-    url = models.CharField(_('Name of the dataset file'), max_length=255)
+    url = models.CharField(_('Name of the dataset file'), choices=dataset_urls, max_length=255)
     last_edit_date = models.DateField(_('Last edit date'), auto_now=True)
 
     data_types = JSONField(blank=True, null=True)
