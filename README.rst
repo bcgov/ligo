@@ -61,30 +61,6 @@ Errors / Bugs
 If something is not behaving intuitively, it is likely a bug, and `should be reported <https://github.com/bcgov/LIGO/issues>`_
 
 
-Dependencies
-------------
-
-Since we depend on the data-linking library, we must acquire a copy of the ligo-lib repository and store it in  the application root under data-linking. Run the following in the application root:
-
-.. code:: sh
-
-    git checkout git@github.com:bcgov/ligo-lib.git
-
-
-Then use the following commands in the application root directory to install the remaining python library requirements:
-
-.. code:: sh
-
-    pip install -r /requirements/local.txt
-
-
-For production environment use:
-
-.. code:: sh
-
-    pip install -r /requirements/production.txt
-
-
 Installation
 ------------
 Warning: Despite the use of Django accounts to support multi-user linking project
@@ -96,18 +72,48 @@ The application has been containerized to support repeatablity in development pr
 deployment - a refactoring to support leveraging scaling within a Kubernetes cluster is in the roadmap.
 
 
-Folder Structure
-~~~~~~~~~~~~~~~~
 
-Ligo expects data files and resources in certain pre-defined locations. Run the following command in the application root:
+The following installation instructions/steps are for cases when users are pulling docker images from 
+dockerhub instead of building any images from source code.
+
+* Install docker-compose - https://docs.docker.com/compose/install/
+* Create a subdirectory named ligo_app. 
+* In this subdirectory create a subdirectory named files and within files directory create a subdirectory with the name 'media'.
+* Ligo expects data files and resources in certain pre-defined locations. Under the ligo_app/files/media/ subdirectory, create a subdirectory named 'linking' and another subdirectory named 'datasets'. Basically run the following command in the application root (ligo_app folder):
 
 .. code:: sh
 
     mkdir -p files/media/datasets files/media/linking
 
+* Put the files that you want to de-duplicate or link in the ligo_app/files/media/datasets subdirectory.
+* Add read and write permission for everyone to the ligo_app/files/ directory and corresponding subdirectories with an instruction like
 
-Environment Variables
-~~~~~~~~~~~~~~~~~~~~~
+.. code:: sh
+
+    chmod -R 777 ligo_app/files
+
+* Use a browser to download this `docker-compose.yml <https://raw.githubusercontent.com/bcgov/ligo/master/docker-compose.yml>`_ and save the file into the directory ligo_app.
+* To run the application, change to the ligo_app directory where you put the docker-compose.yml file and type the following command (and press enter):
+
+.. code:: sh
+
+    docker-compose up 
+
+* You will see some text scroll by in the window as the application starts up. Once it has finished scrolling open a web browser like Edge/Firefox/Chrome and in the address bar type http://localhost:8002 and hit enter.
+
+* Select "sign in" from top right-hand-side and login with username:baseuser password:Pass12345678 
+
+
+If you are able to log in then you successfully installed the software on your system. Enjoy de-duplication and linking!
+
+
+
+
+If you are not contributing to the source code of Ligo then you can easily ignore all the following sections.
+
+
+Environment Variables (Only for developers modifying source code)
+-----------------------------------------------------------------
 
 The following environment variables are required for project settings:
 
@@ -142,56 +148,18 @@ You can use the env.example files as a template for creating your environment va
 
 
 Docker
-~~~~~~
-
-Once everything above has been satisfied, you may build the docker containers with the following command:
+------
+To recreate the docker containers use the following command (due to the content of the docker-compose file the 
+--build option in the following command has no effect):
 
 .. code:: sh
 
-    docker-compose up --build --force-recreate
+    docker-compose up --build --force-recreate  
 
 
 Should everything be properly configured, you can visit http://localhost:8002
 
 
-Configuration
---------------
-
-Setting Up Your Users
-~~~~~~~~~~~~~~~~~~~~~
-
-* To create a **normal user account**, just go to Sign Up and fill out the form. Once you submit it, you'll see a "Verify Your E-mail Address" page. Go to your console to see a simulated email verification message. Copy the link into your browser. Now the user's email should be verified and ready to go.
-
-* To create an **superuser account**, (that allows for the management of users) use this command:
-
-.. code:: python
-
-    python manage.py createsuperuser
-
-
-
-
-Database Migration
-~~~~~~~~~~~~~~~~~~
-
-Ligo  uses PostgreSQL  for managing datasets and linking projects. To migrate the database, on the application root directory run:
-
-.. code:: python
-
-    python manage.py migrate
-
-
-Celery
-~~~~~~
-
-The web application uses Celery to run linking jobs asynchronously. You need to setup a Celery broker like Redis or
-RabbitMQ and start a Celery worker.
-
-The Celery broker is provided by the CELERY_BROKER_URL environment variable. To start a Celery worker use:
-
-.. code:: sh
-
-    celery -A linkage worker --loglevel=INFO
 
 
 .. |Cookiecutter| image:: https://img.shields.io/badge/Built%20with-Cookiecutter%20Django-ff69b4.svg
