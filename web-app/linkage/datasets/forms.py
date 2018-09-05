@@ -22,7 +22,7 @@ class DatasetForm(ModelForm):
             'name': TextInput(attrs={'class': 'form-control'}),
             'description': Textarea(attrs={'rows': 5, 'class': 'form-control'}),
             'format': Select(attrs={'class': 'form-control'}),
-            'url': TextInput(attrs={'class': 'form-control'}),
+            'url': Select(attrs={'class': 'form-control'}),
         }
 
 

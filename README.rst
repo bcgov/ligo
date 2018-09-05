@@ -106,8 +106,10 @@ dockerhub instead of building any images from source code.
 
 If you are able to log in then you successfully installed the software on your system. Enjoy de-duplication and linking!
 
+User Manual 
+-----------
 
-
+You will find notes on how to use the Ligo tool here: `Ligo User Manual <https://github.com/bcgov/ligo/blob/master/Ligo%20user%20guide.pdf>`_ .
 
 If you are not contributing to the source code of Ligo then you can easily ignore all the following sections.
 
