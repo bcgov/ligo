@@ -18,11 +18,13 @@ services:
   celeryworker:
     image: novavic/ligo_celeryworker:$LIB_VERSION
     #env_file: ./linkage-worker/.env
+    #value of FILE_LOC should be  /user_data/media/datasets/
     environment:
       - IN_DOCKER=1
       - C_FORCE_ROOT=true
       - CELERY_BROKER_URL=redis://redis:6379/0
       - LIB_VERSION=$LIB_VERSION
+      - FILE_LOC=$FILE_LOC
     depends_on:
       - redis
     volumes:
@@ -66,6 +68,7 @@ services:
       - LINKING_LIB_REPO=https://github.com/NovaVic/ligo-lib
       - LINKING_APP_REPO=https://github.com/NovaVic/ligo
       - APP_VERSION=$APP_VERSION
+      - FILE_LOC=$FILE_LOC
     depends_on:
       - postgres2
     #environment:
