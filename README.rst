@@ -19,7 +19,6 @@ in alpha testing. The high-level application road-map anticipates the inclusion 
 extensions in future releases.
 
 
-
 **LIGO** will help you:
 
 * Identity common entities in a CSV formatted dataset [de-duplication]
